@@ -27,19 +27,19 @@ typedef struct
 #endif
 
 	float InjectorScaling;
-	float Mfempty;
-	float Mfempty1;
-	float Mfempty2;
+//	float Mfempty;
+//	float Mfempty1;
+//	float Mfempty2;
 //	float Mfempty3;
 //	float Mfempty4;
 //	float Mfempty5;
 //	float Mfempty6;
 	
-#if CAN_HACKS
-	unsigned char initFunctionRun;
-	unsigned char randomTimer;
+#if CAN_HACKS	
 	unsigned short ccmSendTimers[8];
 	unsigned short sdTimer;
+	unsigned char initFunctionRun;
+	unsigned char randomTimer;
 #endif
 
 #if SPARK_CUT
@@ -53,13 +53,16 @@ typedef struct
 	unsigned char se5;
 #endif
 
-#if SWITCH_HACKS
-	unsigned char MapSwitch;
+#if SWITCH_HACKS	
 	float MapBlendRatio;
 	float TGVLeftVolts;
 	float TGVRightVolts;
 	float TGVLeftScaled;
 	float TGVRightScaled;
+	unsigned char MapSwitch;
+	unsigned char null1;
+	unsigned char null2;
+	unsigned char null3;
 #endif
 
 #if SD_HACKS
