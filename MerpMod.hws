@@ -3,12 +3,12 @@
 [DATABASE_VERSION]
 "11.0" 
 [WORKSPACE_DETAILS]
-"MerpMod" "C:\Users\Merrill\Dev\MerpMod" "C:\Users\Merrill\Dev\MerpMod\MerpMod.hws" "SuperH RISC engine" "KPIT GNUSH [ELF]" 
+"MerpMod" "C:\sti\mm\MerpMod" "C:\sti\mm\MerpMod\MerpMod.hws" "SuperH RISC engine" "KPIT GNUSH [ELF]" 
 [SHARED_WORKSPACE_CONTROL_STATUS]
 "" "" "" 
 "" "" "" 
 [PROJECTS]
-"MerpMod" "C:\Users\Merrill\Dev\MerpMod\MerpMod" "C:\Users\Merrill\Dev\MerpMod\MerpMod\MerpMod.hwp" 0 
+"MerpMod" "C:\sti\mm\MerpMod\MerpMod" "C:\sti\mm\MerpMod\MerpMod\MerpMod.hwp" 0 
 [INFORMATION]
 "No workspace information available" 
 [SCRAP]
@@ -18,7 +18,7 @@
 [GENERAL_DATA_PROJECT]
 [USERMENUTOOLS]
 [CUSTOMPLACEHOLDERS]
-"TARGETROM" "A8DH202X" "A8DH202X" 
+"TARGETROM" "AE5L500V" "AE5L500V" 
 "TESTROMDIR" "$(PROJDIR)\TestRom" "$(PROJDIR)\TestRom" 
 [MAKEFILE_BUILD_INFO]
 "$(WORKSPDIR)\make\$(PROJECTNAME)_$(CONFIGNAME).mak" "" "$(WORKSPDIR)\make" 0 0 0 

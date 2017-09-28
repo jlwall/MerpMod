@@ -41,6 +41,7 @@ SHORT TERM:
 #define SWITCHDATA __attribute__ ((section ("RomHole_MapSwitchTables"),aligned(4))) 
 #define FUELDATA __attribute__ ((section ("RomHole_POLFHackTables"),aligned(4))) 
 #define BOOSTDATA __attribute__ ((section ("RomHole_BoostHackTables"),aligned(4)))
+#define CANDATA __attribute__ ((section ("RomHole_BoostHackTables"),aligned(4)))
 #define PORTDATA __attribute__ ((section ("RomHole_PortLoggerTables"),aligned(4)))
 
 //Select ECU Target!!
@@ -111,6 +112,13 @@ SHORT TERM:
 #else
 #define SparkCutInfo	
 #define SparkCutLabel	
+#endif 
+#if CAN_HACKS 
+#define CanInfo		CAN TX Service Added__
+#define CanLabel	.CAN
+#else
+#define CanInfo		
+#define CanLabel 	
 #endif 
 #if CEL_HACKS 
 #define CelInfo		CEL Flash (FBKC, EGT from Front O2 resistance, Coolant Temp)__
@@ -210,7 +218,9 @@ SHORT TERM:
 #define MOD_CONFIG_ID CONCAT(STRI(MOD_CONFIG),STRI(.MOD_BUILD))
 #endif
 
-#define MOD_IDENTIFIER CONCAT_THREE(   CONCAT(  STRI(ECU_CALIBRATION_ID)  ,  STRI(.MeRpMoD.)  )   ,   CONCAT( MOD_CONFIG_ID , STRI(.v) )   ,   STRI(MOD_DATE)    )
+#ifndef MOD_IDENTIFIER
+	#define MOD_IDENTIFIER CONCAT_THREE(   CONCAT(  STRI(ECU_CALIBRATION_ID)  ,  STRI(.MeRpMoD.)  )   ,   CONCAT( MOD_CONFIG_ID , STRI(.v) )   ,   STRI(MOD_DATE)    )
+#endif
 #define ModInfo CONCAT_THREE(STRI(VinInfo ),STRI(SdInfo ),CONCAT_THREE(STRI(BlendInfo ),STRI(RevLimInfo ),CONCAT_THREE(STRI(LcAdjInfo ),STRI(CelInfo ),CONCAT(STRI(PolfInfo ),STRI(BoostInfo ))))) //ProgInfo SparkCutInfo  BoostInfo Timingfo SubKcaInfo PolfInfo PgwgInfo InjectorInfo MemoryInfo VeRamTuningInfo PolfRamTuningInfo TimingRamTuningInfo PgwgRamTuningInfo WgdcRamTuningInfo
 #define ModLabel CONCAT_THREE(STRI(VinLabel),STRI(SdLabel),CONCAT_THREE(STRI(BlendLabel),STRI(RevLimLabel),CONCAT_THREE(STRI(LcAdjLabel),STRI(CelLabel),CONCAT(STRI(PolfLabel),STRI(BoostLabel))))) //ProgLabel SparkCutLabel  BoostLabel Timingfo SubKcaLabel PgwgLabel InjectorLabel MemoryLabel VeRamTuningLabel PolfRamTuningLabel TimingRamTuningLabel PgwgRamTuningLabel WgdcRamTuningLabel
 

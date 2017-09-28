@@ -63,13 +63,18 @@ pRamVariables->CruiseCoastLast = TestCruiseCoastSwitch();
 
 #if INJECTOR_HACKS
 	//Injector Scalar init to default
-	pRamVariables->InjectorScaling = *InjectorScalingOem;
+	pRamVariables->InjectorScaling = *dInjectorScaling;
 #endif
 
 #if SWITCH_HACKS
 	pRamVariables->MapSwitch = DefaultMapSwitch;
 	pRamVariables->MapBlendRatio = DefaultMapBlendRatio;
 #endif
+
+#if CAN_HACKS
+	pRamVariables->initFunctionRun = 0;
+	pRamVariables->sdTimer = 0;
+#endif 
 
 #if PROG_MODE
 	pRamVariables->ProgModeEnable = 0;

@@ -21,18 +21,19 @@
 #define MEMORY_HACKS 1		//
 #define VIN_HACKS 0			//
 #define VIN_TEST_LOG 0		//
-#define SWITCH_HACKS 1		//
+#define SWITCH_HACKS 0		//
 #define SD_HACKS	1		//
-#define REVLIM_HACKS 1		//
-#define	LC_ADJ_HACKS 1		//
-#define PROG_MODE 1			//
+#define REVLIM_HACKS 0		//
+#define	LC_ADJ_HACKS 0		//
+#define PROG_MODE 0			//
 #define SPARK_HACKS 0		//
-#define CEL_HACKS 1			//
-#define BOOST_HACKS 1		//
-#define TIMING_HACKS 1		//
-#define POLF_HACKS 1		//	
-#define PGWG_HACKS 1		//
+#define CEL_HACKS 0			//
+#define BOOST_HACKS 0		//
+#define TIMING_HACKS 0		//
+#define POLF_HACKS 0		//	
+#define PGWG_HACKS 0		//
 #define INJECTOR_HACKS 0	//
+#define CAN_HACKS 1			//
 							//
 //////////////////////////////
 							

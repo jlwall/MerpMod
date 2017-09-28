@@ -35,6 +35,13 @@ typedef struct
 //	float Mfempty5;
 //	float Mfempty6;
 	
+#if CAN_HACKS
+	unsigned char initFunctionRun;
+	unsigned char randomTimer;
+	unsigned short ccmSendTimers[8];
+	unsigned short sdTimer;
+#endif
+
 #if SPARK_CUT
 	unsigned char SparkEventsX;
 	unsigned char se;
