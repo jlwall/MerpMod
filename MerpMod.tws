@@ -9,7 +9,15 @@
 "ECXLABEL_LAST_FINDS_DATA" "" 
 [BREAKPOINTS]
 [OPEN_WORKSPACE_FILES]
+"C:\sti\mm\MerpMod\MerpMod\BoostHacks.c" 
+"C:\sti\mm\MerpMod\MerpMod\CustomCan.c" 
+"C:\sti\mm\MerpMod\MerpMod\CustomCanTables.c" 
+"C:\sti\mm\MerpMod\MerpMod\RamVariables.h" 
 [WORKSPACE_FILE_STATES]
+"C:\sti\mm\MerpMod\MerpMod\BoostHacks.c" 52 52 988 189 0 3 
+"C:\sti\mm\MerpMod\MerpMod\CustomCan.c" 104 104 805 498 0 4 
+"C:\sti\mm\MerpMod\MerpMod\CustomCanTables.c" 156 156 659 346 0 1 
+"C:\sti\mm\MerpMod\MerpMod\RamVariables.h" 26 26 910 313 0 2 
 [LOADED_PROJECTS]
 "MerpMod" 
 [END]

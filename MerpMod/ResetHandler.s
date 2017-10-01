@@ -35,12 +35,12 @@
 		.section 	RSTHandler,"ax"
 _ResetHandler:
 				mov.l	Stack,r15
-				mov.l	SetValues,r0
-				jsr		@r0
+				!!mov.l	SetValues,r0
+				!!jsr		@r0
 				nop
 				
-				mov.l	DemonstrateAssertionFailure, r0
-				jsr		@r0
+				!!mov.l	DemonstrateAssertionFailure, r0
+				!!jsr		@r0
 				nop
 				
 				mov.l	GenericTests,r0			
