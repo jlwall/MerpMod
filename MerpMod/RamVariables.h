@@ -40,6 +40,19 @@ typedef struct
 	unsigned short sdTimer;
 	unsigned char initFunctionRun;
 	unsigned char randomTimer;
+	
+	#if RACEGRADE_KEYPAD_HACKS
+		buttonRGStruct buttons[8];/* = {
+		{.state = 0, .led = 0, .edgeDetect=0},
+		{.state = 0, .led = 0, .edgeDetect=0},
+		{.state = 0, .led = 0, .edgeDetect=0},
+		{.state = 0, .led = 0, .edgeDetect=0},
+		{.state = 0, .led = 0, .edgeDetect=0},
+		{.state = 0, .led = 0, .edgeDetect=0},
+		{.state = 0, .led = 0, .edgeDetect=0},
+		{.state = 0, .led = 0, .edgeDetect=0}};*/
+
+	#endif
 #endif
 
 #if SPARK_CUT
@@ -162,7 +175,7 @@ typedef struct
 	unsigned char 	POLFuelHackInitFlag;	//97
 	unsigned char 	LCFuelMode;
 	unsigned char	PolfHackEnabled;
-	char	Fempty1;	
+	unsigned char	PolfOutputFP;	
 	float PolfTarget;
 	float PolfOutput;		//97
 	float LCFuelEnrich;			//97

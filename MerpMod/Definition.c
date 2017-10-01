@@ -147,6 +147,11 @@ DEFINERAMVAR("MerpMod Prog Mode Current Mode",ProgModeCurrentMode,1,"E");
 DEFINERAMVAR("MerpMod Prog Mode Selected Value Flash",ProgModeValueFlashes,1,"E");
 DEFINERAMVAR("MerpMod Prog Mode Value",ProgModeValue,4,"E");
 #endif
+
+
+#if CAN_HACKS
+//DEFNEW1D("Custom Can Messages",ccm00);
+#endif
 	
 DEFIDA1D("ECU Identifier",dEcuId);
 
@@ -428,6 +433,7 @@ DEFNEW1D("Launch Control Timing Mode",DefaultLCTimingMode);
 DEFNEW1D("Launch Control Timing Lock",DefaultLCTimingLock);	
 DEFNEW1D("Default Launch Control Timing Retard Multiplier",DefaultLCTimingRetardMultiplier);
 DEFNEW3D("Launch Control Timing Retard Table",LCTimingRetardTable);
+DEFNEW1D("Timing Hack Enable",DefaultTimingHackEnabled);
 	
 #if SWITCH_HACKS
 DEFNEW3D("Base Timing Table 1 Intelligent",TimingTable1i);
