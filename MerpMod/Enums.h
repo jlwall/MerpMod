@@ -75,7 +75,8 @@ enum InputModeValues
 	InputModeUndefined = 0,
 	InputModeTGVLeft = 1,
 	InputModeTGVRight = 2,
-	InputModeSiDrive = 3
+	InputModeSiDrive = 3,
+	InputCanFlexFuelRatio = 4,
 };
 enum MapSwitchValues
 {
@@ -178,14 +179,6 @@ enum canDTtypes
 	dtLong = 3,
 	dtFloat = 4,
 };
-
-typedef struct 
-{
-	unsigned long addr;	//U32 Address 0xFFFF0000 and greater is allowed
-	char type;	//enum canDTtypes, must be 1...4
-	char ccm;	//linked ccm Message, must be 0...7
-	char bytePos;	//data position, umust be 0..7, needs to be byte alligned if U16,U32, or float, 
-} CanDataSendStuct;
 
 #if RACEGRADE_KEYPAD_HACKS
 enum buttonStateRG

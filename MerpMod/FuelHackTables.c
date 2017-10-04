@@ -16,8 +16,8 @@
 
 #if POLF_HACKS
 
-unsigned char DefaultPolfHackEnabled FUELDATA = 0x01;
-unsigned char DefaultLCFuelMode FUELDATA = 0x01;
+unsigned char DefaultPolfHackEnabled FUELDATA = 0x00;
+unsigned char DefaultLCFuelMode FUELDATA = 0x00;
 float DefaultLCFuelLock FUELDATA = 0.35f;
 float DefaultLCFuelEnrichMultiplier FUELDATA = 1.0f;
 

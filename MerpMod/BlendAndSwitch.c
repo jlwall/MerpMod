@@ -79,6 +79,9 @@ void InputUpdate()//TODO: put on SD branch
 	pRamVariables->TGVLeftScaled = Pull2DHooked(&TGVLeftScaling,pRamVariables->TGVLeftVolts);
 	pRamVariables->TGVRightScaled = Pull2DHooked(&TGVRightScaling,pRamVariables->TGVRightVolts);
 	
+	pRamVariables->ethanolContentCAN = (float)pRamVariables->ethanolContentShortCAN/655.35f;
+
+	
 	switch(BlendRatioInput)
 	{
 		case InputModeUndefined:
@@ -90,6 +93,10 @@ void InputUpdate()//TODO: put on SD branch
 		
 		case InputModeTGVRight:
 			pRamVariables->MapBlendRatio = pRamVariables->TGVRightScaled;
+			break;
+		
+		case InputCanFlexFuelRatio:
+			pRamVariables->MapBlendRatio = pRamVariables->ethanolContentCAN;
 			break;
 		
 		default:

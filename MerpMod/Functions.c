@@ -21,3 +21,24 @@ float Abs(float input)
 	else
 		return input * -1.0f;
 }
+
+unsigned char limit_u8(float input)
+{
+	if(input <0) return 0;
+	else if(input > 255) return 255;
+	else return (unsigned char)input;	
+}
+
+unsigned short limit_u16(float input)
+{
+	if(input <0) return 0;
+	else if(input > 65535) return 65535;
+	else return (unsigned short)input;	
+}
+
+unsigned long limit_u32(float input)
+{
+	if(input <0) return 0;
+	else if(input > 4294967295) return 4294967295;
+	else return (unsigned long)input;	
+}

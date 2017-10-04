@@ -81,6 +81,7 @@ void RevLimUnitTest(unsigned char flag, int brake, int clutch, float throttle, f
 	
 	*pEngineSpeed = rpm;
 	*pVehicleSpeed = mph;
+	*pThrottlePlate = throttle;
 
 	//Clear flag
 	*pFlagsRevLim = flag;
@@ -158,7 +159,7 @@ void RevLimUnitTests()
 	//SHOULD RESUME HERE, but LC still engaged (on LC limit)
 	*pEngineSpeed = DefaultLaunchControlCut - DefaultLaunchControlHyst - 1;
 	RevLimCode();
-	Assert(GetFuelCutFlag() && pRamVariables->LCEngaged , "Launch Control: Resume fuel at LaunchControlResume - 1 RPM, standstill, clutch pressed");
+	Assert(!GetFuelCutFlag() && pRamVariables->LCEngaged , "Launch Control: Resume fuel at LaunchControlResume - 1 RPM, standstill, clutch pressed");
 	
 	//TEST7: low throttle
 	//Set throttle 
