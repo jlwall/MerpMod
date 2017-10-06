@@ -15,6 +15,10 @@
 //////////////////////////
 //RAM VARIABLES STRUCTURE
 //////////////////////////
+
+//#ifndef RAMVAR_H
+//#define RAMVAR_H
+
 typedef struct
 {
 	unsigned char MasterInitFlag;
@@ -26,24 +30,17 @@ typedef struct
 	unsigned char VehicleIdent[20];
 #endif
 
-	float InjectorScaling;
-//	float Mfempty;
-//	float Mfempty1;
-//	float Mfempty2;
-//	float Mfempty3;
-//	float Mfempty4;
-//	float Mfempty5;
-//	float Mfempty6;
-	
+	float InjectorScaling;	
 #if CAN_HACKS	
 	float ethanolContentCAN;
 	unsigned short ethanolContentShortCAN;
-	unsigned short ccmSendTimers[8];
+	unsigned short ccmSendTimers[ccmCount];
 	unsigned short sdTimer;
 	
 	unsigned short initFunctionRun;
 	unsigned char randomTimer;
 	unsigned char rgBackLight;
+	unsigned char ecuHacksMainCtr;
 	
 	#if RACEGRADE_KEYPAD_HACKS
 		buttonRGStruct buttons[8];
@@ -56,6 +53,8 @@ typedef struct
 		float aemOxygen;
 		unsigned char aemDataValid;
 		unsigned char aemSensorFault;
+		unsigned char aemn1;
+		unsigned char aemn2;
 		
 	#endif
 #endif
@@ -286,4 +285,7 @@ char	RamHoleEndMarker;
 	
 	//IF ADDING PARAMS, MUST UPDATE SPARK CUT ASM!!!!
 	
-} RamVariables;
+}RamVariables;
+
+
+//#endif

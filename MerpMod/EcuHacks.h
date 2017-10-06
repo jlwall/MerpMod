@@ -219,7 +219,7 @@ SHORT TERM:
 #endif
 
 #ifndef MOD_IDENTIFIER
-	#define MOD_IDENTIFIER CONCAT_THREE(   CONCAT(  STRI(ECU_CALIBRATION_ID)  ,  STRI(.MeRpMoD.)  )   ,   CONCAT( MOD_CONFIG_ID , STRI(.v) )   ,   STRI(MOD_DATE)    )
+	#define MOD_IDENTIFIER CONCAT_THREE(   CONCAT(  STRI(MOD_CALIBRATION_ID)  ,  STRI(.MeRpMoD.)  )   ,   CONCAT( MOD_CONFIG_ID , STRI(.v) )   ,   STRI(MOD_DATE)    )
 #endif
 #define ModInfo CONCAT_THREE(STRI(VinInfo ),STRI(SdInfo ),CONCAT_THREE(STRI(BlendInfo ),STRI(RevLimInfo ),CONCAT_THREE(STRI(LcAdjInfo ),STRI(CelInfo ),CONCAT(STRI(PolfInfo ),STRI(BoostInfo ))))) //ProgInfo SparkCutInfo  BoostInfo Timingfo SubKcaInfo PolfInfo PgwgInfo InjectorInfo MemoryInfo VeRamTuningInfo PolfRamTuningInfo TimingRamTuningInfo PgwgRamTuningInfo WgdcRamTuningInfo
 #define ModLabel CONCAT_THREE(STRI(VinLabel),STRI(SdLabel),CONCAT_THREE(STRI(BlendLabel),STRI(RevLimLabel),CONCAT_THREE(STRI(LcAdjLabel),STRI(CelLabel),CONCAT(STRI(PolfLabel),STRI(BoostLabel))))) //ProgLabel SparkCutLabel  BoostLabel Timingfo SubKcaLabel PgwgLabel InjectorLabel MemoryLabel VeRamTuningLabel PolfRamTuningLabel TimingRamTuningLabel PgwgRamTuningLabel WgdcRamTuningLabel
@@ -227,6 +227,8 @@ SHORT TERM:
 #include "IDATranslation.h"
 #include "Externs.h"
 #include "RamVariables.h"
+
+extern RamVariables pRamVariables;
 
 #define CONCAT(x,y) CONCAT_DO(x,y)
 #define CONCAT_DO(x,y) x y

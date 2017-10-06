@@ -55,195 +55,104 @@
 	*/
 
 
-#define PROG_MODE_COUNT 4
-#define PROG_THROTTLE_HI 80.0f
-#define PROG_THROTTLE_LO 10.0f
-
-#define VALUE_FLASH_SPEED 2
-#define VALUE_FLASH_DELAY 32
-#define MODE_FLASH_SPEED 4
-#define MODE_FLASH_DELAY 16
+#define PROG_MODE_COUNT 6
 
 #define BLEND_MAX 1.0f
 #define BLEND_MIN 0.0f
-#define BLEND_STEP 0.1f
-#define BLEND_WAIT 32
+#define BLEND_STEP 0.125f
 
 #define LC_MIN 2000.0f
 #define LC_STEP 500.0f
-#define LC_WAIT 32
 
 #define IAM_MIN 0
 #ifdef pIAM4
 #define IAM_MAX 1.0f
-#define IAM_STEP 0.1
+#define IAM_STEP 0.125
 #else
 #define IAM_MAX 16
-#define IAM_STEP 1
+#define IAM_STEP 2
 #endif
-#define IAM_WAIT 32
 
-void ProgModeListener()
+void ProgModeButtonToggled(unsigned char toggle)
 {
-	if(pRamVariables->ProgModeEnable == 1)
+	if(toggle==1)
 	{
-		//CHECK FOR EXIT CONDITIONS THEN RUN
-		if(TestClutchSwitch() || *pEngineSpeed > 10)
-		{
-			ExitProgMode();
-		}
-		else
-		{
-			ProgModeMain();
-		}
+		pRamVariables->ProgModeCurrentMode++;
+		if(pRamVariables->ProgModeCurrentMode > PROG_MODE_COUNT)
+			pRamVariables->ProgModeCurrentMode = 0;
 	}
-	else
-	{
-		//CHECK FOR ENTRY CONDITIONS
-		if(*pEngineSpeed < 10 && !TestClutchSwitch())
-		{
-			if (pRamVariables->ProgModeTimer > 0)
-				pRamVariables->ProgModeTimer--;
 
-			if (pRamVariables->ProgModeEntry < 1)
-			{
-				if(TestBrakeSwitch())
-				{
-					pRamVariables->ProgModeEntry = 1;
-					pRamVariables->ProgModeTimer = 0xFF;
-				}
-			}
-		
-			if (pRamVariables->ProgModeEntry == 1)
-			{
-				if(!TestBrakeSwitch())
-				{
-					pRamVariables->ProgModeEntry = 2;
-				}
-			}
-		
-			if (pRamVariables->ProgModeEntry > 1)
-			{
-				if((pRamVariables->ProgModeEntry/2)*2 == pRamVariables->ProgModeEntry)
-				{
-					if(*pThrottlePlate > PROG_THROTTLE_HI)
-					{
-						pRamVariables->ProgModeEntry++;
-					}
-				}
-				else if(*pThrottlePlate < PROG_THROTTLE_LO)
-				{
-					pRamVariables->ProgModeEntry++;
-				}
-			}
-		
-			if(pRamVariables->ProgModeEntry > 7)
-			{
-				EnterProgMode();
-				return;
-			}
-		}
-	}
-}
-
-void EnterProgMode()
-{
-	pRamVariables->ProgModeEnable = 1;
-	pRamVariables->ProgModeWait = 248;
-	pRamVariables->ProgModeEntry = 0;
-}
-
-void ExitProgMode()
-{
-	pRamVariables->ProgModeEnable = 0;
-}
-
-void ProgModeCruiseToggled(unsigned char toggleType)
-{
-	switch(toggleType)
-	{
-		case(ToggleResume):
-			if(pRamVariables->ProgModeEnable)
-			{
-				if(pRamVariables->ProgModeCurrentMode >= PROG_MODE_COUNT)
-					pRamVariables->ProgModeCurrentMode = 1;
-				else
-					pRamVariables->ProgModeCurrentMode++;
-			}
-			break;
-		
-		case(ToggleCoast):		
-			if(pRamVariables->ProgModeEnable)
-			{
-				if(pRamVariables->ProgModeCurrentMode <= 1)
-					pRamVariables->ProgModeCurrentMode = PROG_MODE_COUNT;
-				else
-					pRamVariables->ProgModeCurrentMode--;
-			}
-			break;
-		
-		default:
-		break;
-	}
 }
 
 void ProgModeMain()
 {
+	pRamVariables->ProgModeEnable = 1;
+	ProgModeButtonToggled(pRamVariables->buttons[2].edgeDetect);
 	switch(pRamVariables->ProgModeCurrentMode)
 	{
+		case 0:
+			asm("nop");
+		break;
 		case 1:
-		ProgModeMapSwitch();
+			ProgModeMapSwitch();
 		break;
 		
 		case 2:
-		ProgModeBlendAdjust();
+			ProgModeBlendAdjust();
 		break;
 		
 		case 3:
-		ProgModeLCAdjust();
+			ProgModeLCAdjust();
 		break;
 		
 		case 4:
-		ProgModeIAMAdjust();
+			ProgModeIAMAdjust();
 		break;
 		
 		case 5://Put this in ENUM if you want to reorder them easily
-		ProgModeValetMode();
+			ProgModeValetMode();
+		break;
+		
+		case 6:
+			ProgModeRaceGradeBackLight();
 		break;
 		
 		default:
-		pRamVariables->ProgModeCurrentMode = 1;
+			pRamVariables->ProgModeCurrentMode = 0;
 		break;
 	}	
-	CelDoubleRepeat(&pRamVariables->ProgModeCurrentMode,MODE_FLASH_SPEED,&pRamVariables->ProgModeValueFlashes,VALUE_FLASH_SPEED,MODE_FLASH_DELAY,VALUE_FLASH_DELAY);//TODO abstract
+	
+	pRamVariables->buttons[2].led = pRamVariables->ProgModeCurrentMode;
+	if(pRamVariables->ProgModeCurrentMode>0)
+	{
+		pRamVariables->buttons[3].led = pRamVariables->ProgModeValueFlashes&0x07;
+		pRamVariables->buttons[7].led = pRamVariables->ProgModeValueFlashes/8;
+	}
+	else
+	{
+		pRamVariables->buttons[3].led = 0;
+		pRamVariables->buttons[7].led = 0;
+	}
+	//CelDoubleRepeat(&pRamVariables->ProgModeCurrentMode,MODE_FLASH_SPEED,&pRamVariables->ProgModeValueFlashes,VALUE_FLASH_SPEED,MODE_FLASH_DELAY,VALUE_FLASH_DELAY);//TODO abstract
 }
 
 void ProgModeMapSwitch()
 {
 	if(MapSwitchInput == InputModeUndefined)
 	{	
-		if((*pThrottlePlate > PROG_THROTTLE_HI) && pRamVariables->ProgModeWait == 0)
+		if(pRamVariables->buttons[3].edgeDetect == 1)
 		{	
 			if(pRamVariables->MapSwitch >= 3)
 				asm("nop");//pRamVariables->MapSwitch = 1;
 			else
 				pRamVariables->MapSwitch++;
-		
-			pRamVariables->ProgModeWait = 1;
 		}
-		else if(TestBrakeSwitch() && pRamVariables->ProgModeWait ==0)
+		else if(pRamVariables->buttons[7].edgeDetect == 1)
 		{
 			if(pRamVariables->MapSwitch == 1 )
 				asm("nop");//pRamVariables->MapSwitch = 3;
 			else
 				pRamVariables->MapSwitch--;
-				
-			pRamVariables->ProgModeWait = 1;
-		}
-		else
-		{
-			if(pRamVariables->ProgModeWait != 0 && (*pThrottlePlate < PROG_THROTTLE_LO) && (*pBrakeFlags & BrakeBitMask) == 0)
-				pRamVariables->ProgModeWait--;
 		}
 	}
 	pRamVariables->ProgModeValue = pRamVariables->MapSwitch;
@@ -254,59 +163,43 @@ void ProgModeBlendAdjust()
 {
 	if(BlendRatioInput == InputModeUndefined)
 	{
-		if((*pThrottlePlate > PROG_THROTTLE_HI) && pRamVariables->ProgModeWait == 0)
+		if(pRamVariables->buttons[3].edgeDetect == 1)
 		{	
 			if(pRamVariables->MapBlendRatio > (BLEND_MAX - BLEND_STEP - 0.01f))
 				pRamVariables->MapBlendRatio = BLEND_MAX;
 			else
 				pRamVariables->MapBlendRatio+= BLEND_STEP;
-		
-			pRamVariables->ProgModeWait = BLEND_WAIT;
 		}
-		else if(TestBrakeSwitch() && pRamVariables->ProgModeWait ==0)
+		else if(pRamVariables->buttons[7].edgeDetect == 1)
 		{
 			if(pRamVariables->MapBlendRatio < (BLEND_MIN + BLEND_STEP + 0.01f))
 				pRamVariables->MapBlendRatio = BLEND_MIN;//Hard limit, does not cycle to top again.
 			else
 				pRamVariables->MapBlendRatio-= BLEND_STEP;
-			pRamVariables->ProgModeWait = BLEND_WAIT;
-		}
-		else
-		{
-			if(pRamVariables->ProgModeWait != 0)
-				pRamVariables->ProgModeWait--;
 		}
 	}
 	pRamVariables->ProgModeValue = pRamVariables->MapBlendRatio + 1;
-	pRamVariables->ProgModeValueFlashes = (unsigned char)(pRamVariables->MapBlendRatio*10);
+	pRamVariables->ProgModeValueFlashes = (unsigned char)(pRamVariables->MapBlendRatio*8);
 }
 
 void ProgModeLCAdjust()
 {
 	#if !AUTO_TRANS
-	if((*pThrottlePlate > 50) && pRamVariables->ProgModeWait == 0)
+	if(pRamVariables->buttons[3].edgeDetect == 1)
 	{	
-		pRamVariables->LaunchControlCut++;
 		if(pRamVariables->LaunchControlCut < pRamVariables->RedLineCut)
 			pRamVariables->LaunchControlCut+= LC_STEP;
-		pRamVariables->ProgModeWait = LC_WAIT;
 	}
-	else if(TestBrakeSwitch() && pRamVariables->ProgModeWait ==0)
+	else if(pRamVariables->buttons[7].edgeDetect == 1)
 	{
 		if(pRamVariables->LaunchControlCut > LC_MIN)
 			pRamVariables->LaunchControlCut-= LC_STEP;//Hard limit, does not cycle to top again.
 		else
 			pRamVariables->LaunchControlCut = LC_MIN;
-		pRamVariables->ProgModeWait = LC_WAIT;
-	}
-	else
-	{
-		if(pRamVariables->ProgModeWait != 0)
-		pRamVariables->ProgModeWait--;
 	}
 	
 	pRamVariables->ProgModeValue = pRamVariables->LaunchControlCut;
-	pRamVariables->ProgModeValueFlashes = (unsigned char)(pRamVariables->LaunchControlCut / 1000);
+	pRamVariables->ProgModeValueFlashes = (unsigned char)((pRamVariables->LaunchControlCut / LC_STEP) - (unsigned char)(LC_MIN / LC_STEP));
 	#else
 	pRamVariables->ProgModeValue = 0.0f;
 	pRamVariables->ProgModeValueFlashes = 0;
@@ -315,26 +208,19 @@ void ProgModeLCAdjust()
 
 void ProgModeIAMAdjust()
 {
-	if((*pThrottlePlate > PROG_THROTTLE_HI) && pRamVariables->ProgModeWait == 0)
+	if(pRamVariables->buttons[3].edgeDetect == 1)
 	{	
 		if(*pIAM < IAM_MAX - IAM_STEP)
 			*pIAM += IAM_STEP;
 		else
 			*pIAM = IAM_MAX;
-		pRamVariables->ProgModeWait = IAM_WAIT;
 	}
-	else if(TestBrakeSwitch() && pRamVariables->ProgModeWait ==0)
+	else if(pRamVariables->buttons[7].edgeDetect == 1)
 	{
 		if(IAM > IAM_MIN + IAM_STEP)
 			*pIAM -= IAM_STEP;
 		else
 			*pIAM = IAM_MIN;
-		pRamVariables->ProgModeWait = IAM_WAIT;
-	}
-	else
-	{
-		if(pRamVariables->ProgModeWait != 0)
-			pRamVariables->ProgModeWait--;
 	}
 	pRamVariables->ProgModeValue = *pIAM;
 	pRamVariables->ProgModeValueFlashes = (10*(1-IAM))+1;
@@ -342,27 +228,38 @@ void ProgModeIAMAdjust()
 
 void ProgModeValetMode()
 {
-	if((*pThrottlePlate > PROG_THROTTLE_HI) && pRamVariables->ProgModeWait == 0)
+	if(pRamVariables->buttons[3].edgeDetect == 1)
 	{	
 		if(pRamVariables->ValetMode <=0)
 			pRamVariables->ValetMode = 1;
-	
-		pRamVariables->ProgModeWait = 1;
 	}
-	else if(TestBrakeSwitch() && pRamVariables->ProgModeWait ==0)
+	else if(pRamVariables->buttons[7].edgeDetect == 1)
 	{
 		if(pRamVariables->ValetMode >= 1 )
 			pRamVariables->ValetMode = 0;
-			
-		pRamVariables->ProgModeWait = 1;
-	}
-	else
-	{
-		if(pRamVariables->ProgModeWait != 0 && (*pThrottlePlate < PROG_THROTTLE_LO) && (*pBrakeFlags & BrakeBitMask) == 0)
-			pRamVariables->ProgModeWait--;
 	}
 	pRamVariables->ProgModeValue = pRamVariables->ValetMode;
 	pRamVariables->ProgModeValueFlashes = pRamVariables->ValetMode;
 }
 
+#define LED_STEP 24
+void ProgModeRaceGradeBackLight()
+{
+	if(pRamVariables->buttons[3].edgeDetect == 1)
+	{	
+		if(pRamVariables->rgBackLight < (255-LED_STEP))
+			pRamVariables->rgBackLight += LED_STEP;
+		else
+			pRamVariables->rgBackLight = 255;
+	}
+	else if(pRamVariables->buttons[7].edgeDetect == 1)
+	{
+		if(pRamVariables->rgBackLight > LED_STEP)
+			pRamVariables->rgBackLight-= LED_STEP;//Hard limit, does not cycle to top again.
+		else
+			pRamVariables->rgBackLight = 0;
+	}
+	pRamVariables->ProgModeValue = pRamVariables->rgBackLight;
+	pRamVariables->ProgModeValueFlashes = (unsigned char)(pRamVariables->rgBackLight/32);
+}
 #endif

@@ -118,9 +118,9 @@ typedef struct {
 
 #define DEFINERAM(NAME,ADDR,LENGTH,EID)	const ParamDef ADDR##_ParamDef DEFDATA =	{op: OpRAM , address: (int)ADDR , id: EID , buf: OpEnd , length: 0x##LENGTH , name: NAME }
 #define DEFINERAMBIT(NAME,ADDR,BIT,EID)	const ParamBitDef ADDR##_ParamBitDef DEFDATA =	{op: OpRAMBit , address: (int)ADDR , id: EID , buf: OpEnd , bit: BIT , name: NAME }
-#define DEFINERAMVAR(NAME,ADDR,LENGTH,EID)	const ParamDef ADDR##_ParamDef DEFDATA =	{op: OpRAM , address: (int)&pRamVariables->ADDR , id: EID , buf: OpEnd , length: 0x##LENGTH , name: NAME }//TRY TO FIX THIS??
-#define DEFINERAMVARARRAY(NAME,ADDR,INDEX,LENGTH,EID)	const ParamDef ADDR##INDEX##_ParamDef DEFDATA =	{op: OpRAM , address: (int)&pRamVariables->ADDR[INDEX] , id: EID , buf: OpEnd , length: 0x##LENGTH , name: NAME }//TRY TO FIX THIS??
-#define DEFINERAMVARARRAYALLBITS(NAME,ADDR,INDEX,LENGTH,EID)	const ParamDef ADDR##INDEX##_ParamDef DEFDATA =	{op: OpRAMAllBits , address: (int)&pRamVariables->ADDR[INDEX] , id: EID , buf: OpEnd , length: 0x##LENGTH , name: NAME }//TRY TO FIX THIS??
+#define DEFINERAMVAR(NAME,ADDR,LENGTH,EID)	const ParamDef ADDR##_ParamDef DEFDATA =	{op: OpRAM , address: (int)&pRamVariables.ADDR , id: EID , buf: OpEnd , length: 0x##LENGTH , name: NAME }//TRY TO FIX THIS??
+#define DEFINERAMVARARRAY(NAME,ADDR,INDEX,LENGTH,EID)	const ParamDef ADDR##INDEX##_ParamDef DEFDATA =	{op: OpRAM , address: (int)&pRamVariables.ADDR[INDEX] , id: EID , buf: OpEnd , length: 0x##LENGTH , name: NAME }//TRY TO FIX THIS??
+#define DEFINERAMVARARRAYALLBITS(NAME,ADDR,INDEX,LENGTH,EID)	const ParamDef ADDR##INDEX##_ParamDef DEFDATA =	{op: OpRAMAllBits , address: (int)&pRamVariables.ADDR[INDEX] , id: EID , buf: OpEnd , length: 0x##LENGTH , name: NAME }//TRY TO FIX THIS??
 //TODO: in sharptune, if no match is found, create a new one to read out RAWDATA!
 
 #if PORT_LOGGER

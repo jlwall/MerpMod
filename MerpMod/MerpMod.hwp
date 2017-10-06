@@ -118,7 +118,7 @@
 "GNU Library Generator" 1 
 "GNU Assembler" 1 
 "GNU Linker" 1 
-"Update Test Rom" 1 
+"Update Test Rom" 0 
 [BUILD_PHASE_DETAILS]
 "GNU Assembler" "Assembly source file" 1 
 "GNU Compiler" "C source file|C++ source file|Preprocess Assembly file" 1 
@@ -147,6 +147,7 @@
 "C:\sti\mm\MerpMod\MerpMod\CelFlashTests.c" "User" "C source file|Tests" 2 
 "C:\sti\mm\MerpMod\MerpMod\CustomCan.c" "User" "C source file" 2 
 "C:\sti\mm\MerpMod\MerpMod\CustomCanTables.c" "User" "C source file|Data & Tables" 2 
+"C:\sti\mm\MerpMod\MerpMod\CustomCanTests.c" "User" "C source file|Tests" 2 
 "C:\sti\mm\MerpMod\MerpMod\Debug.c" "User" "C source file" 2 
 "C:\sti\mm\MerpMod\MerpMod\Definition.c" "User" "C source file" 2 
 "C:\sti\mm\MerpMod\MerpMod\EcuHacks.c" "User" "C source file" 2 
@@ -165,7 +166,7 @@
 "C:\sti\mm\MerpMod\MerpMod\LinkerScript.txt" "User" "C header file" 2 
 "C:\sti\mm\MerpMod\MerpMod\MapSwitchTables.c" "User" "C source file|Data & Tables" 2 
 "C:\sti\mm\MerpMod\MerpMod\Metadata.c" "User" "C source file" 2 
-"C:\sti\mm\MerpMod\MerpMod\ProgMode.c" "User" "C source file" 2 
+"C:\sti\mm\MerpMod\MerpMod\ProgModeRaceGradePad.c" "User" "C source file" 2 
 "C:\sti\mm\MerpMod\MerpMod\ProgModeTables.c" "User" "C source file|Data & Tables" 2 
 "C:\sti\mm\MerpMod\MerpMod\ProgModeTests.c" "User" "C source file|Tests" 2 
 "C:\sti\mm\MerpMod\MerpMod\PullRamHooks.c" "User" "C source file" 2 
@@ -467,6 +468,7 @@
 "C:\sti\mm\MerpMod\MerpMod\CelFlashTests.c" "0c9afd23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\CustomCan.c" "057b23e1fb633d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\CustomCanTables.c" "042ab3330d633d10" 1 
+"C:\sti\mm\MerpMod\MerpMod\CustomCanTests.c" "03ba14c3b3c33d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\Debug.c" "0c9afd23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\Definition.c" "0c9afd23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\EcuHacks.c" "0c9afd23307eec10" 1 
@@ -478,7 +480,7 @@
 "C:\sti\mm\MerpMod\MerpMod\Initializer.c" "0c9afd23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\MapSwitchTables.c" "0c9afd23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\Metadata.c" "0c9afd23307eec10" 1 
-"C:\sti\mm\MerpMod\MerpMod\ProgMode.c" "0c9afd23307eec10" 1 
+"C:\sti\mm\MerpMod\MerpMod\ProgModeRaceGradePad.c" "095495b299c33d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\ProgModeTables.c" "0c9afd23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\ProgModeTests.c" "0c9afd23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\PullRamHooks.c" "0c9afd23307eec10" 1 
@@ -496,13 +498,13 @@
 "C:\sti\mm\MerpMod\MerpMod\TimingHacks.c" "0c9afd23307eec10" 1 
 "Preprocess Assembly file" "0c9afd23307eec10" 1 
 [OPTIONS_Flash_Debug_GNU Library Generator]
-"Single Shot" "042ab3330d633d10" 2 
+"Single Shot" "07349c2399c33d10" 2 
 [OPTIONS_Flash_Debug_GNU Linker]
-"Single Shot" "02cde4330d633d10" 4 
+"Single Shot" "08018d2399c33d10" 4 
 [OPTIONS_Flash_Debug_Target Selection]
 "Single Shot" "0c9afd23307eec10" 0 
 [OPTIONS_Flash_Debug_Update Test Rom]
-"Single Shot" "042ab3330d633d10" 0 
+"Single Shot" "07349c2399c33d10" 0 
 [OPTIONS_Flash_Debug]
 "" 0 
 "[V|VERSION|2] [B|DOSEGF|1] [S|INCDIR|^"$(TCINSTALL)\sh-elf\lib\gcc\sh-elf\4.7-GNUSH_v13.01\mrenesas\m2e^"|^"$(CONFIGDIR)^"] [B|RSARCH|1] [B|FIXUPLIBS|1] [S|ARCHIVE|libgcc.a*libgcc-Os-4-200.a*lib$(PROJECTNAME).a] [S|OUTFORM|BOTH] [S|OUTFILE|^"$(CONFIGDIR)\$(PROJECTNAME).x^"] [S|GROUPDET|Zero|0|0||1|0x00000000|0|0|0|Zero|All-files|<<FEND>>|<<CEND>>|<<GEND>>|INTHandler|0|0||1|0x00000100|0|0|<<CEND>>|<<GEND>>|RSTHandler|0|0||1|0x00E00000|0|0|1|_ResetHandler|<<FEND>>|<<CEND>>|<<GEND>>|DefinitionData|0|0||1|0x00F00000|0|0|0|DefinitionDataHeader|All-files|<<FEND>>|0|DefinitionData|All-files|<<FEND>>|0|DefinitionDataEnd|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.text|0|0||1|0x07001000|0|0|0|.text|All-files|<<FEND>>|0|.text.*|All-files|<<FEND>>|1|etext|<<FEND>>|<<CEND>>|<<GEND>>|.init|0|0||0||0|0|0|.init|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.fini|0|0||0||0|0|0|.fini|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.got|0|0||0||0|0|0|.got|All-files|<<FEND>>|0|.got.plt|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.rodata|0|0||0||0|0|0|.rodata|All-files|<<FEND>>|0|.rodata.*|All-files|<<FEND>>|1|_erodata|<<FEND>>|<<CEND>>|<<GEND>>|.eh_frame_hdr|0|0||0||0|0|0|.eh_frame_hdr|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.eh_frame|0|0||0||0|0|0|.eh_frame|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.jcr|0|0||0||0|0|0|.jcr|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.tors|0|0||0||0|0|1|__CTOR_LIST__|<<FEND>>|1|___ctors|<<FEND>>|0|.ctors|All-files|<<FEND>>|1|___ctors_end|<<FEND>>|1|__CTOR_END__|<<FEND>>|1|__DTOR_LIST__|<<FEND>>|1|___dtors|<<FEND>>|0|.dtors|All-files|<<FEND>>|1|___dtors_end|<<FEND>>|1|__DTOR_END__|<<FEND>>|1|_mdata|<<FEND>>|<<CEND>>|<<GEND>>|Misc|0|0||1|0x0E005000|0|0|0|Misc|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.data|0|2|_mdata|1|0x70000000|0|0|1|_data|<<FEND>>|0|.data|All-files|<<FEND>>|0|.data.*|All-files|<<FEND>>|1|_edata|<<FEND>>|<<CEND>>|<<GEND>>|.gcc_exc|0|0||0||0|0|0|.gcc_exc|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.bss|0|0||0||0|0|1|_bss|<<FEND>>|0|.bss|All-files|<<FEND>>|0|.bss.*|All-files|<<FEND>>|0|COMMON|All-files|<<FEND>>|1|_ebss|<<FEND>>|1|_end|<<FEND>>|<<CEND>>|<<GEND>>|.stack|0|0||1|0x73FFFBF0|0|0|1|_stack|<<FEND>>|<<CEND>>|<<GEND>>|MetaData|0|0||1|0x80001000|0|0|0|MetaDataHeader|All-files|<<FEND>>|0|MetaData|All-files|<<FEND>>|0|MetaDataEnd|All-files|<<FEND>>|<<CEND>>|<<GEND>>|] [S|APPTXT|^"-e _ResetHandler
@@ -536,6 +538,7 @@
 "C:\sti\mm\MerpMod\MerpMod\CelFlashTests.c" "0e51bd23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\CustomCan.c" "057b23e1fb633d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\CustomCanTables.c" "042ab3330d633d10" 1 
+"C:\sti\mm\MerpMod\MerpMod\CustomCanTests.c" "03ba14c3b3c33d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\Debug.c" "0e51bd23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\Definition.c" "0e51bd23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\EcuHacks.c" "0e51bd23307eec10" 1 
@@ -547,7 +550,7 @@
 "C:\sti\mm\MerpMod\MerpMod\Initializer.c" "0e51bd23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\MapSwitchTables.c" "0e51bd23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\Metadata.c" "0e51bd23307eec10" 1 
-"C:\sti\mm\MerpMod\MerpMod\ProgMode.c" "0e51bd23307eec10" 1 
+"C:\sti\mm\MerpMod\MerpMod\ProgModeRaceGradePad.c" "095495b299c33d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\ProgModeTables.c" "0e51bd23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\ProgModeTests.c" "0e51bd23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\PullRamHooks.c" "0e51bd23307eec10" 1 
@@ -565,13 +568,13 @@
 "C:\sti\mm\MerpMod\MerpMod\TimingHacks.c" "0e51bd23307eec10" 1 
 "Preprocess Assembly file" "0e51bd23307eec10" 1 
 [OPTIONS_Flash_Testing_GNU Library Generator]
-"Single Shot" "042ab3330d633d10" 2 
+"Single Shot" "07349c2399c33d10" 2 
 [OPTIONS_Flash_Testing_GNU Linker]
-"Single Shot" "02cde4330d633d10" 4 
+"Single Shot" "08018d2399c33d10" 4 
 [OPTIONS_Flash_Testing_Target Selection]
 "Single Shot" "0e51bd23307eec10" 0 
 [OPTIONS_Flash_Testing_Update Test Rom]
-"Single Shot" "042ab3330d633d10" 0 
+"Single Shot" "07349c2399c33d10" 0 
 [OPTIONS_Flash_Testing]
 "" 0 
 "[V|VERSION|2] [B|DOSEGF|1] [S|INCDIR|^"$(TCINSTALL)\sh-elf\lib\gcc\sh-elf\4.7-GNUSH_v13.01\mrenesas\m2e^"|^"$(CONFIGDIR)^"] [B|RSARCH|1] [B|FIXUPLIBS|1] [S|ARCHIVE|libgcc.a*libgcc-Os-4-200.a*lib$(PROJECTNAME).a] [S|OUTFORM|BOTH] [S|OUTFILE|^"$(CONFIGDIR)\$(PROJECTNAME).x^"] [S|GROUPDET|Zero|0|0||1|0x00000000|0|0|0|Zero|All-files|<<FEND>>|<<CEND>>|<<GEND>>|INTHandler|0|0||1|0x00000100|0|0|<<CEND>>|<<GEND>>|RSTHandler|0|0||1|0x00E00000|0|0|1|_ResetHandler|<<FEND>>|<<CEND>>|<<GEND>>|DefinitionData|0|0||1|0x00F00000|0|0|0|DefinitionDataHeader|All-files|<<FEND>>|0|DefinitionData|All-files|<<FEND>>|0|DefinitionDataEnd|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.text|0|0||1|0x07001000|0|0|0|.text|All-files|<<FEND>>|0|.text.*|All-files|<<FEND>>|1|etext|<<FEND>>|<<CEND>>|<<GEND>>|.init|0|0||0||0|0|0|.init|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.fini|0|0||0||0|0|0|.fini|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.got|0|0||0||0|0|0|.got|All-files|<<FEND>>|0|.got.plt|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.rodata|0|0||0||0|0|0|.rodata|All-files|<<FEND>>|0|.rodata.*|All-files|<<FEND>>|1|_erodata|<<FEND>>|<<CEND>>|<<GEND>>|.eh_frame_hdr|0|0||0||0|0|0|.eh_frame_hdr|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.eh_frame|0|0||0||0|0|0|.eh_frame|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.jcr|0|0||0||0|0|0|.jcr|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.tors|0|0||0||0|0|1|__CTOR_LIST__|<<FEND>>|1|___ctors|<<FEND>>|0|.ctors|All-files|<<FEND>>|1|___ctors_end|<<FEND>>|1|__CTOR_END__|<<FEND>>|1|__DTOR_LIST__|<<FEND>>|1|___dtors|<<FEND>>|0|.dtors|All-files|<<FEND>>|1|___dtors_end|<<FEND>>|1|__DTOR_END__|<<FEND>>|1|_mdata|<<FEND>>|<<CEND>>|<<GEND>>|Misc|0|0||1|0x0E005000|0|0|0|Misc|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.data|0|2|_mdata|1|0x70000000|0|0|1|_data|<<FEND>>|0|.data|All-files|<<FEND>>|0|.data.*|All-files|<<FEND>>|1|_edata|<<FEND>>|<<CEND>>|<<GEND>>|.gcc_exc|0|0||0||0|0|0|.gcc_exc|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.bss|0|0||0||0|0|1|_bss|<<FEND>>|0|.bss|All-files|<<FEND>>|0|.bss.*|All-files|<<FEND>>|0|COMMON|All-files|<<FEND>>|1|_ebss|<<FEND>>|1|_end|<<FEND>>|<<CEND>>|<<GEND>>|.stack|0|0||1|0x73FFFBF0|0|0|1|_stack|<<FEND>>|<<CEND>>|<<GEND>>|MetaData|0|0||1|0x80001000|0|0|0|MetaDataHeader|All-files|<<FEND>>|0|MetaData|All-files|<<FEND>>|0|MetaDataEnd|All-files|<<FEND>>|<<CEND>>|<<GEND>>|] [S|APPTXT|^"-e _ResetHandler
@@ -605,6 +608,7 @@
 "C:\sti\mm\MerpMod\MerpMod\CelFlashTests.c" "02b75fdc4b033d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\CustomCan.c" "057b23e1fb633d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\CustomCanTables.c" "042ab3330d633d10" 1 
+"C:\sti\mm\MerpMod\MerpMod\CustomCanTests.c" "03ba14c3b3c33d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\Debug.c" "02b75fdc4b033d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\Definition.c" "02b75fdc4b033d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\EcuHacks.c" "02b75fdc4b033d10" 1 
@@ -616,7 +620,7 @@
 "C:\sti\mm\MerpMod\MerpMod\Initializer.c" "02b75fdc4b033d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\MapSwitchTables.c" "02b75fdc4b033d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\Metadata.c" "02b75fdc4b033d10" 1 
-"C:\sti\mm\MerpMod\MerpMod\ProgMode.c" "02b75fdc4b033d10" 1 
+"C:\sti\mm\MerpMod\MerpMod\ProgModeRaceGradePad.c" "095495b299c33d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\ProgModeTables.c" "02b75fdc4b033d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\ProgModeTests.c" "02b75fdc4b033d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\PullRamHooks.c" "02b75fdc4b033d10" 1 
@@ -634,13 +638,13 @@
 "C:\sti\mm\MerpMod\MerpMod\TimingHacks.c" "02b75fdc4b033d10" 1 
 "Preprocess Assembly file" "02b75fdc4b033d10" 1 
 [OPTIONS_Gratis_Debug_GNU Library Generator]
-"Single Shot" "042ab3330d633d10" 2 
+"Single Shot" "07349c2399c33d10" 2 
 [OPTIONS_Gratis_Debug_GNU Linker]
-"Single Shot" "02cde4330d633d10" 4 
+"Single Shot" "08018d2399c33d10" 4 
 [OPTIONS_Gratis_Debug_Target Selection]
 "Single Shot" "04f89d23307eec10" 0 
 [OPTIONS_Gratis_Debug_Update Test Rom]
-"Single Shot" "042ab3330d633d10" 0 
+"Single Shot" "07349c2399c33d10" 0 
 [OPTIONS_Gratis_Debug]
 "" 0 
 "[V|VERSION|2] [B|DOSEGF|1] [S|INCDIR|^"$(TCINSTALL)\sh-elf\lib\gcc\sh-elf\4.7-GNUSH_v13.01\mrenesas\m2e^"|^"$(CONFIGDIR)^"] [B|RSARCH|1] [B|FIXUPLIBS|1] [S|ARCHIVE|libgcc.a*libgcc-Os-4-200.a*lib$(PROJECTNAME).a] [S|OUTFORM|BOTH] [S|OUTFILE|^"$(CONFIGDIR)\$(PROJECTNAME).x^"] [S|GROUPDET|Zero|0|0||1|0x00000000|0|0|0|Zero|All-files|<<FEND>>|<<CEND>>|<<GEND>>|INTHandler|0|0||1|0x00000100|0|0|<<CEND>>|<<GEND>>|RSTHandler|0|0||1|0x00E00000|0|0|1|_ResetHandler|<<FEND>>|<<CEND>>|<<GEND>>|DefinitionData|0|0||1|0x00F00000|0|0|0|DefinitionDataHeader|All-files|<<FEND>>|0|DefinitionData|All-files|<<FEND>>|0|DefinitionDataEnd|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.text|0|0||1|0x07001000|0|0|0|.text|All-files|<<FEND>>|0|.text.*|All-files|<<FEND>>|1|etext|<<FEND>>|<<CEND>>|<<GEND>>|.init|0|0||0||0|0|0|.init|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.fini|0|0||0||0|0|0|.fini|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.got|0|0||0||0|0|0|.got|All-files|<<FEND>>|0|.got.plt|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.rodata|0|0||0||0|0|0|.rodata|All-files|<<FEND>>|0|.rodata.*|All-files|<<FEND>>|1|_erodata|<<FEND>>|<<CEND>>|<<GEND>>|.eh_frame_hdr|0|0||0||0|0|0|.eh_frame_hdr|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.eh_frame|0|0||0||0|0|0|.eh_frame|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.jcr|0|0||0||0|0|0|.jcr|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.tors|0|0||0||0|0|1|__CTOR_LIST__|<<FEND>>|1|___ctors|<<FEND>>|0|.ctors|All-files|<<FEND>>|1|___ctors_end|<<FEND>>|1|__CTOR_END__|<<FEND>>|1|__DTOR_LIST__|<<FEND>>|1|___dtors|<<FEND>>|0|.dtors|All-files|<<FEND>>|1|___dtors_end|<<FEND>>|1|__DTOR_END__|<<FEND>>|1|_mdata|<<FEND>>|<<CEND>>|<<GEND>>|Misc|0|0||1|0x0E005000|0|0|0|Misc|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.data|0|2|_mdata|1|0x70000000|0|0|1|_data|<<FEND>>|0|.data|All-files|<<FEND>>|0|.data.*|All-files|<<FEND>>|1|_edata|<<FEND>>|<<CEND>>|<<GEND>>|.gcc_exc|0|0||0||0|0|0|.gcc_exc|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.bss|0|0||0||0|0|1|_bss|<<FEND>>|0|.bss|All-files|<<FEND>>|0|.bss.*|All-files|<<FEND>>|0|COMMON|All-files|<<FEND>>|1|_ebss|<<FEND>>|1|_end|<<FEND>>|<<CEND>>|<<GEND>>|.stack|0|0||1|0x73FFFBF0|0|0|1|_stack|<<FEND>>|<<CEND>>|<<GEND>>|MetaData|0|0||1|0x80001000|0|0|0|MetaDataHeader|All-files|<<FEND>>|0|MetaData|All-files|<<FEND>>|0|MetaDataEnd|All-files|<<FEND>>|<<CEND>>|<<GEND>>|] [S|APPTXT|^"-e _ResetHandler
@@ -674,6 +678,7 @@
 "C:\sti\mm\MerpMod\MerpMod\CelFlashTests.c" "08c9cd23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\CustomCan.c" "057b23e1fb633d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\CustomCanTables.c" "042ab3330d633d10" 1 
+"C:\sti\mm\MerpMod\MerpMod\CustomCanTests.c" "03ba14c3b3c33d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\Debug.c" "08c9cd23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\Definition.c" "08c9cd23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\EcuHacks.c" "08c9cd23307eec10" 1 
@@ -685,7 +690,7 @@
 "C:\sti\mm\MerpMod\MerpMod\Initializer.c" "08c9cd23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\MapSwitchTables.c" "08c9cd23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\Metadata.c" "08c9cd23307eec10" 1 
-"C:\sti\mm\MerpMod\MerpMod\ProgMode.c" "08c9cd23307eec10" 1 
+"C:\sti\mm\MerpMod\MerpMod\ProgModeRaceGradePad.c" "095495b299c33d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\ProgModeTables.c" "08c9cd23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\ProgModeTests.c" "08c9cd23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\PullRamHooks.c" "08c9cd23307eec10" 1 
@@ -703,13 +708,13 @@
 "C:\sti\mm\MerpMod\MerpMod\TimingHacks.c" "08c9cd23307eec10" 1 
 "Preprocess Assembly file" "08c9cd23307eec10" 1 
 [OPTIONS_Gratis_Release_GNU Library Generator]
-"Single Shot" "042ab3330d633d10" 2 
+"Single Shot" "07349c2399c33d10" 2 
 [OPTIONS_Gratis_Release_GNU Linker]
-"Single Shot" "02cde4330d633d10" 4 
+"Single Shot" "08018d2399c33d10" 4 
 [OPTIONS_Gratis_Release_Target Selection]
 "Single Shot" "08c9cd23307eec10" 0 
 [OPTIONS_Gratis_Release_Update Test Rom]
-"Single Shot" "042ab3330d633d10" 0 
+"Single Shot" "07349c2399c33d10" 0 
 [OPTIONS_Gratis_Release]
 "" 0 
 "[V|VERSION|2] [B|DOSEGF|1] [S|INCDIR|^"$(TCINSTALL)\sh-elf\lib\gcc\sh-elf\4.7-GNUSH_v13.01\mrenesas\m2e^"|^"$(CONFIGDIR)^"] [B|RSARCH|1] [B|FIXUPLIBS|1] [S|ARCHIVE|libgcc.a*libgcc-Os-4-200.a*lib$(PROJECTNAME).a] [S|OUTFORM|BOTH] [S|OUTFILE|^"$(CONFIGDIR)\$(PROJECTNAME).x^"] [S|GROUPDET|Zero|0|0||1|0x00000000|0|0|0|Zero|All-files|<<FEND>>|<<CEND>>|<<GEND>>|INTHandler|0|0||1|0x00000100|0|0|<<CEND>>|<<GEND>>|RSTHandler|0|0||1|0x00E00000|0|0|1|_ResetHandler|<<FEND>>|<<CEND>>|<<GEND>>|DefinitionData|0|0||1|0x00F00000|0|0|0|DefinitionDataHeader|All-files|<<FEND>>|0|DefinitionData|All-files|<<FEND>>|0|DefinitionDataEnd|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.text|0|0||1|0x07001000|0|0|0|.text|All-files|<<FEND>>|0|.text.*|All-files|<<FEND>>|1|etext|<<FEND>>|<<CEND>>|<<GEND>>|.init|0|0||0||0|0|0|.init|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.fini|0|0||0||0|0|0|.fini|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.got|0|0||0||0|0|0|.got|All-files|<<FEND>>|0|.got.plt|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.rodata|0|0||0||0|0|0|.rodata|All-files|<<FEND>>|0|.rodata.*|All-files|<<FEND>>|1|_erodata|<<FEND>>|<<CEND>>|<<GEND>>|.eh_frame_hdr|0|0||0||0|0|0|.eh_frame_hdr|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.eh_frame|0|0||0||0|0|0|.eh_frame|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.jcr|0|0||0||0|0|0|.jcr|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.tors|0|0||0||0|0|1|__CTOR_LIST__|<<FEND>>|1|___ctors|<<FEND>>|0|.ctors|All-files|<<FEND>>|1|___ctors_end|<<FEND>>|1|__CTOR_END__|<<FEND>>|1|__DTOR_LIST__|<<FEND>>|1|___dtors|<<FEND>>|0|.dtors|All-files|<<FEND>>|1|___dtors_end|<<FEND>>|1|__DTOR_END__|<<FEND>>|1|_mdata|<<FEND>>|<<CEND>>|<<GEND>>|Misc|0|0||1|0x0E005000|0|0|0|Misc|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.data|0|2|_mdata|1|0x70000000|0|0|1|_data|<<FEND>>|0|.data|All-files|<<FEND>>|0|.data.*|All-files|<<FEND>>|1|_edata|<<FEND>>|<<CEND>>|<<GEND>>|.gcc_exc|0|0||0||0|0|0|.gcc_exc|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.bss|0|0||0||0|0|1|_bss|<<FEND>>|0|.bss|All-files|<<FEND>>|0|.bss.*|All-files|<<FEND>>|0|COMMON|All-files|<<FEND>>|1|_ebss|<<FEND>>|1|_end|<<FEND>>|<<CEND>>|<<GEND>>|.stack|0|0||1|0x73FFFBF0|0|0|1|_stack|<<FEND>>|<<CEND>>|<<GEND>>|MetaData|0|0||1|0x80001000|0|0|0|MetaDataHeader|All-files|<<FEND>>|0|MetaData|All-files|<<FEND>>|0|MetaDataEnd|All-files|<<FEND>>|<<CEND>>|<<GEND>>|] [S|APPTXT|^"-e _ResetHandler
@@ -743,6 +748,7 @@
 "C:\sti\mm\MerpMod\MerpMod\CelFlashTests.c" "06031e23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\CustomCan.c" "057b23e1fb633d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\CustomCanTables.c" "042ab3330d633d10" 1 
+"C:\sti\mm\MerpMod\MerpMod\CustomCanTests.c" "03ba14c3b3c33d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\Debug.c" "06031e23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\Definition.c" "06031e23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\EcuHacks.c" "06031e23307eec10" 1 
@@ -754,7 +760,7 @@
 "C:\sti\mm\MerpMod\MerpMod\Initializer.c" "06031e23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\MapSwitchTables.c" "06031e23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\Metadata.c" "06031e23307eec10" 1 
-"C:\sti\mm\MerpMod\MerpMod\ProgMode.c" "06031e23307eec10" 1 
+"C:\sti\mm\MerpMod\MerpMod\ProgModeRaceGradePad.c" "095495b299c33d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\ProgModeTables.c" "06031e23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\ProgModeTests.c" "06031e23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\PullRamHooks.c" "06031e23307eec10" 1 
@@ -772,13 +778,13 @@
 "C:\sti\mm\MerpMod\MerpMod\TimingHacks.c" "06031e23307eec10" 1 
 "Preprocess Assembly file" "06031e23307eec10" 1 
 [OPTIONS_Gratis_Testing_GNU Library Generator]
-"Single Shot" "042ab3330d633d10" 2 
+"Single Shot" "07349c2399c33d10" 2 
 [OPTIONS_Gratis_Testing_GNU Linker]
-"Single Shot" "02cde4330d633d10" 4 
+"Single Shot" "08018d2399c33d10" 4 
 [OPTIONS_Gratis_Testing_Target Selection]
 "Single Shot" "06031e23307eec10" 0 
 [OPTIONS_Gratis_Testing_Update Test Rom]
-"Single Shot" "042ab3330d633d10" 0 
+"Single Shot" "07349c2399c33d10" 0 
 [OPTIONS_Gratis_Testing]
 "" 0 
 "[V|VERSION|2] [B|DOSEGF|1] [S|INCDIR|^"$(TCINSTALL)\sh-elf\lib\gcc\sh-elf\4.7-GNUSH_v13.01\mrenesas\m2e^"|^"$(CONFIGDIR)^"] [B|RSARCH|1] [B|FIXUPLIBS|1] [S|ARCHIVE|libgcc.a*libgcc-Os-4-200.a*lib$(PROJECTNAME).a] [S|OUTFORM|BOTH] [S|OUTFILE|^"$(CONFIGDIR)\$(PROJECTNAME).x^"] [S|GROUPDET|Zero|0|0||1|0x00000000|0|0|0|Zero|All-files|<<FEND>>|<<CEND>>|<<GEND>>|INTHandler|0|0||1|0x00000100|0|0|<<CEND>>|<<GEND>>|RSTHandler|0|0||1|0x00E00000|0|0|1|_ResetHandler|<<FEND>>|<<CEND>>|<<GEND>>|DefinitionData|0|0||1|0x00F00000|0|0|0|DefinitionDataHeader|All-files|<<FEND>>|0|DefinitionData|All-files|<<FEND>>|0|DefinitionDataEnd|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.text|0|0||1|0x07001000|0|0|0|.text|All-files|<<FEND>>|0|.text.*|All-files|<<FEND>>|1|etext|<<FEND>>|<<CEND>>|<<GEND>>|.init|0|0||0||0|0|0|.init|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.fini|0|0||0||0|0|0|.fini|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.got|0|0||0||0|0|0|.got|All-files|<<FEND>>|0|.got.plt|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.rodata|0|0||0||0|0|0|.rodata|All-files|<<FEND>>|0|.rodata.*|All-files|<<FEND>>|1|_erodata|<<FEND>>|<<CEND>>|<<GEND>>|.eh_frame_hdr|0|0||0||0|0|0|.eh_frame_hdr|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.eh_frame|0|0||0||0|0|0|.eh_frame|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.jcr|0|0||0||0|0|0|.jcr|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.tors|0|0||0||0|0|1|__CTOR_LIST__|<<FEND>>|1|___ctors|<<FEND>>|0|.ctors|All-files|<<FEND>>|1|___ctors_end|<<FEND>>|1|__CTOR_END__|<<FEND>>|1|__DTOR_LIST__|<<FEND>>|1|___dtors|<<FEND>>|0|.dtors|All-files|<<FEND>>|1|___dtors_end|<<FEND>>|1|__DTOR_END__|<<FEND>>|1|_mdata|<<FEND>>|<<CEND>>|<<GEND>>|Misc|0|0||1|0x0E005000|0|0|0|Misc|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.data|0|2|_mdata|1|0x70000000|0|0|1|_data|<<FEND>>|0|.data|All-files|<<FEND>>|0|.data.*|All-files|<<FEND>>|1|_edata|<<FEND>>|<<CEND>>|<<GEND>>|.gcc_exc|0|0||0||0|0|0|.gcc_exc|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.bss|0|0||0||0|0|1|_bss|<<FEND>>|0|.bss|All-files|<<FEND>>|0|.bss.*|All-files|<<FEND>>|0|COMMON|All-files|<<FEND>>|1|_ebss|<<FEND>>|1|_end|<<FEND>>|<<CEND>>|<<GEND>>|.stack|0|0||1|0x73FFFBF0|0|0|1|_stack|<<FEND>>|<<CEND>>|<<GEND>>|MetaData|0|0||1|0x80001000|0|0|0|MetaDataHeader|All-files|<<FEND>>|0|MetaData|All-files|<<FEND>>|0|MetaDataEnd|All-files|<<FEND>>|<<CEND>>|<<GEND>>|] [S|APPTXT|^"-e _ResetHandler
@@ -812,6 +818,7 @@
 "C:\sti\mm\MerpMod\MerpMod\CelFlashTests.c" "0245dc9377e23d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\CustomCan.c" "057b23e1fb633d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\CustomCanTables.c" "042ab3330d633d10" 1 
+"C:\sti\mm\MerpMod\MerpMod\CustomCanTests.c" "03ba14c3b3c33d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\Debug.c" "0245dc9377e23d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\Definition.c" "0245dc9377e23d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\EcuHacks.c" "0245dc9377e23d10" 1 
@@ -823,7 +830,7 @@
 "C:\sti\mm\MerpMod\MerpMod\Initializer.c" "0245dc9377e23d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\MapSwitchTables.c" "0245dc9377e23d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\Metadata.c" "0245dc9377e23d10" 1 
-"C:\sti\mm\MerpMod\MerpMod\ProgMode.c" "0245dc9377e23d10" 1 
+"C:\sti\mm\MerpMod\MerpMod\ProgModeRaceGradePad.c" "095495b299c33d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\ProgModeTables.c" "0245dc9377e23d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\ProgModeTests.c" "0245dc9377e23d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\PullRamHooks.c" "0245dc9377e23d10" 1 
@@ -841,13 +848,13 @@
 "C:\sti\mm\MerpMod\MerpMod\TimingHacks.c" "0245dc9377e23d10" 1 
 "Preprocess Assembly file" "0245dc9377e23d10" 1 
 [OPTIONS_Switch_Debug_GNU Library Generator]
-"Single Shot" "042ab3330d633d10" 2 
+"Single Shot" "07349c2399c33d10" 2 
 [OPTIONS_Switch_Debug_GNU Linker]
-"Single Shot" "02cde4330d633d10" 4 
+"Single Shot" "08018d2399c33d10" 4 
 [OPTIONS_Switch_Debug_Target Selection]
 "Single Shot" "06bf4d23307eec10" 0 
 [OPTIONS_Switch_Debug_Update Test Rom]
-"Single Shot" "042ab3330d633d10" 0 
+"Single Shot" "07349c2399c33d10" 0 
 [OPTIONS_Switch_Debug]
 "" 0 
 "[V|VERSION|2] [B|DOSEGF|1] [S|INCDIR|^"$(TCINSTALL)\sh-elf\lib\gcc\sh-elf\4.7-GNUSH_v13.01\mrenesas\m4-single-only^"|^"$(CONFIGDIR)^"] [B|RSARCH|1] [B|FIXUPLIBS|1] [S|ARCHIVE|libgcc.a*libgcc-Os-4-200.a*lib$(PROJECTNAME).a] [S|OUTFORM|BOTH] [S|OUTFILE|^"$(CONFIGDIR)\$(PROJECTNAME).x^"] [S|GROUPDET|Zero|0|0||1|0x00000000|0|0|0|Zero|All-files|<<FEND>>|<<CEND>>|<<GEND>>|INTHandler|0|0||1|0x00000100|0|0|<<CEND>>|<<GEND>>|RSTHandler|0|0||1|0x00E00000|0|0|1|_ResetHandler|<<FEND>>|<<CEND>>|<<GEND>>|DefinitionData|0|0||1|0x00F00000|0|0|0|DefinitionDataHeader|All-files|<<FEND>>|0|DefinitionData|All-files|<<FEND>>|0|DefinitionDataEnd|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.text|0|0||1|0x07001000|0|0|0|.text|All-files|<<FEND>>|0|.text.*|All-files|<<FEND>>|1|etext|<<FEND>>|<<CEND>>|<<GEND>>|.init|0|0||0||0|0|0|.init|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.fini|0|0||0||0|0|0|.fini|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.got|0|0||0||0|0|0|.got|All-files|<<FEND>>|0|.got.plt|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.rodata|0|0||0||0|0|0|.rodata|All-files|<<FEND>>|0|.rodata.*|All-files|<<FEND>>|1|_erodata|<<FEND>>|<<CEND>>|<<GEND>>|.eh_frame_hdr|0|0||0||0|0|0|.eh_frame_hdr|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.eh_frame|0|0||0||0|0|0|.eh_frame|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.jcr|0|0||0||0|0|0|.jcr|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.tors|0|0||0||0|0|1|__CTOR_LIST__|<<FEND>>|1|___ctors|<<FEND>>|0|.ctors|All-files|<<FEND>>|1|___ctors_end|<<FEND>>|1|__CTOR_END__|<<FEND>>|1|__DTOR_LIST__|<<FEND>>|1|___dtors|<<FEND>>|0|.dtors|All-files|<<FEND>>|1|___dtors_end|<<FEND>>|1|__DTOR_END__|<<FEND>>|1|_mdata|<<FEND>>|<<CEND>>|<<GEND>>|Misc|0|0||1|0x0E005000|0|0|0|Misc|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.data|0|2|_mdata|1|0x70000000|0|0|1|_data|<<FEND>>|0|.data|All-files|<<FEND>>|0|.data.*|All-files|<<FEND>>|1|_edata|<<FEND>>|<<CEND>>|<<GEND>>|.gcc_exc|0|0||0||0|0|0|.gcc_exc|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.bss|0|0||0||0|0|1|_bss|<<FEND>>|0|.bss|All-files|<<FEND>>|0|.bss.*|All-files|<<FEND>>|0|COMMON|All-files|<<FEND>>|1|_ebss|<<FEND>>|1|_end|<<FEND>>|<<CEND>>|<<GEND>>|.stack|0|0||1|0x73FFFBF0|0|0|1|_stack|<<FEND>>|<<CEND>>|<<GEND>>|MetaData|0|0||1|0x80001000|0|0|0|MetaDataHeader|All-files|<<FEND>>|0|MetaData|All-files|<<FEND>>|0|MetaDataEnd|All-files|<<FEND>>|<<CEND>>|<<GEND>>|] [S|APPTXT|^"-e _ResetHandler
@@ -881,6 +888,7 @@
 "C:\sti\mm\MerpMod\MerpMod\CelFlashTests.c" "021a3ffed0733d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\CustomCan.c" "021a3ffed0733d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\CustomCanTables.c" "021a3ffed0733d10" 1 
+"C:\sti\mm\MerpMod\MerpMod\CustomCanTests.c" "03ba14c3b3c33d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\Debug.c" "021a3ffed0733d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\Definition.c" "021a3ffed0733d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\EcuHacks.c" "021a3ffed0733d10" 1 
@@ -892,7 +900,7 @@
 "C:\sti\mm\MerpMod\MerpMod\Initializer.c" "021a3ffed0733d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\MapSwitchTables.c" "021a3ffed0733d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\Metadata.c" "021a3ffed0733d10" 1 
-"C:\sti\mm\MerpMod\MerpMod\ProgMode.c" "021a3ffed0733d10" 1 
+"C:\sti\mm\MerpMod\MerpMod\ProgModeRaceGradePad.c" "095495b299c33d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\ProgModeTables.c" "021a3ffed0733d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\ProgModeTests.c" "021a3ffed0733d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\PullRamHooks.c" "021a3ffed0733d10" 1 
@@ -910,13 +918,13 @@
 "C:\sti\mm\MerpMod\MerpMod\TimingHacks.c" "021a3ffed0733d10" 1 
 "Preprocess Assembly file" "021a3ffed0733d10" 1 
 [OPTIONS_Switch_Release_GNU Library Generator]
-"Single Shot" "021a3ffed0733d10" 2 
+"Single Shot" "07349c2399c33d10" 2 
 [OPTIONS_Switch_Release_GNU Linker]
-"Single Shot" "021a3ffed0733d10" 4 
+"Single Shot" "092b4deb9fc33d10" 4 
 [OPTIONS_Switch_Release_Target Selection]
 "Single Shot" "00286d23307eec10" 0 
 [OPTIONS_Switch_Release_Update Test Rom]
-"Single Shot" "042ab3330d633d10" 0 
+"Single Shot" "07349c2399c33d10" 0 
 [OPTIONS_Switch_Release]
 "" 0 
 "[V|VERSION|2] [B|DOSEGF|1] [S|INCDIR|^"$(TCINSTALL)\sh-elf\lib\gcc\sh-elf\4.7-GNUSH_v13.01\mrenesas\m2e^"|^"$(CONFIGDIR)^"] [B|RSARCH|1] [B|FIXUPLIBS|1] [S|ARCHIVE|libgcc.a*libgcc-Os-4-200.a*lib$(PROJECTNAME).a] [S|OUTFORM|BOTH] [B|MFILEGEN|1] [S|PLMFILE|^"$(CONFIGDIR)\$(PROJECTNAME).map^"] [S|OUTFILE|^"$(CONFIGDIR)\$(PROJECTNAME).x^"] [S|GROUPDET|Zero|0|0||1|0x00000000|0|0|0|Zero|All-files|<<FEND>>|<<CEND>>|<<GEND>>|INTHandler|0|0||1|0x00000100|0|0|<<CEND>>|<<GEND>>|RSTHandler|0|0||1|0x00E00000|0|0|1|_ResetHandler|<<FEND>>|<<CEND>>|<<GEND>>|DefinitionData|0|0||1|0x00F00000|0|0|0|DefinitionDataHeader|All-files|<<FEND>>|0|DefinitionData|All-files|<<FEND>>|0|DefinitionDataEnd|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.text|0|0||1|0x07001000|0|0|0|.text|All-files|<<FEND>>|0|.text.*|All-files|<<FEND>>|1|etext|<<FEND>>|<<CEND>>|<<GEND>>|.init|0|0||0||0|0|0|.init|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.fini|0|0||0||0|0|0|.fini|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.got|0|0||0||0|0|0|.got|All-files|<<FEND>>|0|.got.plt|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.rodata|0|0||0||0|0|0|.rodata|All-files|<<FEND>>|0|.rodata.*|All-files|<<FEND>>|1|_erodata|<<FEND>>|<<CEND>>|<<GEND>>|.eh_frame_hdr|0|0||0||0|0|0|.eh_frame_hdr|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.eh_frame|0|0||0||0|0|0|.eh_frame|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.jcr|0|0||0||0|0|0|.jcr|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.tors|0|0||0||0|0|1|__CTOR_LIST__|<<FEND>>|1|___ctors|<<FEND>>|0|.ctors|All-files|<<FEND>>|1|___ctors_end|<<FEND>>|1|__CTOR_END__|<<FEND>>|1|__DTOR_LIST__|<<FEND>>|1|___dtors|<<FEND>>|0|.dtors|All-files|<<FEND>>|1|___dtors_end|<<FEND>>|1|__DTOR_END__|<<FEND>>|1|_mdata|<<FEND>>|<<CEND>>|<<GEND>>|Misc|0|0||1|0x0E005000|0|0|0|Misc|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.data|0|2|_mdata|1|0x70000000|0|0|1|_data|<<FEND>>|0|.data|All-files|<<FEND>>|0|.data.*|All-files|<<FEND>>|1|_edata|<<FEND>>|<<CEND>>|<<GEND>>|.gcc_exc|0|0||0||0|0|0|.gcc_exc|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.bss|0|0||0||0|0|1|_bss|<<FEND>>|0|.bss|All-files|<<FEND>>|0|.bss.*|All-files|<<FEND>>|0|COMMON|All-files|<<FEND>>|1|_ebss|<<FEND>>|1|_end|<<FEND>>|<<CEND>>|<<GEND>>|.stack|0|0||1|0x73FFFBF0|0|0|1|_stack|<<FEND>>|<<CEND>>|<<GEND>>|MetaData|0|0||1|0x80001000|0|0|0|MetaDataHeader|All-files|<<FEND>>|0|MetaData|All-files|<<FEND>>|0|MetaDataEnd|All-files|<<FEND>>|<<CEND>>|<<GEND>>|] [S|APPTXT|^"-e _ResetHandler -T ^"^"$(PROJDIR)\LinkerScript.txt^"^"^"] [S|CPUTYPE|SH2E] [S|ENDIAN|BIG] [B|MRENESAS|1] [B|MIEEE|1] [S|PROJECTTYPE|CAPPPROJECT] [B|DOOPTLIB|1] [B|DOPROJBUILT|1]
@@ -948,6 +956,7 @@
 "C:\sti\mm\MerpMod\MerpMod\CelFlashTests.c" "00286d23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\CustomCan.c" "057b23e1fb633d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\CustomCanTables.c" "042ab3330d633d10" 1 
+"C:\sti\mm\MerpMod\MerpMod\CustomCanTests.c" "03ba14c3b3c33d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\Debug.c" "00286d23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\Definition.c" "00286d23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\EcuHacks.c" "00286d23307eec10" 1 
@@ -959,7 +968,7 @@
 "C:\sti\mm\MerpMod\MerpMod\Initializer.c" "00286d23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\MapSwitchTables.c" "00286d23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\Metadata.c" "00286d23307eec10" 1 
-"C:\sti\mm\MerpMod\MerpMod\ProgMode.c" "00286d23307eec10" 1 
+"C:\sti\mm\MerpMod\MerpMod\ProgModeRaceGradePad.c" "095495b299c33d10" 1 
 "C:\sti\mm\MerpMod\MerpMod\ProgModeTables.c" "00286d23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\ProgModeTests.c" "00286d23307eec10" 1 
 "C:\sti\mm\MerpMod\MerpMod\PullRamHooks.c" "00286d23307eec10" 1 
@@ -977,13 +986,13 @@
 "C:\sti\mm\MerpMod\MerpMod\TimingHacks.c" "00286d23307eec10" 1 
 "Preprocess Assembly file" "00286d23307eec10" 1 
 [OPTIONS_Switch_Testing_GNU Library Generator]
-"Single Shot" "042ab3330d633d10" 2 
+"Single Shot" "07349c2399c33d10" 2 
 [OPTIONS_Switch_Testing_GNU Linker]
-"Single Shot" "02cde4330d633d10" 4 
+"Single Shot" "08018d2399c33d10" 4 
 [OPTIONS_Switch_Testing_Target Selection]
 "Single Shot" "00286d23307eec10" 0 
 [OPTIONS_Switch_Testing_Update Test Rom]
-"Single Shot" "042ab3330d633d10" 0 
+"Single Shot" "07349c2399c33d10" 0 
 [OPTIONS_Switch_Testing]
 "" 0 
 "[V|VERSION|2] [B|DOSEGF|1] [S|INCDIR|^"$(TCINSTALL)\sh-elf\lib\gcc\sh-elf\4.7-GNUSH_v13.01\mrenesas\m2e^"|^"$(CONFIGDIR)^"] [B|RSARCH|1] [B|FIXUPLIBS|1] [S|ARCHIVE|libgcc.a*libgcc-Os-4-200.a*lib$(PROJECTNAME).a] [S|OUTFORM|BOTH] [S|OUTFILE|^"$(CONFIGDIR)\$(PROJECTNAME).x^"] [S|GROUPDET|Zero|0|0||1|0x00000000|0|0|0|Zero|All-files|<<FEND>>|<<CEND>>|<<GEND>>|INTHandler|0|0||1|0x00000100|0|0|<<CEND>>|<<GEND>>|RSTHandler|0|0||1|0x00E00000|0|0|1|_ResetHandler|<<FEND>>|<<CEND>>|<<GEND>>|DefinitionData|0|0||1|0x00F00000|0|0|0|DefinitionDataHeader|All-files|<<FEND>>|0|DefinitionData|All-files|<<FEND>>|0|DefinitionDataEnd|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.text|0|0||1|0x07001000|0|0|0|.text|All-files|<<FEND>>|0|.text.*|All-files|<<FEND>>|1|etext|<<FEND>>|<<CEND>>|<<GEND>>|.init|0|0||0||0|0|0|.init|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.fini|0|0||0||0|0|0|.fini|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.got|0|0||0||0|0|0|.got|All-files|<<FEND>>|0|.got.plt|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.rodata|0|0||0||0|0|0|.rodata|All-files|<<FEND>>|0|.rodata.*|All-files|<<FEND>>|1|_erodata|<<FEND>>|<<CEND>>|<<GEND>>|.eh_frame_hdr|0|0||0||0|0|0|.eh_frame_hdr|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.eh_frame|0|0||0||0|0|0|.eh_frame|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.jcr|0|0||0||0|0|0|.jcr|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.tors|0|0||0||0|0|1|__CTOR_LIST__|<<FEND>>|1|___ctors|<<FEND>>|0|.ctors|All-files|<<FEND>>|1|___ctors_end|<<FEND>>|1|__CTOR_END__|<<FEND>>|1|__DTOR_LIST__|<<FEND>>|1|___dtors|<<FEND>>|0|.dtors|All-files|<<FEND>>|1|___dtors_end|<<FEND>>|1|__DTOR_END__|<<FEND>>|1|_mdata|<<FEND>>|<<CEND>>|<<GEND>>|Misc|0|0||1|0x0E005000|0|0|0|Misc|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.data|0|2|_mdata|1|0x70000000|0|0|1|_data|<<FEND>>|0|.data|All-files|<<FEND>>|0|.data.*|All-files|<<FEND>>|1|_edata|<<FEND>>|<<CEND>>|<<GEND>>|.gcc_exc|0|0||0||0|0|0|.gcc_exc|All-files|<<FEND>>|<<CEND>>|<<GEND>>|.bss|0|0||0||0|0|1|_bss|<<FEND>>|0|.bss|All-files|<<FEND>>|0|.bss.*|All-files|<<FEND>>|0|COMMON|All-files|<<FEND>>|1|_ebss|<<FEND>>|1|_end|<<FEND>>|<<CEND>>|<<GEND>>|.stack|0|0||1|0x73FFFBF0|0|0|1|_stack|<<FEND>>|<<CEND>>|<<GEND>>|MetaData|0|0||1|0x80001000|0|0|0|MetaDataHeader|All-files|<<FEND>>|0|MetaData|All-files|<<FEND>>|0|MetaDataEnd|All-files|<<FEND>>|<<CEND>>|<<GEND>>|] [S|APPTXT|^"-e _ResetHandler

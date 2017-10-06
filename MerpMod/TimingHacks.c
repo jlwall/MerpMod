@@ -31,12 +31,12 @@ float TimingHack()
 
 	subIam = 1 - IAM;
 	
-	pRamVariables->MaxSubtractiveKCA = BlendAndSwitch(KnockCorrectionRetardTableGroup, *pEngineLoad, *pEngineSpeed);
+	pRamVariables.MaxSubtractiveKCA = BlendAndSwitch(KnockCorrectionRetardTableGroup, *pEngineLoad, *pEngineSpeed);
 	
-	pRamVariables->SubtractiveKCA = subIam *  pRamVariables->MaxSubtractiveKCA;
+	pRamVariables.SubtractiveKCA = subIam *  pRamVariables.MaxSubtractiveKCA;
 	
 #if TIMING_RAM_TUNING
-	if(pRamVariables->WGDCMaxRamFlag = 0x01)
+	if(pRamVariables.WGDCMaxRamFlag = 0x01)
 	{
 		OutputValue = Pull3DHooked(&TimingRamTable, *pEngineLoad, *pEngineSpeed);
 	}
@@ -50,25 +50,25 @@ float TimingHack()
 	}
 #endif
 
-	if(pRamVariables->LCTimingMode == LCTimingModeLocked && pRamVariables->LCEngaged == 1)
+	if(pRamVariables.LCTimingMode == LCTimingModeLocked && pRamVariables.LCEngaged == 1)
 	{
-		OutputValue = pRamVariables->LCTimingLock;
+		OutputValue = pRamVariables.LCTimingLock;
 	}
-	else if(pRamVariables->LCTimingMode == LCTimingModeCompensated)
+	else if(pRamVariables.LCTimingMode == LCTimingModeCompensated)
 	{
-		pRamVariables->LCTimingRetard = Pull3DHooked(&LCTimingRetardTable, *pVehicleSpeed, *pEngineSpeed);
+		pRamVariables.LCTimingRetard = Pull3DHooked(&LCTimingRetardTable, *pVehicleSpeed, *pEngineSpeed);
 	
-		pRamVariables->LCTimingRetard *= pRamVariables->LCTimingRetardMultiplier;
+		pRamVariables.LCTimingRetard *= pRamVariables.LCTimingRetardMultiplier;
 		
-		OutputValue -= pRamVariables->LCTimingRetard;
+		OutputValue -= pRamVariables.LCTimingRetard;
 	}
 
-	pRamVariables->BaseTiming = OutputValue;
+	pRamVariables.BaseTiming = OutputValue;
 	
-	if(pRamVariables->TimingHackEnabled == 0)
-		pRamVariables->TimingHackOutput = pRamVariables->BaseTiming - Abs(pRamVariables->SubtractiveKCA);
+	if(pRamVariables.TimingHackEnabled == 0)
+		pRamVariables.TimingHackOutput = pRamVariables.BaseTiming - Abs(pRamVariables.SubtractiveKCA);
 	else
-		pRamVariables->TimingHackOutput = Pull3DHooked((void*)PrimaryOEMTimingTable, *pEngineLoad, *pEngineSpeed);	
+		pRamVariables.TimingHackOutput = Pull3DHooked((void*)PrimaryOEMTimingTable, *pEngineLoad, *pEngineSpeed);	
 		
 	//Call existing!
 	BaseTimingHooked();

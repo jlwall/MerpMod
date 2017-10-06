@@ -61,8 +61,8 @@ void TestCruiseControlToggles()
 	unsigned char resume = TestCruiseResumeSwitch();
 	unsigned char coast = TestCruiseCoastSwitch();
 	
-	if(pRamVariables->CruiseResumeLast != resume
-	&& pRamVariables->CruiseCoastLast != coast)
+	if(pRamVariables.CruiseResumeLast != resume
+	&& pRamVariables.CruiseCoastLast != coast)
 	{
 		if(resume != 0 && coast != 0)
 		{
@@ -70,7 +70,7 @@ void TestCruiseControlToggles()
 			int i = 0;
 		} 
 	}
-	else if(pRamVariables->CruiseResumeLast != resume)
+	else if(pRamVariables.CruiseResumeLast != resume)
 	{
 		if(resume != 0)
 		{
@@ -82,7 +82,7 @@ void TestCruiseControlToggles()
 			#endif
 		}
 	}
-	else if(pRamVariables->CruiseCoastLast != coast)
+	else if(pRamVariables.CruiseCoastLast != coast)
 	{
 		if(coast != 0)
 		{
@@ -94,6 +94,6 @@ void TestCruiseControlToggles()
 			#endif
 		}
 	}
-	pRamVariables->CruiseCoastLast = coast;
-	pRamVariables->CruiseResumeLast = resume;
+	pRamVariables.CruiseCoastLast = coast;
+	pRamVariables.CruiseResumeLast = resume;
 }

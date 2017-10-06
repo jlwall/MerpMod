@@ -18,14 +18,14 @@
 
 void RevLimReset()
 {
-	pRamVariables->RevLimCut = pRamVariables->RedLineCut;
-	pRamVariables->RevLimResume = pRamVariables->RedLineCut - Abs(pRamVariables->RedLineHyst);
+	pRamVariables.RevLimCut = pRamVariables.RedLineCut;
+	pRamVariables.RevLimResume = pRamVariables.RedLineCut - Abs(pRamVariables.RedLineHyst);
 	//Disable FFS if clutch is out or brake is pressed
-	pRamVariables->FFSEngaged = 0;
-	pRamVariables->LCEngaged = 0;
+	pRamVariables.FFSEngaged = 0;
+	pRamVariables.LCEngaged = 0;
 	if(*pCurrentGear > 0)
 	{
-		pRamVariables->FFSGear = *pCurrentGear;
+		pRamVariables.FFSGear = *pCurrentGear;
 	}
 }
 
@@ -38,62 +38,62 @@ void RevLimCode()
 	else
 	{
 		//check for FFS speed threshold
-		if (*pVehicleSpeed > pRamVariables->FlatFootShiftSpeedThreshold 
-			&& *pEngineSpeed > pRamVariables->FlatFootShiftRpmThreshold 
-			&& pRamVariables->FlatFootShiftMode != 0 
+		if (*pVehicleSpeed > pRamVariables.FlatFootShiftSpeedThreshold 
+			&& *pEngineSpeed > pRamVariables.FlatFootShiftRpmThreshold 
+			&& pRamVariables.FlatFootShiftMode != 0 
 			&& *pThrottlePlate > FFSMinimumThrottle)
 		{
-			pRamVariables->LCEngaged = 0;
+			pRamVariables.LCEngaged = 0;
 			
 			//calculate target rpm
-			if(pRamVariables->FFSEngaged == 0)
+			if(pRamVariables.FFSEngaged == 0)
 			{
-				pRamVariables->FFSEngaged = 1;
-				pRamVariables->FFSRPM = *pEngineSpeed;
+				pRamVariables.FFSEngaged = 1;
+				pRamVariables.FFSRPM = *pEngineSpeed;
 			}
 		}
-		else if (*pVehicleSpeed < pRamVariables->LaunchControlSpeedMax && *pThrottlePlate > LCMinimumThrottle)
+		else if (*pVehicleSpeed < pRamVariables.LaunchControlSpeedMax && *pThrottlePlate > LCMinimumThrottle)
 		{
 			// Launch control rev limiter thresholds.
-			pRamVariables->FFSEngaged = 0;
-			pRamVariables->LCEngaged = 1;
-			pRamVariables->RevLimCut = pRamVariables->LaunchControlCut;
-			pRamVariables->RevLimResume = pRamVariables->LaunchControlCut - Abs(pRamVariables->LaunchControlHyst);
+			pRamVariables.FFSEngaged = 0;
+			pRamVariables.LCEngaged = 1;
+			pRamVariables.RevLimCut = pRamVariables.LaunchControlCut;
+			pRamVariables.RevLimResume = pRamVariables.LaunchControlCut - Abs(pRamVariables.LaunchControlHyst);
 		}
 		else
 			RevLimReset();
 	}
 	
-	if (pRamVariables->FFSEngaged == 1)
+	if (pRamVariables.FFSEngaged == 1)
 	{
-		if (pRamVariables->FlatFootShiftMode == 2)
+		if (pRamVariables.FlatFootShiftMode == 2)
 		{
-			float cut =  pRamVariables->FFSRPM;
-			cut *=  GearRatios[(int)pRamVariables->FFSGear + 1]; 
-			cut *= 1 / GearRatios[(int)pRamVariables->FFSGear];
-			cut += pRamVariables->FlatFootShiftAutoDelta;
-			pRamVariables->RevLimCut = cut;
-			pRamVariables->RevLimResume = pRamVariables->RevLimCut - Abs(pRamVariables->FlatFootShiftHyst);
+			float cut =  pRamVariables.FFSRPM;
+			cut *=  GearRatios[(int)pRamVariables.FFSGear + 1]; 
+			cut *= 1 / GearRatios[(int)pRamVariables.FFSGear];
+			cut += pRamVariables.FlatFootShiftAutoDelta;
+			pRamVariables.RevLimCut = cut;
+			pRamVariables.RevLimResume = pRamVariables.RevLimCut - Abs(pRamVariables.FlatFootShiftHyst);
 		}
 		else
 		{	
-			float cut = pRamVariables->RedLineCut - Abs(pRamVariables->FlatFootShiftStaticDelta);
-			pRamVariables->RevLimCut = cut;
-			pRamVariables->RevLimResume = cut - Abs(pRamVariables->FlatFootShiftHyst);
-			pRamVariables->FFSEngaged = 2;
+			float cut = pRamVariables.RedLineCut - Abs(pRamVariables.FlatFootShiftStaticDelta);
+			pRamVariables.RevLimCut = cut;
+			pRamVariables.RevLimResume = cut - Abs(pRamVariables.FlatFootShiftHyst);
+			pRamVariables.FFSEngaged = 2;
 		}
 		
-		if (pRamVariables->ValetMode != ValetModeDisabled)
+		if (pRamVariables.ValetMode != ValetModeDisabled)
 		{
-			pRamVariables->RedLineCut = ValetModeRevLim;
+			pRamVariables.RedLineCut = ValetModeRevLim;
 		}
 	}
 	
-	if (*pEngineSpeed > pRamVariables->RevLimCut || *pEngineSpeed > pRamVariables->RedLineCut)
+	if (*pEngineSpeed > pRamVariables.RevLimCut || *pEngineSpeed > pRamVariables.RedLineCut)
 		{
 			*pFlagsRevLim |= RevLimBitMask;
 		} 
-		else if (*pEngineSpeed < pRamVariables->RevLimResume)
+		else if (*pEngineSpeed < pRamVariables.RevLimResume)
 		{
 			*pFlagsRevLim &= ~RevLimBitMask;
 		}

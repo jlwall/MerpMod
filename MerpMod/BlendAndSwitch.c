@@ -18,12 +18,12 @@
 float BlendAndSwitch(TableGroup tg, float xLookup, float yLookup)
 {
 	float OutputValue;
-	if(pRamVariables->MapBlendRatio < 0.01)
+	if(pRamVariables.MapBlendRatio < 0.01)
 	{
 		OutputValue = SwitchSelect(tg.Map1, xLookup, yLookup);
 		
 	}
-	else if(pRamVariables->MapBlendRatio > 0.99)
+	else if(pRamVariables.MapBlendRatio > 0.99)
 	{
 		OutputValue = SwitchSelect(tg.Map2, xLookup, yLookup);
 	}
@@ -33,7 +33,7 @@ float BlendAndSwitch(TableGroup tg, float xLookup, float yLookup)
 		
 		Value1 = SwitchSelect(tg.Map1, xLookup, yLookup);
 
-		Value1 *= (1 - pRamVariables->MapBlendRatio);
+		Value1 *= (1 - pRamVariables.MapBlendRatio);
 
 		//Pull3d for Timing Map 2
 
@@ -41,7 +41,7 @@ float BlendAndSwitch(TableGroup tg, float xLookup, float yLookup)
 		//Pull3d for Timing Map 1
 		Value2 = SwitchSelect(tg.Map2, xLookup, yLookup);
 		
-		Value2 *= pRamVariables->MapBlendRatio;
+		Value2 *= pRamVariables.MapBlendRatio;
 
 		//Blend
 
@@ -53,7 +53,7 @@ float BlendAndSwitch(TableGroup tg, float xLookup, float yLookup)
 float SwitchSelect(TableSubSet tss, float xLookup, float yLookup)
 {
 	float OutputValue;
-		switch(pRamVariables->MapSwitch)
+		switch(pRamVariables.MapSwitch)
 		{
 			case MapSwitch3:
 			OutputValue = Pull3DHooked(tss.TableSS, xLookup, yLookup);
@@ -74,12 +74,12 @@ void InputUpdate()//TODO: put on SD branch
 {
 	float grad = 0.0000762939453125;
 	float offs = 0.0f;
-	pRamVariables->TGVLeftVolts = ShortToFloatHooked(*pTGVLeftVoltage,grad,offs);
-	pRamVariables->TGVRightVolts = ShortToFloatHooked(*pTGVRightVoltage,grad,offs);
-	pRamVariables->TGVLeftScaled = Pull2DHooked(&TGVLeftScaling,pRamVariables->TGVLeftVolts);
-	pRamVariables->TGVRightScaled = Pull2DHooked(&TGVRightScaling,pRamVariables->TGVRightVolts);
+	pRamVariables.TGVLeftVolts = ShortToFloatHooked(*pTGVLeftVoltage,grad,offs);
+	pRamVariables.TGVRightVolts = ShortToFloatHooked(*pTGVRightVoltage,grad,offs);
+	pRamVariables.TGVLeftScaled = Pull2DHooked(&TGVLeftScaling,pRamVariables.TGVLeftVolts);
+	pRamVariables.TGVRightScaled = Pull2DHooked(&TGVRightScaling,pRamVariables.TGVRightVolts);
 	
-	pRamVariables->ethanolContentCAN = (float)pRamVariables->ethanolContentShortCAN/655.35f;
+	pRamVariables.ethanolContentCAN = (float)pRamVariables.ethanolContentShortCAN/655.35f;
 
 	
 	switch(BlendRatioInput)
@@ -88,19 +88,19 @@ void InputUpdate()//TODO: put on SD branch
 		break;
 		
 		case InputModeTGVLeft:
-			pRamVariables->MapBlendRatio = pRamVariables->TGVLeftScaled;
+			pRamVariables.MapBlendRatio = pRamVariables.TGVLeftScaled;
 			break;
 		
 		case InputModeTGVRight:
-			pRamVariables->MapBlendRatio = pRamVariables->TGVRightScaled;
+			pRamVariables.MapBlendRatio = pRamVariables.TGVRightScaled;
 			break;
 		
 		case InputCanFlexFuelRatio:
-			pRamVariables->MapBlendRatio = pRamVariables->ethanolContentCAN;
+			pRamVariables.MapBlendRatio = pRamVariables.ethanolContentCAN;
 			break;
 		
 		default:
-			pRamVariables->MapBlendRatio = DefaultMapBlendRatio;
+			pRamVariables.MapBlendRatio = DefaultMapBlendRatio;
 			break;
 	}
 	
@@ -116,19 +116,19 @@ void InputUpdate()//TODO: put on SD branch
 			{
 		
 			case SiDriveSS:
-			pRamVariables->MapSwitch = MapSwitch3;
+			pRamVariables.MapSwitch = MapSwitch3;
 			break;
 			
 			case SiDriveSSAlt:
-			pRamVariables->MapSwitch = MapSwitch3;
+			pRamVariables.MapSwitch = MapSwitch3;
 			break;
 			
 			case SiDriveS:
-			pRamVariables->MapSwitch = MapSwitch2;
+			pRamVariables.MapSwitch = MapSwitch2;
 			break;
 		
 			default:
-			pRamVariables->MapSwitch = MapSwitch1;
+			pRamVariables.MapSwitch = MapSwitch1;
 			break;
 			}
 		}
@@ -136,15 +136,15 @@ void InputUpdate()//TODO: put on SD branch
 		#endif
 		
 		case InputModeTGVLeft:
-			MapSwitchThresholdCheck(pRamVariables->TGVLeftVolts);
+			MapSwitchThresholdCheck(pRamVariables.TGVLeftVolts);
 			break;
 		
 		case InputModeTGVRight:
-			MapSwitchThresholdCheck(pRamVariables->TGVRightVolts);
+			MapSwitchThresholdCheck(pRamVariables.TGVRightVolts);
 			break;
 		
 		default:
-		pRamVariables->MapSwitch = DefaultMapSwitch;
+		pRamVariables.MapSwitch = DefaultMapSwitch;
 		break;
 	}
 }
@@ -154,17 +154,17 @@ void MapSwitchThresholdCheck(float input)
 	if(input < MapSwitchThresholdLo)
 	{
 		//Low, map 1
-		pRamVariables->MapSwitch = MapSwitch1;
+		pRamVariables.MapSwitch = MapSwitch1;
 	}
 	else if (input < MapSwitchThresholdHi)
 	{
 		//Mid, map 2
-		pRamVariables->MapSwitch = MapSwitch2;
+		pRamVariables.MapSwitch = MapSwitch2;
 	}
 	else
 	{
 		//High, map 3
-		pRamVariables->MapSwitch = MapSwitch3;
+		pRamVariables.MapSwitch = MapSwitch3;
 	}
 }
 
