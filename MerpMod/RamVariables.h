@@ -31,6 +31,11 @@ typedef struct
 #endif
 
 	float InjectorScaling;	
+	float TargetedStoich;
+	float kFuelPressure;	
+	
+	unsigned char fuelPressureFlowEnabled;
+	unsigned char flexFuelSensorEnabaled;
 #if CAN_HACKS	
 	float ethanolContentCAN;
 	unsigned short ethanolContentShortCAN;
@@ -47,10 +52,13 @@ typedef struct
 	#endif
 	
 	#if AEMXFINITY
-		float canE85;
-		float canFuelTemp;
+		float rEthanolCAN;
+		float tFuelCAN;		
+		float pFuelCan;	
+		float pFuelCanRel;
 		float aemLambda;
 		float aemOxygen;
+		float vFuelPressureRel;
 		unsigned char aemDataValid;
 		unsigned char aemSensorFault;
 		unsigned char aemn1;
@@ -154,7 +162,7 @@ typedef struct
 	unsigned char ProgModeCurrentMode;
 	unsigned char ProgModeValueFlashes;
 	unsigned char ValetMode;
-	unsigned char asdf3;
+	unsigned char BlendMode;
 	float ProgModeValue;
 #endif			
 

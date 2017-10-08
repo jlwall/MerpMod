@@ -79,30 +79,36 @@ void InputUpdate()//TODO: put on SD branch
 	pRamVariables.TGVLeftScaled = Pull2DHooked(&TGVLeftScaling,pRamVariables.TGVLeftVolts);
 	pRamVariables.TGVRightScaled = Pull2DHooked(&TGVRightScaling,pRamVariables.TGVRightVolts);
 	
-	pRamVariables.ethanolContentCAN = (float)pRamVariables.ethanolContentShortCAN/655.35f;
+	pRamVariables.ethanolContentCAN = (float)pRamVariables.ethanolContentShortCAN/100;
 
-	
-	switch(BlendRatioInput)
+	if(pRamVariables.BlendMode == 0) //Auto Mode
 	{
-		case InputModeUndefined:
-		break;
-		
-		case InputModeTGVLeft:
-			pRamVariables.MapBlendRatio = pRamVariables.TGVLeftScaled;
+		switch(BlendRatioInput)
+		{
+			case InputModeUndefined:
 			break;
 		
-		case InputModeTGVRight:
-			pRamVariables.MapBlendRatio = pRamVariables.TGVRightScaled;
-			break;
+			case InputModeTGVLeft:
+				pRamVariables.MapBlendRatio = pRamVariables.TGVLeftScaled;
+				break;
 		
-		case InputCanFlexFuelRatio:
-			pRamVariables.MapBlendRatio = pRamVariables.ethanolContentCAN;
-			break;
+			case InputModeTGVRight:
+				pRamVariables.MapBlendRatio = pRamVariables.TGVRightScaled;
+				break;
 		
-		default:
-			pRamVariables.MapBlendRatio = DefaultMapBlendRatio;
-			break;
+			case InputCanFlexFuelRatio:
+				pRamVariables.MapBlendRatio = pRamVariables.ethanolContentCAN;
+				break;
+		
+			default:
+				pRamVariables.MapBlendRatio = DefaultMapBlendRatio;
+				break;
+		}
 	}
+	
+	//Limit Blend Ratio
+	if(pRamVariables.MapBlendRatio < 0) pRamVariables.MapBlendRatio = 0;
+	else if(pRamVariables.MapBlendRatio > 1)pRamVariables.MapBlendRatio = 1;
 	
 	switch(MapSwitchInput)
 	{
@@ -132,7 +138,7 @@ void InputUpdate()//TODO: put on SD branch
 			break;
 			}
 		}
-	break;
+		break;
 		#endif
 		
 		case InputModeTGVLeft:
@@ -144,9 +150,13 @@ void InputUpdate()//TODO: put on SD branch
 			break;
 		
 		default:
-		pRamVariables.MapSwitch = DefaultMapSwitch;
+			pRamVariables.MapSwitch = DefaultMapSwitch;
 		break;
 	}
+	
+	//Limit MapSwitch
+	if(pRamVariables.MapSwitch < MapSwitch1) pRamVariables.MapSwitch = MapSwitch1;
+	else if(pRamVariables.MapSwitch > MapSwitch3) pRamVariables.MapSwitch = MapSwitch3;
 }
 
 void MapSwitchThresholdCheck(float input)

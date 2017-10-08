@@ -69,6 +69,7 @@ pRamVariables.CruiseCoastLast = TestCruiseCoastSwitch();
 #if SWITCH_HACKS
 	pRamVariables.MapSwitch = DefaultMapSwitch;
 	pRamVariables.MapBlendRatio = DefaultMapBlendRatio;
+	pRamVariables.BlendMode = 0;
 #endif
 
 #if CAN_HACKS
