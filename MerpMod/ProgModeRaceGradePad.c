@@ -55,7 +55,7 @@
 	*/
 
 
-#define PROG_MODE_COUNT 7
+#define PROG_MODE_COUNT 4
 
 #define BLEND_MAX 1.0f
 #define BLEND_MIN 0.0f
@@ -87,37 +87,76 @@ void ProgModeButtonToggled(unsigned char toggle)
 void ProgModeMain()
 {
 	pRamVariables.ProgModeEnable = 1;
+	
+	//Button 0 - Blend Overide Mode
+	if(pRamVariables.buttons[0].edgeDetect == 1)
+	{	
+		pRamVariables.BlendMode ^= 0x01;
+	}
+	if(pRamVariables.BlendMode == 0) 
+		pRamVariables.buttons[0].led = 1; 
+	else 
+		pRamVariables.buttons[0].led = 4;
+	
+	//Button 1 - Valet Mode
+	if(pRamVariables.buttons[1].edgeDetect == 1)
+	{
+		pRamVariables.ValetMode ^= 0x01;
+	}
+	if(pRamVariables.ValetMode == 0) 
+		pRamVariables.buttons[1].led = 1;
+	else 
+		pRamVariables.buttons[1].led = 4;	
+		
+		
+		
+	//Button 4 - Flat Foot Shift Mode pRamVariables.FlatFootShiftMode
+	if(pRamVariables.buttons[0].edgeDetect == 1)
+	{			
+		if(pRamVariables.FlatFootShiftMode<2)
+			pRamVariables.FlatFootShiftMode += 0x01;
+		else
+			pRamVariables.FlatFootShiftMode = 0;
+	}	
+	if(pRamVariables.FlatFootShiftMode == 0) 
+		pRamVariables.buttons[4].led = 0; 
+	else if(pRamVariables.FlatFootShiftMode == 1) 
+		pRamVariables.buttons[4].led = 1;
+	else if(pRamVariables.FlatFootShiftMode == 2) 
+		pRamVariables.buttons[4].led = 2;
+		
+		
 	ProgModeButtonToggled(pRamVariables.buttons[2].edgeDetect);
 	switch(pRamVariables.ProgModeCurrentMode)
 	{
 		case 0:
 			asm("nop");
 		break;
-		case 1:
-			ProgModeMapSwitch();
-		break;
+		//case 1:
+		//	ProgModeMapSwitch();
+		//break;
 		
-		case 2:
+		//case 2:
+		//	ProgModeBlendMode();
+		//break;
+		
+		case 1:			
 			ProgModeBlendAdjust();
 		break;
 		
-		case 3:
-			ProgModeBlendMode();
-		break;
-		
-		case 4:
+		case 2:
 			ProgModeLCAdjust();
 		break;
 		
-		case 5:
+		case 3:
 			ProgModeIAMAdjust();
 		break;
 		
-		case 6://Put this in ENUM if you want to reorder them easily
-			ProgModeValetMode();
-		break;
+		//case 6://Put this in ENUM if you want to reorder them easily
+		//	ProgModeValetMode();
+		//break;
 		
-		case 7:
+		case 4:
 			ProgModeRaceGradeBackLight();
 		break;
 		
@@ -147,14 +186,14 @@ void ProgModeMapSwitch()
 		if(pRamVariables.buttons[3].edgeDetect == 1)
 		{	
 			if(pRamVariables.MapSwitch >= 3)
-				asm("nop");//pRamVariables.MapSwitch = 1;
+				pRamVariables.MapSwitch = 3;
 			else
 				pRamVariables.MapSwitch++;
 		}
 		else if(pRamVariables.buttons[7].edgeDetect == 1)
 		{
 			if(pRamVariables.MapSwitch == 1 )
-				asm("nop");//pRamVariables.MapSwitch = 3;
+				pRamVariables.MapSwitch = 1;
 			else
 				pRamVariables.MapSwitch--;
 		}
