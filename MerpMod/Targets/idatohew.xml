@@ -410,6 +410,12 @@
         <define name="pCurrentGear" type="unsigned char*">
             <ida name="E_GEAR_CALCULATEDEXT_E59" />
         </define>
+		<define name="pIgnitionTimeTotal" type="float*">
+			<ida name="pIgnitionTimeTotal" />
+		</define>
+		<define name="pAfCorrection_1" type="float*">
+			<ida name="pAfCorrection_1" />
+		</define>
         <define name="pAf1Res" type="float*">
             <ida name="E_AF_SENSOR_1_RES" />
             <ida name="E_SSM_AF_SENSOR_1_RES" priority="2"/>

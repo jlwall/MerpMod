@@ -21,7 +21,7 @@ CanMessageSetupStruct ccm07 CANDATA = {.id = 0x190,	.ext = 0,	.dlc = 4,	.bus = 0
 CanMessageSetupStruct ccm08 CANDATA = {.id = 0x640,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 27,	.mcs = mcsTrans, 	.nmc = 0, .rate =  10, .callback = 0};
 CanMessageSetupStruct ccm09 CANDATA = {.id = 0x641,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 28,	.mcs = mcsTrans, 	.nmc = 0, .rate =  10, .callback = 0};
 CanMessageSetupStruct ccm10 CANDATA = {.id = 0x642,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 29,	.mcs = mcsTrans, 	.nmc = 0, .rate =  10, .callback = 0};
-CanMessageSetupStruct ccm11 CANDATA = {.id = 0x643,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 30,	.mcs = mcsTrans, 	.nmc = 0, .rate =  10, .callback = 0};
+CanMessageSetupStruct ccm11 CANDATA = {.id = 0x300,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 30,	.mcs = mcsTrans,    .nmc = 0, .rate =   0, .callback = 0};
 //CanMessageSetupStruct *ccmGroup[8] CANDATA;// = {&ccm00,&ccm01,&ccm02,&ccm03,&ccm04,&ccm05,&ccm06,&ccm07};
 
 unsigned char dataLinkedInRam  __attribute__ ((section ("RamHole")));

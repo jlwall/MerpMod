@@ -41,11 +41,11 @@ void updateCanDT(unsigned char dt)
 	CanMessageSetupStruct *ccmGroup = (CanMessageSetupStruct *)(&ccm00);
 	if(cmDTaddr[dt] >= 0xFFFF0000)
 	{		
-		addrtemp = 0xFFFFD100;
-		addrtemp += 0x800*(unsigned long)(ccmGroup[cmDTccm[dt]].bus&0x01);		
+		addrtemp = 0xFFFFD108;
+		//addrtemp += 0x800*(unsigned long)(ccmGroup[cmDTccm[dt]].bus&0x01);		
 		addrtemp += 0x020*(unsigned long)(ccmGroup[cmDTccm[dt]].mailBox&0x1F);
-		addrtemp += 0x08;
-		addrtemp += (unsigned long)cmDTpos[dt]&0x07;	
+		//addrtemp += 0x08;
+		addrtemp += (unsigned long)cmDTpos[dt]&0x07;			
 		switch(cmDTtypeIn[dt])
 		{
 		case 1: 
@@ -87,7 +87,7 @@ void updateCanDT(unsigned char dt)
 						var *= cmDTscale[dt];
 					//unsigned char* ptrSource = (unsigned cha*)cmDTaddr[dt];
 					unsigned char* ptrSink = (unsigned char*)addrtemp;		
-					ptrSink[0] = limit_u8(var+0.5f);//ptrSource[0];			
+					ptrSink[0] = limit_u8(var);//ptrSource[0];			
 				}
 				break;
 				case 2: 
@@ -101,7 +101,7 @@ void updateCanDT(unsigned char dt)
 							var *= cmDTscale[dt];
 						//unsigned char* ptrSource = (unsigned cha*)cmDTaddr[dt];
 						unsigned short* ptrSink = (unsigned short*)addrtemp;		
-						ptrSink[0] = limit_u16(var+0.5f);//ptrSource[0];		
+						ptrSink[0] = limit_u16(var);//ptrSource[0];		
 					}
 				}
 				break;		
@@ -116,7 +116,7 @@ void updateCanDT(unsigned char dt)
 							var *= cmDTscale[dt];
 						//unsigned char* ptrSource = (unsigned cha*)cmDTaddr[dt];
 						unsigned long* ptrSink = (unsigned long*)addrtemp;		
-						ptrSink[0] = limit_u32(var+0.5f);//ptrSource[0];		
+						ptrSink[0] = limit_u32(var);//ptrSource[0];		
 					}
 				}
 				break;
@@ -142,50 +142,55 @@ void updateCanDT(unsigned char dt)
 	}
 }
 
-void updateCanRaw(unsigned long addr, unsigned char type, unsigned char ccm, unsigned char bytePos)
+void memCopyProtected(unsigned long src, unsigned long dest, unsigned char type)
 {
-	unsigned long addrtemp;
-	CanMessageSetupStruct *ccmGroup = (CanMessageSetupStruct *)(&ccm00);
-	if(addr >= 0xFFFF0000 || addr < 0x000FFFFF)
-	{		
-		addrtemp = 0xFFFFD100;
-		addrtemp += 0x800*(unsigned long)(ccmGroup[ccm].bus&0x01);
-		addrtemp += 0x020*(unsigned long)(ccmGroup[ccm].mailBox&0x1F);
-		addrtemp += 0x08; //Move to Data Field
-		addrtemp += (unsigned long)bytePos&0x07;	//Offset in Data Field
-		switch(type)
-		{
-		case 1: 
-			if(((addrtemp%1) ==0) && ((addr%1) ==0))
+	switch(type)
+	{
+		case 1: 			
 			{
-				unsigned char* ptrSource = (unsigned char*)addr;
-				unsigned char* ptrSink = (unsigned char*)addrtemp;		
+				unsigned char* ptrSource = (unsigned char*)src;
+				unsigned char* ptrSink = (unsigned char*)dest;		
 				ptrSink[0] = ptrSource[0];			
 			}
 			break;
 		case 2: 
 			{				
-			if(((addrtemp%2) ==0) && ((addr%2) ==0))
+			if(((src%2) ==0) && ((dest%2) ==0))
 				{
-				unsigned short* ptrSource = (unsigned short*)addr;
-				unsigned short* ptrSink = (unsigned short*)addrtemp;
+				unsigned short* ptrSource = (unsigned short*)src;
+				unsigned short* ptrSink = (unsigned short*)dest;
 				ptrSink[0] = ptrSource[0];
 				}
 			}
 			break;		
 		case 3: 
 			{			
-			if(((addrtemp%4) ==0) && ((addr%4) ==0))
+			if(((src%4) ==0) && ((dest%4) ==0))
 				{
-				unsigned long* ptrSource = (unsigned long*)addr;
-				unsigned long* ptrSink = (unsigned long*)addrtemp;	
+				unsigned long* ptrSource = (unsigned long*)src;
+				unsigned long* ptrSink = (unsigned long*)dest;	
 				ptrSink[0] = ptrSource[0];
 				}
 			}
 			break;				
 		default: 
 			break;	
-		}		
+	}	
+}
+
+void updateCanRaw(unsigned long src, unsigned char type, unsigned char ccm, unsigned char bytePos)
+{
+	unsigned long dest;
+	CanMessageSetupStruct *ccmGroup = (CanMessageSetupStruct *)(&ccm00);
+	if(src >= 0xFFFF0000 || src < 0x000FFFFF)
+	{		
+		dest = 0xFFFFD100;
+		if(ccmGroup[ccm].bus == 0x01)
+			dest += 0x800;
+		dest += 0x020*(unsigned long)(ccmGroup[ccm].mailBox&0x1F);
+		dest += 0x08; //Move to Data Field
+		dest += (unsigned long)bytePos&0x07;	//Offset in Data Field
+		memCopyProtected(src,dest,type);	
 	}
 }
 
@@ -391,7 +396,7 @@ void canCallbackRamTune(unsigned char* data)
 			unsigned long retWord = 0;
 			addr = 0xFFFF0000;
 			addr += (unsigned long)data[1]*256;
-			addr += (unsigned long)data[2];			
+			addr += (unsigned long)data[2];						
 			switch(data[3])
 			{			
 				case 1:		// Write to 1 byte
@@ -565,5 +570,8 @@ void CustomCanService()
 		}
 		i++;
 	}
+	#ifdef RCP_CAN
+	rcp_frame_manager();
+	#endif
 }
 #endif

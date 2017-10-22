@@ -55,6 +55,7 @@ float sqrt(float input)
 
 unsigned char limit_u8(float input)
 {
+	input += 0.5f;
 	if(input <0) return 0;
 	else if(input > 255) return 0xFF;
 	else return (unsigned char)input;	
@@ -62,6 +63,7 @@ unsigned char limit_u8(float input)
 
 unsigned short limit_u16(float input)
 {
+	input += 0.5f;
 	if(input <0) return 0;
 	else if(input > 65535) return 0xFFFF;
 	else return (unsigned short)input;	
@@ -69,7 +71,71 @@ unsigned short limit_u16(float input)
 
 unsigned long limit_u32(float input)
 {
+	input += 0.5f;
 	if(input <0) return 0;
 	else if(input > 4294967295) return 0xFFFFFFFF;
 	else return (unsigned long)input;	
+}
+
+float LowPass(float input, float limit)
+{
+	if(input < limit)
+		return input;
+	else
+		return limit;
+}
+
+float HighPass(float input, float limit)
+{
+	if(input > limit)
+		return input;
+	else
+		return limit;
+}
+
+unsigned short HighPassShort(unsigned short input, unsigned short limit)
+{
+	if(input > limit)
+		return input;
+	else
+		return limit;
+}
+
+float BandPass(float input, float lowlim, float highlim)
+{
+	if(input > highlim)
+		return highlim;
+	else if(input < lowlim)
+		return lowlim;
+	else
+		return input;
+}
+
+int BandPassInt(int input, int lowlim, int highlim)
+{
+	if(input > highlim)
+		return highlim;
+	else if(input < lowlim)
+		return lowlim;
+	else
+		return input;
+}
+
+unsigned short BandPassShort(unsigned short input, unsigned short lowlim, unsigned short highlim)
+{
+	if(input > highlim)
+		return highlim;
+	else if(input < lowlim)
+		return lowlim;
+	else
+		return input;
+}
+
+float Smooth(float smoothingFactor, float input, float previous)
+{
+	float output = previous;
+	float diff = input - previous;
+	float smooth = BandPass(smoothingFactor,0.1,1);
+	output += diff * smooth;
+	return output;
 }

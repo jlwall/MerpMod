@@ -45,7 +45,7 @@ void CelFlash()	ROMCODE;
 
 void CanSetup()	ROMCODE;
 void setupMailBox(unsigned char bus, unsigned char mailBox, unsigned short id, unsigned char mcs, unsigned char dlc) ROMCODE;
-void updateCanRaw(unsigned long addr, unsigned char type, unsigned char ccm, unsigned char bytePos) ROMCODE;
+void updateCanRaw(unsigned long src, unsigned char type, unsigned char ccm, unsigned char bytePos) ROMCODE;
 void sendRamTuneMemoryReadRequest(unsigned char type, unsigned long addr) ROMCODE;
 void setupMailBoxStruct(CanMessageSetupStruct* cs) ROMCODE;
 void sendCanMessage(unsigned char ccm) ROMCODE;
@@ -53,7 +53,14 @@ void recieveCanMessage(unsigned char ccm) ROMCODE;
 void updateCanDT(unsigned char dt) ROMCODE;
 void CustomCanService() ROMCODE;
 unsigned short returnShifter(unsigned char c) ROMCODE;
+void memCopyProtected(unsigned long src, unsigned long dest, unsigned char type) ROMCODE;
+void rcpCanMessageSetup(unsigned long id,unsigned short ext, unsigned short dlc, unsigned short bus, unsigned short mailBox) ROMCODE;
 
+#if RCP_CAN
+void rcp_frame_manager() ROMCODE;
+void send_frame_0x300() ROMCODE;
+void send_frame_0x301() ROMCODE;
+#endif
 
 void WGDCHack(void) ROMCODE;
 void TargetBoostHack(void) ROMCODE;
@@ -86,6 +93,13 @@ float Abs(float input) ROMCODE;
 unsigned char limit_u8(float input) ROMCODE;
 unsigned short limit_u16(float input) ROMCODE;
 unsigned long limit_u32(float input) ROMCODE;
+float LowPass(float input, float limit) ROMCODE;
+float HighPass(float input, float limit) ROMCODE;
+unsigned short HighPassShort(unsigned short input, unsigned short limit) ROMCODE;
+float BandPass(float input, float lowlim, float highlim) ROMCODE;
+int BandPassInt(int input, int lowlim, int highlim) ROMCODE;
+unsigned short BandPassShort(unsigned short input, unsigned short lowlim, unsigned short highlim) ROMCODE;
+float Smooth(float smoothingFactor, float input, float previous) ROMCODE;
 
 void RevLimCode(void) ROMCODE;
 void RevLimReset(void) ROMCODE;

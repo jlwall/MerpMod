@@ -51,6 +51,10 @@ typedef struct
 		buttonRGStruct buttons[8];
 	#endif
 	
+	#ifdef RCP_CAN
+	unsigned char rcpFrameState;
+	#endif
+	
 	#if AEMXFINITY
 		float rEthanolCAN;
 		float tFuelCAN;		

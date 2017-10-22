@@ -74,6 +74,11 @@ void CustomCanUnitTests()
 {
 	PopulateRamVariables();
 	
+		#define rLamCorrected ((float*)0xFFFF4128)
+		
+		*rLamCorrected = 0.15;
+	send_frame_0x300();
+	
 	CanSetup();	
 	//Test to make sure CanSetup puts the right info into the Mailboxes
 	Assert(getMailBoxId(ccm00.mailBox, ccm00.bus) == ccm00.id, "CAN ID 0 is not set Correctly");
@@ -294,17 +299,17 @@ void CustomCanUnitTests()
 	
 	#if RACEGRADE_KEYPAD_HACKS
 		dt1[4] = 0;
-		raceGradeKeyPadCallback(&dt1[0]);
+		//raceGradeKeyPadCallback(&dt1[0]);
 		dt1[4] = 1;
-		raceGradeKeyPadCallback(&dt1[0]);
+		//raceGradeKeyPadCallback(&dt1[0]);
 		dt1[4] = 2;
-		raceGradeKeyPadCallback(&dt1[0]);
+		//raceGradeKeyPadCallback(&dt1[0]);
 		dt1[4] = 3;
-		raceGradeKeyPadCallback(&dt1[0]);
+		//raceGradeKeyPadCallback(&dt1[0]);
 		dt1[4] = 4;
-		raceGradeKeyPadCallback(&dt1[0]);
+		//raceGradeKeyPadCallback(&dt1[0]);
 		dt1[4] = 5;
-		raceGradeKeyPadCallback(&dt1[0]);
+		//raceGradeKeyPadCallback(&dt1[0]);
 	#endif
 
 	pRamVariables.initFunctionRun = 0;	
