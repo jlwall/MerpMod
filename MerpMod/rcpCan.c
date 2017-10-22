@@ -25,12 +25,12 @@ void rcp_frame_manager()
 {
 	switch(pRamVariables.rcpFrameState)
 	{
-		case  0:	send_frame_0x300();		pRamVariables.rcpFrameState++; break;
-		case  1: 	send_frame_0x301();		pRamVariables.rcpFrameState++; break;
-		case  2:	pRamVariables.rcpFrameState++; break;
-		case  3:	pRamVariables.rcpFrameState++; break;
-		case  4:	pRamVariables.rcpFrameState++; break;
-		case  5:	pRamVariables.rcpFrameState++; break;
+		case  0:	send_frame_0x700();		pRamVariables.rcpFrameState++; break;
+		case  1: 	send_frame_0x701();		pRamVariables.rcpFrameState++; break;
+		case  2:	send_frame_0x702();		pRamVariables.rcpFrameState++; break;
+		case  3:	send_frame_0x703();		pRamVariables.rcpFrameState++; break;
+		case  4:	send_frame_0x704();		pRamVariables.rcpFrameState++; break;
+		case  5:	send_frame_0x705();		pRamVariables.rcpFrameState++; break;
 		case  6:	pRamVariables.rcpFrameState++; break;
 		case  7:	pRamVariables.rcpFrameState++; break;
 		case  8:	pRamVariables.rcpFrameState++; break;
@@ -48,54 +48,125 @@ void rcp_frame_manager()
 		default: 	pRamVariables.rcpFrameState = 0;break;				
 	}		
 }
-
-void send_frame_0x300()
+#define RPCBUF 30
+void send_frame_0x700()
 {
-
-	unsigned long addrtemp = (0xFFFFD108 + 0x20*30);
-	
-	//BO_ 768 ssm_stat1: 8 PCANROUTER7xsxsx
-	rcpCanMessageSetup(0x300, 0, 8, 0, 30); 
-		
- 	//SG_ rLamCor : 0|8@1+ (0.78125,-100) [-20|20] "%"  RCPMK2
-	((unsigned char*)addrtemp)[0] = limit_u8((*pAfCorrection_1)/0.0078125f);  //0 to 255, 128 = 0%
- 	//SG_ aIgn : 8|8@1+ (0.5,-64) [-20|60] "deg"  RCPMK2
-	((unsigned char*)addrtemp)[1] = limit_u8((*pIgnitionTimeTotal)/0.5f + 128);  //0 to 255, 128 = 0%
- 	//SG_ rMaf : 16|16@1+ (0.01,0) [0|400] "g/s"  RCPMK2
-	((unsigned short*)addrtemp)[1] = limit_u16((*pMassAirFlow)/0.01f);  //0 to 655.35, LSB = 0.01
- 	//SG_ pPlenum : 32|16@1+ (0.000762951,-10) [-10|40] "psig"  RCPMK2
-	((unsigned short*)addrtemp)[2] = limit_u16(((*pManifoldAbsolutePressure)-242.850759f)*25.3447147559339f);  //0 to 65535 -10 to 40 psig;
- 	//SG_ rWG : 48|8@1+ (0.392157,0) [0|100] "%"  RCPMK2
- 	((unsigned char*)addrtemp)[6] = limit_u8((*pWgdc4)/0.392157f);  //0 to 100, 128 = 50%
-	//SG_ rLam : 56|8@1+ (0.0078125,0) [0|2] "rat"  RCPMK2
-	((unsigned char*)addrtemp)[7] = limit_u8((*pAf1Res)/0.0078125f);  //0 to 2, 128 = 1.0
-	
- 	//SG_ tInjector01 : 56|8@1+ (0.256,0) [0|35] "mSec"  RCPMK2;*/
+	/*
+	BO_ 1792 ecm_stat1: 8 ECM
+ 		SG_ rLamCor : 0|8@1+ (0.78125,-100) [-20|20] "%"  RCPMK2
+ 		SG_ aIgn : 8|8@1+ (0.5,-64) [-20|60] "deg"  RCPMK2
+ 		SG_ rMaf : 16|16@1+ (0.01,0) [0|400] "g/s"  RCPMK2
+ 		SG_ pPlenum : 32|16@1+ (0.000762951,-10) [-10|40] "psig"  RCPMK2
+ 		SG_ rWG : 48|8@1+ (0.392157,0) [0|100] "%"  RCPMK2
+ 		SG_ rLam : 56|8@1+ (0.0078125,0) [0|2] "rat"  RCPMK2
+	*/
+	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
+	rcpCanMessageSetup(0x700, 0, 8, 0, RPCBUF); 		 	
+	((unsigned char*)addrtemp)[0] = limit_u8((*pAfCorrection_1)/0.0078125f);
+	((unsigned char*)addrtemp)[1] = limit_u8((*pIgnitionTimeTotal)/0.5f + 128);
+	((unsigned short*)addrtemp)[1] = limit_u16((*pMassAirFlow)/0.01f);
+	((unsigned short*)addrtemp)[2] = limit_u16(((*pManifoldAbsolutePressure)-242.850759f)*25.3447147559339f);
+ 	((unsigned char*)addrtemp)[6] = limit_u8((*pWgdc4)/0.392157f);
+	((unsigned char*)addrtemp)[7] = limit_u8((*pAf1Res)/0.0078125f);
 	sendCanMessage(11);
 }
 
-void send_frame_0x301()
+void send_frame_0x701()
 {
+	/*
+	BO_ 1793 ecm_stat2: 8 ECM
+ 		SG_ iam : 0|8@1+ (0.0625,0) [0|0] ""  RCPMK2
+ 		SG_ aKnockFeed : 8|8@1+ (0.351563,-45) [0|0] ""  RCPMK2
+ 		SG_ aKnockFine : 16|8@1+ (0.351563,-45) [0|0] ""  RCPMK2
+ 		SG_ nRoughC1 : 24|8@1+ (1,0) [0|255] ""  RCPMK2
+ 		SG_ nRoughC2 : 32|8@1+ (1,0) [0|255] ""  RCPMK2
+ 		SG_ nRoughC3 : 40|8@1+ (1,0) [0|255] ""  RCPMK2
+ 		SG_ nRoughC4 : 48|8@1+ (1,0) [0|255] ""  RCPMK2
+ 		SG_ CLOL : 56|8@1+ (1,0) [0|125] ""  RCPMK2
+ 	*/
+	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
+	rcpCanMessageSetup(0x701, 0, 8, 0, RPCBUF); 	
+ 	((unsigned char*)addrtemp)[0] = limit_u8((*pIam4)*16); 		
+	((unsigned char*)addrtemp)[1] = *pFbkc1; 		
+	((unsigned char*)addrtemp)[2] = *pkclearn1; 		
+	((unsigned char*)addrtemp)[3] = *pNRough_C1; 		
+	((unsigned char*)addrtemp)[4] = *pNRough_C2; 		
+	((unsigned char*)addrtemp)[5] = *pNRough_C3; 		
+	((unsigned char*)addrtemp)[6] = *pNRough_C4; 		
+	((unsigned char*)addrtemp)[7] = *pCLOL;	
+	
+	sendCanMessage(11);
+}
 
-	unsigned long addrtemp = (0xFFFFD108 + 0x20*30);
+void send_frame_0x702()
+{
+	/*
+	BO_ 1794 ecm_stat3: 8 ECM
+ 		SG_ nKnockC1 : 0|8@1+ (1,0) [0|255] ""  RCPMK2
+ 		SG_ nKnockC2 : 8|8@1+ (1,0) [0|255] ""  RCPMK2
+ 		SG_ nKnockC3 : 16|8@1+ (1,0) [0|255] ""  RCPMK2
+ 		SG_ nKnockC4 : 24|8@1+ (1,0) [0|255] ""  RCPMK2
+ 		SG_ aCamInR : 32|8@1+ (1,-50) [-50|50] ""  RCPMK2
+ 		SG_ aCamInL : 40|8@1+ (1,-50) [-50|50] ""  RCPMK2
+ 		SG_ aCamExR : 48|8@1+ (1,-50) [-50|50] ""  RCPMK2
+ 		SG_ aCamExL : 56|8@1+ (1,-50) [-50|50] ""  RCPMK2
+ 	*/
+	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
+	rcpCanMessageSetup(0x702, 0, 8, 0, RPCBUF); 	 		
+	((unsigned char*)addrtemp)[0] = *pKnockSum1; 	
+	((unsigned char*)addrtemp)[1] = *pKnockSum2; 		
+ 	((unsigned char*)addrtemp)[2] = *pKnockSum3;		
+	((unsigned char*)addrtemp)[3] = *pKnockSum4;	
+ 	((unsigned char*)addrtemp)[4] = *pAVCSIntakeRight;
+ 	((unsigned char*)addrtemp)[5] = *pAVCSIntakeLeft;
+ 	((unsigned char*)addrtemp)[6] = *pAVCSExhaustLeft;
+	((unsigned char*)addrtemp)[7] = *pAVCSExhaustRight; 	
+	sendCanMessage(11);
+}
+
+void send_frame_0x703()
+{
+	/*
+	BO_ 1795 ecm_stat4: 8 PCANROUTER 		
+ 		SG_ pPlenumTarg : 0|16@1+ (0.000762951,-10) [-10|40] "psig" RCPMK2
+			SG_ aKnockLearn : 16|8@1+ (0.5,-64) [-40|40] "deg"  RCPMK2
+ 			SG_ rLamLearn : 24|8@1+ (0.78125,-100) [-20|20] "%"  RCPMK2
+ 			SG_ vBattery : 32|8@1+ (0.08,0) [0|20] "V"  RCPMK2
+ 			SG_ rTDprop : 40|8@1+ (0.2,-25.6) [-25|25] "%"  RCPMK2
+ 			SG_ rTDint : 48|8@1+ (0.2,-25.6) [-25|25] "%"  RCPMK2 		
+	*/
+	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);		
+	rcpCanMessageSetup(0x703, 0, 8, 0, RPCBUF); 	 
+	((unsigned short*)addrtemp)[0] = limit_u16((pRamVariables.TargetBoost-242.850759f)*25.3447147559339f);
+			
+	sendCanMessage(11);
+}
+
+void send_frame_0x704()
+{
+	/*
+	BO_ 1796 ecm_stat5: 8 PCANROUTER
+			SG_ rLambdaTarget : 0|16@1+ (0.001,0) [0|65535] "rat"  RCPMK2
+ 			SG_ nFaultCode : 16|16@1+ (1,0) [0|65535] "x"  RCPMK2
+ 		SG_ rLamLearnA : 32|8@1+ (1,-100) [-100|100] ""  RCPMK2
+ 		SG_ rLamLearnB : 40|8@1+ (1,-100) [-100|100] ""  RCPMK2
+ 		SG_ rLamLearnC : 48|8@1+ (1,-100) [-100|100] ""  RCPMK2
+ 		SG_ rLamLearnD : 56|8@1+ (1,-100) [-100|100] ""  RCPMK2
+	*/
+	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
+	rcpCanMessageSetup(0x704, 0, 8, 0, RPCBUF); 	 	
 	
-	//BO_ 768 ssm_stat1: 8 PCANROUTER7xsxsx
-	rcpCanMessageSetup(0x301, 0, 8, 0, 30); 
-		
- 	//SG_ rLamCor : 0|8@1+ (0.78125,-100) [-20|20] "%"  RCPMK2
-	((unsigned char*)addrtemp)[0] = limit_u8(1+(*pAfCorrection_1)/0.0078125f);  //0 to 255, 128 = 0%
- 	//SG_ aIgn : 8|8@1+ (0.5,-64) [-20|60] "deg"  RCPMK2
-	((unsigned char*)addrtemp)[1] = limit_u8((*pIgnitionTimeTotal)/0.5f + 128);  //0 to 255, 128 = 0%
- 	//SG_ rMaf : 16|16@1+ (0.01,0) [0|400] "g/s"  RCPMK2
-	((unsigned short*)addrtemp)[1] = limit_u16((*pMassAirFlow)/0.01f);  //0 to 655.35, LSB = 0.01
- 	//SG_ pPlenum : 32|16@1+ (0.000762951,-10) [-10|40] "psig"  RCPMK2
-	((unsigned short*)addrtemp)[2] = limit_u16(((*pManifoldAbsolutePressure)-242.850759f)*25.3447147559339f);  //0 to 65535 -10 to 40 psig;
- 	//SG_ rWG : 48|8@1+ (0.392157,0) [0|100] "%"  RCPMK2
- 	((unsigned char*)addrtemp)[6] = limit_u8((*pWgdc4)/0.392157f);  //0 to 100, 128 = 50%
-	//SG_ rLam : 56|8@1+ (0.0078125,0) [0|2] "rat"  RCPMK2
-	((unsigned char*)addrtemp)[7] = limit_u8((*pAf1Res)/0.0078125f);  //0 to 2, 128 = 1.0
-	
- 	//SG_ tInjector01 : 56|8@1+ (0.256,0) [0|35] "mSec"  RCPMK2;*/
+	((unsigned char*)addrtemp)[4] = limit_u8((*prLamLearnA+1)*100);
+ 	((unsigned char*)addrtemp)[5] = limit_u8((*prLamLearnB+1)*100);
+ 	((unsigned char*)addrtemp)[6] = limit_u8((*prLamLearnC+1)*100);
+	((unsigned char*)addrtemp)[7] = limit_u8((*prLamLearnD+1)*100); 
+	sendCanMessage(11);
+}
+
+void send_frame_0x705()
+{
+	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
+	rcpCanMessageSetup(0x705, 0, 8, 0, RPCBUF); 	 	
 	sendCanMessage(11);
 }
 #endif

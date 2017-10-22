@@ -58,8 +58,12 @@ void rcpCanMessageSetup(unsigned long id,unsigned short ext, unsigned short dlc,
 
 #if RCP_CAN
 void rcp_frame_manager() ROMCODE;
-void send_frame_0x300() ROMCODE;
-void send_frame_0x301() ROMCODE;
+void send_frame_0x700() ROMCODE;
+void send_frame_0x701() ROMCODE;
+void send_frame_0x702() ROMCODE;
+void send_frame_0x703() ROMCODE;
+void send_frame_0x704() ROMCODE;
+void send_frame_0x705() ROMCODE;
 #endif
 
 void WGDCHack(void) ROMCODE;

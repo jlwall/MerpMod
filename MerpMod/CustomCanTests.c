@@ -74,10 +74,21 @@ void CustomCanUnitTests()
 {
 	PopulateRamVariables();
 	
-		#define rLamCorrected ((float*)0xFFFF4128)
-		
-		*rLamCorrected = 0.15;
-	send_frame_0x300();
+	//Test E85 Stuff
+	*pAfCorrection_1 = 0.25f;	
+	*pIgnitionTimeTotal = 31.223f;	
+	*pMassAirFlow = 1.29f;
+	*pManifoldAbsolutePressure = (12.45f)*51.71492410239613f + 760; //12.45 psig to mmHG
+	send_frame_0x700();
+	
+	unsigned long addrtemp = (0xFFFFD108 + 0x20*31);
+	
+	Assert( ((unsigned char*)addrtemp)[0] == 0x20	,"CAN 0x300 d0");
+	Assert( ((unsigned char*)addrtemp)[1] == 190	,"CAN 0x300 d1");
+	Assert( ((unsigned short*)addrtemp)[1] == 129	,"CAN 0x300 d2.d3");
+	Assert( ((unsigned short*)addrtemp)[2] == 29425	,"CAN 0x300 d4.d5");
+	
+	
 	
 	CanSetup();	
 	//Test to make sure CanSetup puts the right info into the Mailboxes

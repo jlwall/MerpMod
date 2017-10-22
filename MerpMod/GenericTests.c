@@ -32,8 +32,11 @@ void CallMemoryReset()
 
 void GenericTests() 
 {	
+	
 	ResetRamVariables();
+	
 
+	
 #if CAN_HACKS
 	CustomCanUnitTests();
 #endif
