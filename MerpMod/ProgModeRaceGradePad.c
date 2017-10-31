@@ -108,10 +108,8 @@ void ProgModeMain()
 	else 
 		pRamVariables.buttons[1].led = 4;	
 		
-		
-		
 	//Button 4 - Flat Foot Shift Mode pRamVariables.FlatFootShiftMode
-	if(pRamVariables.buttons[0].edgeDetect == 1)
+	if(pRamVariables.buttons[4].edgeDetect == 1)
 	{			
 		if(pRamVariables.FlatFootShiftMode<2)
 			pRamVariables.FlatFootShiftMode += 0x01;
@@ -125,20 +123,29 @@ void ProgModeMain()
 	else if(pRamVariables.FlatFootShiftMode == 2) 
 		pRamVariables.buttons[4].led = 2;
 		
+	//Button 5 - Bail out Button
+	if(pRamVariables.buttons[5].edgeDetect == 1)	
+	{
+		*pIAM = IAM_MIN;
+		pRamVariables.FlatFootShiftMode = 0;
+		pRamVariables.ValetMode = 0;
+	#if SWITCH_HACKS
+		pRamVariables.MapSwitch = DefaultMapSwitch;
+		pRamVariables.MapBlendRatio = DefaultMapBlendRatio;
+		pRamVariables.BlendMode = 0;
+	#endif
+		pRamVariables.buttons[5].led = 7; 
+	}
+	else
+		pRamVariables.buttons[5].led = 0; 
 		
+	//Button 3 - Mod Select Toggle	
 	ProgModeButtonToggled(pRamVariables.buttons[2].edgeDetect);
 	switch(pRamVariables.ProgModeCurrentMode)
 	{
 		case 0:
 			asm("nop");
 		break;
-		//case 1:
-		//	ProgModeMapSwitch();
-		//break;
-		
-		//case 2:
-		//	ProgModeBlendMode();
-		//break;
 		
 		case 1:			
 			ProgModeBlendAdjust();
@@ -150,11 +157,7 @@ void ProgModeMain()
 		
 		case 3:
 			ProgModeIAMAdjust();
-		break;
-		
-		//case 6://Put this in ENUM if you want to reorder them easily
-		//	ProgModeValetMode();
-		//break;
+		break;	
 		
 		case 4:
 			ProgModeRaceGradeBackLight();
@@ -175,8 +178,7 @@ void ProgModeMain()
 	{
 		pRamVariables.buttons[3].led = 0;
 		pRamVariables.buttons[7].led = 0;
-	}
-	//CelDoubleRepeat(&pRamVariables.ProgModeCurrentMode,MODE_FLASH_SPEED,&pRamVariables.ProgModeValueFlashes,VALUE_FLASH_SPEED,MODE_FLASH_DELAY,VALUE_FLASH_DELAY);//TODO abstract
+	}	
 }
 
 void ProgModeMapSwitch()
