@@ -89,7 +89,8 @@ void RevLimCode()
 		}
 	}
 	
-	if (*pEngineSpeed > pRamVariables.RevLimCut || *pEngineSpeed > pRamVariables.RedLineCut)
+	//Add a SW unadjustable Hard Limit, having this in ram only is not safe
+	if (*pEngineSpeed > pRamVariables.RevLimCut || *pEngineSpeed > pRamVariables.RedLineCut || *pEngineSpeed > 7500)
 		{
 			*pFlagsRevLim |= RevLimBitMask;
 		} 
