@@ -331,6 +331,24 @@ void canCallbackMK3e85Packet(unsigned char* data)
 	pRamVariables.tFuelCAN = (float)(data[2])-40;	//0 to 165 for -40 to 125C
 	updateFuelPressure((unsigned short)((unsigned short)data[4]*256 + (unsigned short)data[5]));
 	pRamVariables.pFuelCanRel = pRamVariables.pFuelCan - *pManifoldAbsolutePressure;
+	// TODO  scale this correcly
+	
+	//Update scale for fuel Pressure
+	if(pRamVariables.fuelPressureFlowEnabled == 1)
+	{		
+		pRamVariables.kFuelPressure = sqrt(pRamVariables.pFuelCanRel/BaseInjectorFlowPressureRelative);
+	}
+	else
+		pRamVariables.kFuelPressure = 1;
+	
+	//Update Injector scaling based off new 	
+	if(pRamVariables.flexFuelSensorEnabaled == 1)	
+	{
+		pRamVariables.TargetedStoich = Pull2DHooked(&FlexFuelStoichTable, pRamVariables.MapBlendRatio);	 
+		pRamVariables.InjectorScaling =  pRamVariables.kFuelPressure *(pRamVariables.TargetedStoich / BaseGasolineAFR) *  (*dInjectorScaling);
+	}
+	else
+		pRamVariables.InjectorScaling = pRamVariables.kFuelPressure * (*dInjectorScaling);
 }
 
 void updateFuelPressure(unsigned short rawVoltage)

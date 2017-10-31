@@ -413,9 +413,10 @@
 		<define name="pIgnitionTimeTotal" type="float*">
 			<ida name="pIgnitionTimeTotal" />
 		</define>
-		<define name="pAfCorrection_1" type="float*">
-			<ida name="pAfCorrection_1" />
-		</define>
+		
+		<define name="pEstimatedOdometer" type="float*"><ida name="pEstimatedOdometer" /></define>
+		<define name="pAfCorrection_1" type="float*"><ida name="pAfCorrection_1" /></define>
+		<define name="pAFLearning_1" type="float*"><ida name="pAFLearning_1" /></define>
 		<define name="pkclearn1" type="char*">
 			<ida name="E_Fine_Learning_Knock_Correction_1byteExtExt__E95" />
 		</define>
@@ -437,9 +438,9 @@
 		<define name="prLamLearnB" type="float*"><ida name="E_AF_Learning_1_B_StoredExt__E45" /></define>
 		<define name="prLamLearnC" type="float*"><ida name="E_AF_Learning_1_C_StoredExt__E46" /></define>
 		<define name="prLamLearnD" type="float*"><ida name="E_AF_Learning_1_D_StoredExt__E47" /></define>
-		
-		
-
+		<define name="pTD_wg_prop" type="float*"><ida name="pTD_wg_prop" /></define>
+		<define name="pTD_wg_int" type="float*"><ida name="pTD_wg_int" /></define>
+		<define name="pBatteryVoltage" type="float*"><ida name="pBatteryVoltage" /></define>
 		
         <define name="pAf1Res" type="float*">
             <ida name="E_AF_SENSOR_1_RES" />

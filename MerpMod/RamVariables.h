@@ -120,7 +120,7 @@ typedef struct
 	char	elemptteey;
 	char	elempty1;
 	char	eleemee2;
-	float	FFSGear;
+	unsigned char	FFSGear;
 	float 	RevLimCut;	//96
 	float 	RevLimResume;
   	float  	RedLineCut;
@@ -191,7 +191,7 @@ typedef struct
 	unsigned char 	POLFuelHackInitFlag;	//97
 	unsigned char 	LCFuelMode;
 	unsigned char	PolfHackEnabled;
-	unsigned char	PolfOutputFP;	
+	unsigned char	eeeeeeee;	
 	float PolfTarget;
 	float PolfOutput;		//97
 	float LCFuelEnrich;			//97

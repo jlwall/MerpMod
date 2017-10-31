@@ -20,23 +20,8 @@
 void POLFHack()
 {		
 
-	//Calculate new Injector Flow based off Ethanol Content	
+		
 
-	if(pRamVariables.fuelPressureFlowEnabled == 1)
-		{		
-		pRamVariables.kFuelPressure = sqrt(pRamVariables.pFuelCanRel/BaseInjectorFlowPressureRelative);
-		
-		}
-	else
-		pRamVariables.kFuelPressure = 1;
-		
-	if(pRamVariables.flexFuelSensorEnabaled == 1)	
-	{
-		pRamVariables.TargetedStoich = Pull2DHooked(&FlexFuelStoichTable, pRamVariables.MapBlendRatio);	 
-		pRamVariables.InjectorScaling =  pRamVariables.kFuelPressure *(pRamVariables.TargetedStoich / BaseGasolineAFR) *  (*dInjectorScaling);
-	}
-	else
-		pRamVariables.InjectorScaling = pRamVariables.kFuelPressure * (*dInjectorScaling);
 		
 	
 #if POLF_MAIN_HOOK
@@ -54,9 +39,7 @@ EcuHacksMain();
 		else
 		{
 	#endif
-	
-		OutputValue	= BlendAndSwitch(FuelTableGroup, *pEngineLoad, *pEngineSpeed);
-		
+			OutputValue	= BlendAndSwitch(FuelTableGroup, *pEngineLoad, *pEngineSpeed);
 	#if POLF_RAM_TUNING
 		}
 	#endif
@@ -73,9 +56,7 @@ EcuHacksMain();
 		if(pRamVariables.PolfHackEnabled == 0)
 			pRamVariables.PolfOutput = pRamVariables.PolfTarget;
 		else
-			pRamVariables.PolfOutput = Pull3DHooked((void*)PrimaryOEMPolfTable, *pEngineLoad, *pEngineSpeed);	
-			
-		pRamVariables.PolfOutputFP = (unsigned char)((pRamVariables.PolfOutput-9)*44.7); //9=0x00, 14.7 = 0xFF
+			pRamVariables.PolfOutput = Pull3DHooked((void*)PrimaryOEMPolfTable, *pEngineLoad, *pEngineSpeed);					
 #endif
 		
 	PolfHooked();
