@@ -71,7 +71,7 @@ float FuelPressure_ROWS[4] FUELDATA =
 
 //Target Air Fuel Ratio for stoichiometric 
 float FuelPressure_DATA[4] FUELDATA =
-{0,0,150,150};
+{0,0,150,150.0};
 
 TwoDTable FuelPressureTable  FUELDATA = {
 	.columnCount = 4,

@@ -25,14 +25,11 @@ void (*BaseTimingHooked)() __attribute__ ((section ("RomHole_Functions"))) = (vo
 float TimingHack()
 {
 	float OutputValue;
-	
 	float subIam;
 	float iam;
 
 	subIam = 1 - IAM;
-	
 	pRamVariables.MaxSubtractiveKCA = BlendAndSwitch(KnockCorrectionRetardTableGroup, *pEngineLoad, *pEngineSpeed);
-	
 	pRamVariables.SubtractiveKCA = subIam *  pRamVariables.MaxSubtractiveKCA;
 	
 #if TIMING_RAM_TUNING
@@ -43,9 +40,7 @@ float TimingHack()
 	else
 	{
 #endif
-
-	OutputValue = BlendAndSwitch(TimingTableGroup, *pEngineLoad, *pEngineSpeed);
-		
+		OutputValue = BlendAndSwitch(TimingTableGroup, *pEngineLoad, *pEngineSpeed);	
 #if TIMING_RAM_TUNING
 	}
 #endif
@@ -57,9 +52,7 @@ float TimingHack()
 	else if(pRamVariables.LCTimingMode == LCTimingModeCompensated)
 	{
 		pRamVariables.LCTimingRetard = Pull3DHooked(&LCTimingRetardTable, *pVehicleSpeed, *pEngineSpeed);
-	
 		pRamVariables.LCTimingRetard *= pRamVariables.LCTimingRetardMultiplier;
-		
 		OutputValue -= pRamVariables.LCTimingRetard;
 	}
 

@@ -155,8 +155,10 @@ void InputUpdate()//TODO: put on SD branch
 	}
 	
 	//Limit MapSwitch
-	if(pRamVariables.MapSwitch < MapSwitch1) pRamVariables.MapSwitch = MapSwitch1;
-	else if(pRamVariables.MapSwitch > MapSwitch3) pRamVariables.MapSwitch = MapSwitch3;
+	if(pRamVariables.MapSwitch < MapSwitch1) 
+		pRamVariables.MapSwitch = MapSwitch1;
+	else if(pRamVariables.MapSwitch > MapSwitch3) 
+		pRamVariables.MapSwitch = MapSwitch3;
 }
 
 void MapSwitchThresholdCheck(float input)
