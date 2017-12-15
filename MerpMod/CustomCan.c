@@ -327,11 +327,10 @@ void canCallbackAEMwideband(unsigned char* data)
 
 void canCallbackMK3e85Packet(unsigned char* data)
 {
-	pRamVariables.rEthanolCAN = (float)(data[0]*256 + data[1])/51200; 		//0 to 1024 for 0 to 100% 1/1024 LSB/%	
+	pRamVariables.rEthanolCAN = (float)(data[0]*256 + data[1])/65535; 		//0 to 1024 for 0 to 100% 1/65535 LSB/%	
 	pRamVariables.tFuelCAN = (float)(data[2])-40;	//0 to 165 for -40 to 125C
 	updateFuelPressure((unsigned short)((unsigned short)data[4]*256 + (unsigned short)data[5]));
-	pRamVariables.pFuelCanRel = pRamVariables.pFuelCan - *pManifoldAbsolutePressure;
-	// TODO  scale this correcly
+	pRamVariables.pFuelCanRel = pRamVariables.pFuelCan - (*pManifoldAbsolutePressure-760)/51.71492510510006;
 	
 	//Update scale for fuel Pressure
 	if(pRamVariables.fuelPressureFlowEnabled == 1)

@@ -37,8 +37,8 @@ typedef struct
 	unsigned char fuelPressureFlowEnabled;
 	unsigned char flexFuelSensorEnabaled;
 #if CAN_HACKS	
-	float ethanolContentCAN;
-	unsigned short ethanolContentShortCAN;
+	//float ethanolContentCAN;
+	//unsigned short ethanolContentShortCAN;
 	unsigned short ccmSendTimers[ccmCount];
 	unsigned short sdTimer;
 	

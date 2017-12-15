@@ -168,10 +168,14 @@ void send_frame_0x705()
 	/*
 	BO_ 1797 ecm_stat6: 8 PCANROUTER
   		SG_ xOdometer : 0|32@1+ (0.1,0) [0|65535.] "km"  RCPMK2
+		SG_ pFuel : 32|16@1+ (0.01,0) [0|65.55] "psig"  RCPMK2
+		SG_ pFuelAbs : 48|16@1+ (0.01,0) [0|65.55] "psia"  RCPMK2
 	*/
 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
 	rcpCanMessageSetup(0x705, 0, 8, 0, RPCBUF); 	
 	((unsigned long*)addrtemp)[0] = limit_u32(*pEstimatedOdometer * 10);
+	((unsigned short*)addrtemp)[2] = limit_u16((pRamVariables.pFuelCanRel*100));
+	((unsigned short*)addrtemp)[3] = limit_u16((pRamVariables.pFuelCan*100));
 	sendCanMessage(11);
 }
 #endif

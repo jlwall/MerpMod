@@ -78,9 +78,6 @@ void InputUpdate()//TODO: put on SD branch
 	pRamVariables.TGVRightVolts = ShortToFloatHooked(*pTGVRightVoltage,grad,offs);
 	pRamVariables.TGVLeftScaled = Pull2DHooked(&TGVLeftScaling,pRamVariables.TGVLeftVolts);
 	pRamVariables.TGVRightScaled = Pull2DHooked(&TGVRightScaling,pRamVariables.TGVRightVolts);
-	
-	pRamVariables.ethanolContentCAN = (float)pRamVariables.ethanolContentShortCAN/100;
-
 	if(pRamVariables.BlendMode == 0) //Auto Mode
 	{
 		switch(BlendRatioInput)
@@ -97,7 +94,7 @@ void InputUpdate()//TODO: put on SD branch
 				break;
 		
 			case InputCanFlexFuelRatio:
-				pRamVariables.MapBlendRatio = pRamVariables.ethanolContentCAN;
+				pRamVariables.MapBlendRatio = pRamVariables.rEthanolCAN;
 				break;
 		
 			default:

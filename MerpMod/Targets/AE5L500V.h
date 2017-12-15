@@ -1,6 +1,6 @@
-#define MOD_IDENTIFIER STRI(AE5L5JWV.MeRpMoD.Switch.v17.10.5.576.50155585)
+#define MOD_IDENTIFIER STRI(AE5L500V.MeRpMoD.Switch.v17.12.15.841.007799401667)
 #define MOD_ECUID 8ECBBEEF33
-#define MOD_DATE 17.10.5.576.50155585
+#define MOD_DATE 17.12.15.841.007799401667
 #include "Switch.h"
 #define MOD_CONFIG Switch
 #define MOD_BUILD Release
@@ -150,6 +150,31 @@
 #define pThrottlePlate ((float*)0xFFFF62E8)
 #define pWgdc4 ((float*)0xFFFF5C98)
 #define pCurrentGear ((unsigned char*)0xFFFF6839)
+#define pIgnitionTimeTotal ((float*)0xFFFF7EBC)
+#define pEstimatedOdometer ((float*)0xFFFF31A8)
+#define pAfCorrection_1 ((float*)0xFFFF7700)
+#define pAFLearning_1 ((float*)0xFFFF78A4)
+#define pkclearn1 ((char*)0xFFFF68A6)
+#define pNRough_C1 ((char*)0xFFFFA1E5)
+#define pNRough_C2 ((char*)0xFFFFA1E6)
+#define pNRough_C3 ((char*)0xFFFFA1E7)
+#define pNRough_C4 ((char*)0xFFFFA1E8)
+#define pKnockSum1 ((char*)0xFFFF81D9)
+#define pKnockSum2 ((char*)0xFFFF81DA)
+#define pKnockSum3 ((char*)0xFFFF81DB)
+#define pKnockSum4 ((char*)0xFFFF81DC)
+#define pCLOL ((char*)0xFFFFB1E9)
+#define pAVCSIntakeLeft ((char*)0xFFFF9190)
+#define pAVCSIntakeRight ((char*)0xFFFF918C)
+#define pAVCSExhaustLeft ((char*)0xFFFF9368)
+#define pAVCSExhaustRight ((char*)0xFFFF9364)
+#define prLamLearnA ((float*)0xFFFF31D4)
+#define prLamLearnB ((float*)0xFFFF31DC)
+#define prLamLearnC ((float*)0xFFFF31E4)
+#define prLamLearnD ((float*)0xFFFF31EC)
+#define pTD_wg_prop ((float*)0xFFFF5CAC)
+#define pTD_wg_int ((float*)0xFFFF5CB0)
+#define pBatteryVoltage ((float*)0xFFFF4130)
 #define pAf1Res ((float*)0xFFFF40C8)
 
 /////////////////////
