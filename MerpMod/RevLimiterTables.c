@@ -35,7 +35,7 @@ float DefaultLaunchControlHyst REVLIMDATA = 50.0f;
 
 #ifdef pCurrentGear
 float GearRatios[6] REVLIMDATA = 
-{3.636,2.375,1.761,1.346,0.971,0.756};
+{3.636,2.235,1.521,1.137,0.971,0.756};
 #endif
 
 float LCMinimumThrottle REVLIMDATA =  60.0f;
