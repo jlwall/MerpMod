@@ -16,7 +16,7 @@
 
 #if SWITCH_HACKS
 
-unsigned char DefaultMapSwitch SWITCHDATA = 0x01;
+unsigned char DefaultMapSwitch SWITCHDATA = InputModeSiDrive;
 float DefaultMapBlendRatio SWITCHDATA = 0.0f;
 
 float MapSwitchThresholdLo SWITCHDATA = 1.5f;

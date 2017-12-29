@@ -96,7 +96,10 @@ void InputUpdate()//TODO: put on SD branch
 			case InputCanFlexFuelRatio:
 				pRamVariables.MapBlendRatio = pRamVariables.rEthanolCAN;
 				break;
-		
+			case InputModeRaceGradePad:
+				//pRamVariables.MapBlendRatio = pRamVariables.rEthanolCAN;
+				//let this be handeld by ther rgProgramMode
+				break;
 			default:
 				pRamVariables.MapBlendRatio = DefaultMapBlendRatio;
 				break;
