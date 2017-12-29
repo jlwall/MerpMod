@@ -59,10 +59,6 @@
 
 #define BLEND_MAX 1.0f
 #define BLEND_MIN 0.0f
-#define BLEND_STEP 0.025f
-
-#define LC_MIN 2000.0f
-#define LC_STEP 250.0f
 
 #define IAM_MIN 0
 #ifdef pIAM4
@@ -123,16 +119,20 @@ void ProgModeMain()
 	else if(pRamVariables.FlatFootShiftMode == 2) 
 		pRamVariables.buttons[rgButtonFFSSource].led = 2;
 		
+	//Light up 3rd LED when FFS is engaged	
+	if(pRamVariables.FFSEngaged >= 1)
+		pRamVariables.buttons[rgButtonFFSSource].led &= 0x04;
+		
 	//Button 5 - Bail out Button
 	if(pRamVariables.buttons[rgButtonBailSource].edgeDetect == 1)	
 	{
 		*pIAM = IAM_MIN;
 		pRamVariables.FlatFootShiftMode = 0;
-		pRamVariables.ValetMode = 0;
+		pRamVariables.ValetMode = ValetModeEnabled;
 	#if SWITCH_HACKS
 		pRamVariables.MapSwitch = DefaultMapSwitch;
 		pRamVariables.MapBlendRatio = DefaultMapBlendRatio;
-		pRamVariables.BlendMode = 0;
+		pRamVariables.BlendMode = 1; //Manual Mode
 	#endif
 		pRamVariables.buttons[rgButtonBailSource].led = 7; 
 	}
@@ -210,17 +210,17 @@ void ProgModeBlendAdjust()
 	{
 		if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
 		{	
-			if(pRamVariables.MapBlendRatio > (BLEND_MAX - BLEND_STEP - 0.01f))
+			if(pRamVariables.MapBlendRatio > (BLEND_MAX - rgBLEND_STEP - 0.01f))
 				pRamVariables.MapBlendRatio = BLEND_MAX;
 			else
-				pRamVariables.MapBlendRatio+= BLEND_STEP;
+				pRamVariables.MapBlendRatio+= rgBLEND_STEP;
 		}
 		else if(pRamVariables.buttons[rgButtonDownSource].edgeDetect == 1)
 		{
-			if(pRamVariables.MapBlendRatio < (BLEND_MIN + BLEND_STEP + 0.01f))
+			if(pRamVariables.MapBlendRatio < (BLEND_MIN + rgBLEND_STEP + 0.01f))
 				pRamVariables.MapBlendRatio = BLEND_MIN;//Hard limit, does not cycle to top again.
 			else
-				pRamVariables.MapBlendRatio-= BLEND_STEP;
+				pRamVariables.MapBlendRatio-= rgBLEND_STEP;
 		}
 	}
 	pRamVariables.ProgModeValue = pRamVariables.MapBlendRatio + 1;
@@ -249,18 +249,18 @@ void ProgModeLCAdjust()
 	if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
 	{	
 		if(pRamVariables.LaunchControlCut < pRamVariables.RedLineCut)
-			pRamVariables.LaunchControlCut+= LC_STEP;
+			pRamVariables.LaunchControlCut+= rgLC_STEP;
 	}
 	else if(pRamVariables.buttons[rgButtonDownSource].edgeDetect == 1)
 	{
-		if(pRamVariables.LaunchControlCut > LC_MIN)
-			pRamVariables.LaunchControlCut-= LC_STEP;//Hard limit, does not cycle to top again.
+		if(pRamVariables.LaunchControlCut > rgLC_MIN)
+			pRamVariables.LaunchControlCut-= rgLC_STEP;//Hard limit, does not cycle to top again.
 		else
-			pRamVariables.LaunchControlCut = LC_MIN;
+			pRamVariables.LaunchControlCut = rgLC_MIN;
 	}
 	
 	pRamVariables.ProgModeValue = pRamVariables.LaunchControlCut;
-	pRamVariables.ProgModeValueFlashes = (unsigned char)((pRamVariables.LaunchControlCut / LC_STEP) - (unsigned char)(LC_MIN / LC_STEP));
+	pRamVariables.ProgModeValueFlashes = (unsigned char)((pRamVariables.LaunchControlCut / rgLC_STEP) - (unsigned char)(rgLC_MIN / rgLC_STEP));
 	#else
 	pRamVariables.ProgModeValue = 0.0f;
 	pRamVariables.ProgModeValueFlashes = 0;

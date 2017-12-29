@@ -66,7 +66,7 @@ void RevLimCode()
 	
 	if (pRamVariables.FFSEngaged == 1)
 	{
-		if (pRamVariables.FlatFootShiftMode == 2)
+		if (pRamVariables.FlatFootShiftMode == 2) //This is Automatic Mode
 		{
 			float cut =  pRamVariables.FFSRPM;
 			cut *=  GearRatios[(int)pRamVariables.FFSGear + 1]; 
@@ -75,7 +75,7 @@ void RevLimCode()
 			pRamVariables.RevLimCut = cut;
 			pRamVariables.RevLimResume = pRamVariables.RevLimCut - Abs(pRamVariables.FlatFootShiftHyst);
 		}
-		else
+		else  // This is Static Mode
 		{	
 			float cut = pRamVariables.RedLineCut - Abs(pRamVariables.FlatFootShiftStaticDelta);
 			pRamVariables.RevLimCut = cut;
@@ -83,9 +83,10 @@ void RevLimCode()
 			pRamVariables.FFSEngaged = 2;
 		}
 		
-		if (pRamVariables.ValetMode != ValetModeDisabled)
+		if (pRamVariables.ValetMode == ValetModeEnabled)
 		{
 			pRamVariables.RedLineCut = ValetModeRevLim;
+			pRamVariables.RevLimResume = ValetModeRevLim - Abs(pRamVariables.FlatFootShiftHyst);
 		}
 	}
 	

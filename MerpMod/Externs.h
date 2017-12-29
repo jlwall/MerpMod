@@ -141,6 +141,7 @@ extern ThreeDTable TemperatureCompensationTable;
 extern ThreeDTable AtmosphericCompensationTable;
 extern ThreeDTable SDBlendingTable;
 
+extern float ValetModeMaxBoost;
 extern float BaseGasolineAFR;
 extern float BaseInjectorFlowPressureRelative;
 extern TwoDTable FlexFuelStoichTable;
@@ -310,6 +311,9 @@ extern unsigned char rgButtonBailSource;
 extern unsigned char rgButtonModeSource;
 extern unsigned char rgButtonUpSource;
 extern unsigned char rgButtonDownSource;
+extern float rgLC_MIN;
+extern float rgLC_STEP;
+extern float rgBLEND_STEP;
 extern CanMessageSetupStruct ccm00;
 extern CanMessageSetupStruct ccm01;
 extern CanMessageSetupStruct ccm02;

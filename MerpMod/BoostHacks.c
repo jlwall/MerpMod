@@ -88,8 +88,16 @@ EcuHacksMain();
 	else{
 	#endif
 	
-	pRamVariables.WGDCInitial = WGDCInitial * PGWGComp;
-	pRamVariables.WGDCMax = WGDCMax * PGWGComp;
+	if(pRamVariables.ValetMode == ValetModeDisabled)
+		{
+		pRamVariables.WGDCInitial = WGDCInitial * PGWGComp;
+		pRamVariables.WGDCMax = WGDCMax * PGWGComp;
+		}
+	else
+		{
+		pRamVariables.WGDCInitial = 0;
+		pRamVariables.WGDCMax = 0;
+		}
 	
 	#if WGDC_LOCK
 	}
@@ -151,6 +159,12 @@ void TargetBoostHack()
 	#if TARGET_BOOST_RAMTUNING
 		}
 	#endif
+	
+	if(pRamVariables.ValetMode == ValetModeEnabled)	//If Valet Mode, limit MaxBoost
+		{
+		if(pRamVariables.TargetBoost > ValetModeMaxBoost)
+			pRamVariables.TargetBoost = ValetModeMaxBoost;	
+		}
 	
 	pRamVariables.PGTBComp = PGTBComp;
 	pRamVariables.TargetBoost = TargetBoost * PGTBComp;

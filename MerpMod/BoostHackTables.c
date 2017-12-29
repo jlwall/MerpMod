@@ -20,6 +20,7 @@
 #if BOOST_HACKS
 float RPMLockWGDC BOOSTDATA = 3000.0f;
 float ThrottleLockWGDC BOOSTDATA = 85.0f;
+float ValetModeMaxBoost BOOSTDATA = 1174;
 
 #if SWITCH_HACKS
 TableGroup PGWGTableGroup BOOSTDATA = {
