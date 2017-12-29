@@ -89,27 +89,27 @@ void ProgModeMain()
 	pRamVariables.ProgModeEnable = 1;
 	
 	//Button 0 - Blend Overide Mode
-	if(pRamVariables.buttons[0].edgeDetect == 1)
+	if(pRamVariables.buttons[rgButtonEthanolSource].edgeDetect == 1)
 	{	
 		pRamVariables.BlendMode ^= 0x01;
 	}
 	if(pRamVariables.BlendMode == 0) 
-		pRamVariables.buttons[0].led = 1; 
+		pRamVariables.buttons[rgButtonEthanolSource].led = 1; 
 	else 
-		pRamVariables.buttons[0].led = 4;
+		pRamVariables.buttons[rgButtonEthanolSource].led = 4;
 	
 	//Button 1 - Valet Mode
-	if(pRamVariables.buttons[1].edgeDetect == 1)
+	if(pRamVariables.buttons[rgButtonValetSource].edgeDetect == 1)
 	{
 		pRamVariables.ValetMode ^= 0x01;
 	}
 	if(pRamVariables.ValetMode == 0) 
-		pRamVariables.buttons[1].led = 1;
+		pRamVariables.buttons[rgButtonValetSource].led = 1;
 	else 
-		pRamVariables.buttons[1].led = 4;	
+		pRamVariables.buttons[rgButtonValetSource].led = 4;	
 		
 	//Button 4 - Flat Foot Shift Mode pRamVariables.FlatFootShiftMode
-	if(pRamVariables.buttons[4].edgeDetect == 1)
+	if(pRamVariables.buttons[rgButtonFFSSource].edgeDetect == 1)
 	{			
 		if(pRamVariables.FlatFootShiftMode<2)
 			pRamVariables.FlatFootShiftMode += 0x01;
@@ -117,14 +117,14 @@ void ProgModeMain()
 			pRamVariables.FlatFootShiftMode = 0;
 	}	
 	if(pRamVariables.FlatFootShiftMode == 0) 
-		pRamVariables.buttons[4].led = 0; 
+		pRamVariables.buttons[rgButtonFFSSource].led = 0; 
 	else if(pRamVariables.FlatFootShiftMode == 1) 
-		pRamVariables.buttons[4].led = 1;
+		pRamVariables.buttons[rgButtonFFSSource].led = 1;
 	else if(pRamVariables.FlatFootShiftMode == 2) 
-		pRamVariables.buttons[4].led = 2;
+		pRamVariables.buttons[rgButtonFFSSource].led = 2;
 		
 	//Button 5 - Bail out Button
-	if(pRamVariables.buttons[5].edgeDetect == 1)	
+	if(pRamVariables.buttons[rgButtonBailSource].edgeDetect == 1)	
 	{
 		*pIAM = IAM_MIN;
 		pRamVariables.FlatFootShiftMode = 0;
@@ -134,13 +134,13 @@ void ProgModeMain()
 		pRamVariables.MapBlendRatio = DefaultMapBlendRatio;
 		pRamVariables.BlendMode = 0;
 	#endif
-		pRamVariables.buttons[5].led = 7; 
+		pRamVariables.buttons[rgButtonBailSource].led = 7; 
 	}
 	else
-		pRamVariables.buttons[5].led = 0; 
+		pRamVariables.buttons[rgButtonBailSource].led = 0; 
 		
 	//Button 3 - Mod Select Toggle	
-	ProgModeButtonToggled(pRamVariables.buttons[2].edgeDetect);
+	ProgModeButtonToggled(pRamVariables.buttons[rgButtonModeSource].edgeDetect);
 	switch(pRamVariables.ProgModeCurrentMode)
 	{
 		case 0:
@@ -168,16 +168,16 @@ void ProgModeMain()
 		break;
 	}	
 	
-	pRamVariables.buttons[2].led = pRamVariables.ProgModeCurrentMode;
+	pRamVariables.buttons[rgButtonModeSource].led = pRamVariables.ProgModeCurrentMode;
 	if(pRamVariables.ProgModeCurrentMode>0)
 	{
-		pRamVariables.buttons[3].led = pRamVariables.ProgModeValueFlashes&0x07;
-		pRamVariables.buttons[7].led = pRamVariables.ProgModeValueFlashes/8;
+		pRamVariables.buttons[rgButtonUpSource].led = pRamVariables.ProgModeValueFlashes&0x07;
+		pRamVariables.buttons[rgButtonDownSource].led = pRamVariables.ProgModeValueFlashes/8;
 	}
 	else
 	{
-		pRamVariables.buttons[3].led = 0;
-		pRamVariables.buttons[7].led = 0;
+		pRamVariables.buttons[rgButtonUpSource].led = 0;
+		pRamVariables.buttons[rgButtonDownSource].led = 0;
 	}	
 }
 
@@ -185,14 +185,14 @@ void ProgModeMapSwitch()
 {
 	if(MapSwitchInput == InputModeRaceGradePad)
 	{	
-		if(pRamVariables.buttons[3].edgeDetect == 1)
+		if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
 		{	
 			if(pRamVariables.MapSwitch >= 3)
 				pRamVariables.MapSwitch = 3;
 			else
 				pRamVariables.MapSwitch++;
 		}
-		else if(pRamVariables.buttons[7].edgeDetect == 1)
+		else if(pRamVariables.buttons[rgButtonDownSource].edgeDetect == 1)
 		{
 			if(pRamVariables.MapSwitch == 1 )
 				pRamVariables.MapSwitch = 1;
@@ -208,14 +208,14 @@ void ProgModeBlendAdjust()
 {
 	if(pRamVariables.BlendMode == 1)
 	{
-		if(pRamVariables.buttons[3].edgeDetect == 1)
+		if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
 		{	
 			if(pRamVariables.MapBlendRatio > (BLEND_MAX - BLEND_STEP - 0.01f))
 				pRamVariables.MapBlendRatio = BLEND_MAX;
 			else
 				pRamVariables.MapBlendRatio+= BLEND_STEP;
 		}
-		else if(pRamVariables.buttons[7].edgeDetect == 1)
+		else if(pRamVariables.buttons[rgButtonDownSource].edgeDetect == 1)
 		{
 			if(pRamVariables.MapBlendRatio < (BLEND_MIN + BLEND_STEP + 0.01f))
 				pRamVariables.MapBlendRatio = BLEND_MIN;//Hard limit, does not cycle to top again.
@@ -229,12 +229,12 @@ void ProgModeBlendAdjust()
 
 void ProgModeBlendMode()
 {
-	if(pRamVariables.buttons[3].edgeDetect == 1)
+	if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
 	{	
 		if(pRamVariables.BlendMode <=0)
 			pRamVariables.BlendMode = 1;
 	}
-	else if(pRamVariables.buttons[7].edgeDetect == 1)
+	else if(pRamVariables.buttons[rgButtonDownSource].edgeDetect == 1)
 	{
 		if(pRamVariables.BlendMode >= 1 )
 			pRamVariables.BlendMode = 0;
@@ -246,12 +246,12 @@ void ProgModeBlendMode()
 void ProgModeLCAdjust()
 {
 	#if !AUTO_TRANS
-	if(pRamVariables.buttons[3].edgeDetect == 1)
+	if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
 	{	
 		if(pRamVariables.LaunchControlCut < pRamVariables.RedLineCut)
 			pRamVariables.LaunchControlCut+= LC_STEP;
 	}
-	else if(pRamVariables.buttons[7].edgeDetect == 1)
+	else if(pRamVariables.buttons[rgButtonDownSource].edgeDetect == 1)
 	{
 		if(pRamVariables.LaunchControlCut > LC_MIN)
 			pRamVariables.LaunchControlCut-= LC_STEP;//Hard limit, does not cycle to top again.
@@ -269,14 +269,14 @@ void ProgModeLCAdjust()
 
 void ProgModeIAMAdjust()
 {
-	if(pRamVariables.buttons[3].edgeDetect == 1)
+	if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
 	{	
 		if(*pIAM < IAM_MAX - IAM_STEP)
 			*pIAM += IAM_STEP;
 		else
 			*pIAM = IAM_MAX;
 	}
-	else if(pRamVariables.buttons[7].edgeDetect == 1)
+	else if(pRamVariables.buttons[rgButtonDownSource].edgeDetect == 1)
 	{
 		if(IAM > IAM_MIN + IAM_STEP)
 			*pIAM -= IAM_STEP;
@@ -289,12 +289,12 @@ void ProgModeIAMAdjust()
 
 void ProgModeValetMode()
 {
-	if(pRamVariables.buttons[3].edgeDetect == 1)
+	if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
 	{	
 		if(pRamVariables.ValetMode <=0)
 			pRamVariables.ValetMode = 1;
 	}
-	else if(pRamVariables.buttons[7].edgeDetect == 1)
+	else if(pRamVariables.buttons[rgButtonDownSource].edgeDetect == 1)
 	{
 		if(pRamVariables.ValetMode >= 1 )
 			pRamVariables.ValetMode = 0;
@@ -306,14 +306,14 @@ void ProgModeValetMode()
 #define LED_STEP 24
 void ProgModeRaceGradeBackLight()
 {
-	if(pRamVariables.buttons[3].edgeDetect == 1)
+	if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
 	{	
 		if(pRamVariables.rgBackLight < (255-LED_STEP))
 			pRamVariables.rgBackLight += LED_STEP;
 		else
 			pRamVariables.rgBackLight = 255;
 	}
-	else if(pRamVariables.buttons[7].edgeDetect == 1)
+	else if(pRamVariables.buttons[rgButtonDownSource].edgeDetect == 1)
 	{
 		if(pRamVariables.rgBackLight > LED_STEP)
 			pRamVariables.rgBackLight-= LED_STEP;//Hard limit, does not cycle to top again.

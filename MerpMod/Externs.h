@@ -303,6 +303,13 @@ extern float ValetModeRevLim;
 #define RACEGRADE_LED_CCM 1
 #define RACEGRADE_CANOPEN_START 3
 #define RAMETUNE_RESPONSE 5
+extern unsigned char rgButtonEthanolSource;
+extern unsigned char rgButtonValetSource;
+extern unsigned char rgButtonFFSSource;
+extern unsigned char rgButtonBailSource;
+extern unsigned char rgButtonModeSource;
+extern unsigned char rgButtonUpSource;
+extern unsigned char rgButtonDownSource;
 extern CanMessageSetupStruct ccm00;
 extern CanMessageSetupStruct ccm01;
 extern CanMessageSetupStruct ccm02;
