@@ -19,11 +19,6 @@
 
 void POLFHack()
 {		
-
-		
-
-		
-	
 #if POLF_MAIN_HOOK
 EcuHacksMain();
 #endif

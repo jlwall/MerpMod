@@ -72,26 +72,29 @@ float SwitchSelect(TableSubSet tss, float xLookup, float yLookup)
 
 void InputUpdate()//TODO: put on SD branch
 {
-	float grad = 0.0000762939453125;
-	float offs = 0.0f;
-	pRamVariables.TGVLeftVolts = ShortToFloatHooked(*pTGVLeftVoltage,grad,offs);
-	pRamVariables.TGVRightVolts = ShortToFloatHooked(*pTGVRightVoltage,grad,offs);
-	pRamVariables.TGVLeftScaled = Pull2DHooked(&TGVLeftScaling,pRamVariables.TGVLeftVolts);
-	pRamVariables.TGVRightScaled = Pull2DHooked(&TGVRightScaling,pRamVariables.TGVRightVolts);
+	#ifdef TGV_USE
+		float grad = 0.0000762939453125;
+		float offs = 0.0f;
+		pRamVariables.TGVLeftVolts = ShortToFloatHooked(*pTGVLeftVoltage,grad,offs);
+		pRamVariables.TGVRightVolts = ShortToFloatHooked(*pTGVRightVoltage,grad,offs);
+		pRamVariables.TGVLeftScaled = Pull2DHooked(&TGVLeftScaling,pRamVariables.TGVLeftVolts);
+		pRamVariables.TGVRightScaled = Pull2DHooked(&TGVRightScaling,pRamVariables.TGVRightVolts);
+	#endif
 	if(pRamVariables.BlendMode == 0) //Auto Mode
 	{
 		switch(BlendRatioInput)
 		{
 			case InputModeUndefined:
 			break;
+			#ifdef TGV_USE
+				case InputModeTGVLeft:
+					pRamVariables.MapBlendRatio = pRamVariables.TGVLeftScaled;
+					break;
 		
-			case InputModeTGVLeft:
-				pRamVariables.MapBlendRatio = pRamVariables.TGVLeftScaled;
-				break;
-		
-			case InputModeTGVRight:
-				pRamVariables.MapBlendRatio = pRamVariables.TGVRightScaled;
-				break;
+				case InputModeTGVRight:
+					pRamVariables.MapBlendRatio = pRamVariables.TGVRightScaled;
+					break;
+			#endif
 		
 			case InputCanFlexFuelRatio:
 				pRamVariables.MapBlendRatio = pRamVariables.rEthanolCAN;
@@ -118,7 +121,7 @@ void InputUpdate()//TODO: put on SD branch
 		#ifdef pSiDrive
 		case InputModeSiDrive:
 		{
-			switch(*(unsigned int*)pSiDrive)
+			switch(*(unsigned char*)pSiDrive)
 			{
 		
 			case SiDriveSS:
@@ -140,14 +143,15 @@ void InputUpdate()//TODO: put on SD branch
 		}
 		break;
 		#endif
+		#ifdef TGV_USE
+			case InputModeTGVLeft:
+				MapSwitchThresholdCheck(pRamVariables.TGVLeftVolts);
+				break;
 		
-		case InputModeTGVLeft:
-			MapSwitchThresholdCheck(pRamVariables.TGVLeftVolts);
-			break;
-		
-		case InputModeTGVRight:
-			MapSwitchThresholdCheck(pRamVariables.TGVRightVolts);
-			break;
+			case InputModeTGVRight:
+				MapSwitchThresholdCheck(pRamVariables.TGVRightVolts);
+				break;
+		#endif
 		
 		default:
 			pRamVariables.MapSwitch = DefaultMapSwitch;

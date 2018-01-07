@@ -35,7 +35,7 @@ void GenericTests()
 	
 	ResetRamVariables();
 	
-
+    RevLimHook();
 	
 #if CAN_HACKS
 	CustomCanUnitTests();

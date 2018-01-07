@@ -70,15 +70,15 @@ float FuelPressure_ROWS[4] FUELDATA =
 {0,0.5,4.5,5};
 
 //Target Air Fuel Ratio for stoichiometric 
-float FuelPressure_DATA[4] FUELDATA =
-{0,0,150,150.0};
+short FuelPressure_DATA[4] FUELDATA =
+{0,0,15000,15000};
 
 TwoDTable FuelPressureTable  FUELDATA = {
 	.columnCount = 4,
-	.tableType = FloatTable2D,
+	.tableType = UInt16Table2D,
 	.columnHeaderArray = FuelPressure_ROWS,
 	.tableCells = FuelPressure_DATA,
-	.multiplier = 1,
+	.multiplier = 0.01,
 	.offset = 0.0 };		
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

@@ -83,11 +83,14 @@ void RevLimCode()
 			pRamVariables.FFSEngaged = 2;
 		}
 		
+		
+#if PROG_MODE
 		if (pRamVariables.ValetMode == ValetModeEnabled)
 		{
 			pRamVariables.RedLineCut = ValetModeRevLim;
 			pRamVariables.RevLimResume = ValetModeRevLim - Abs(pRamVariables.FlatFootShiftHyst);
 		}
+		#endif
 	}
 	
 	//Add a SW unadjustable Hard Limit, having this in ram only is not safe

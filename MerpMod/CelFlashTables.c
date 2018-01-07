@@ -17,7 +17,7 @@
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!! CelFlash constants
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+#if CEL_HACKS
 unsigned char FBKCLoFlashSpeed CELFLASHDATA = 0x02;
 unsigned char FBKCLoFlashes CELFLASHDATA = 0x04;
 unsigned char FBKCHiFlashSpeed CELFLASHDATA = 0x01;
@@ -36,6 +36,7 @@ float FBKCLoadThreshold CELFLASHDATA = 1.5f;
 float EGTCelLoadThreshold CELFLASHDATA = 1.5f;
 float EGTResistanceThreshold CELFLASHDATA = 25.0f;
 
+#endif
 //TwoDTable LeanBoostThreshold CELFLASHDATA = //MAP axis, LAMBDA data
 //unsigned char LeanBoostInputMode CELFLASHDATA = LeanBoostInputModeOEM; //TODO EXTERN
 //TODO: TwoDTable with axes to use rearo2 or TGV input as wideband for LEAN BOOST flash

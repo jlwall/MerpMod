@@ -39,10 +39,13 @@ void RevLimHook() ROMCODE;
 
 float ComputeMassAirFlow(TwoDTable* MafScalingTable, float MafVoltage)  ROMCODE;
 float CallSpeedDensityHook()  ROMCODE;
+#if CEL_HACKS
 void CelDoubleRepeat(unsigned char * CelFlashes1, unsigned char Speed1, unsigned char * CelFlashes2, unsigned char Speed2, unsigned char Delay1, unsigned char Delay2)  ROMCODE;
 void CelFlashStart(unsigned char CelFlashes, unsigned char Speed, unsigned char Delay, unsigned char Interrupt)  ROMCODE;
 void CelFlash()	ROMCODE;
+#endif
 
+#if CAN_HACKS
 void CanSetup()	ROMCODE;
 void setupMailBox(unsigned char bus, unsigned char mailBox, unsigned short id, unsigned char mcs, unsigned char dlc) ROMCODE;
 void updateCanRaw(unsigned long src, unsigned char type, unsigned char ccm, unsigned char bytePos) ROMCODE;
@@ -52,9 +55,10 @@ void sendCanMessage(unsigned char ccm) ROMCODE;
 void recieveCanMessage(unsigned char ccm) ROMCODE;
 void updateCanDT(unsigned char dt) ROMCODE;
 void CustomCanService() ROMCODE;
-unsigned short returnShifter(unsigned char c) ROMCODE;
+//unsigned short returnShifter(unsigned char c) ROMCODE;
 void memCopyProtected(unsigned long src, unsigned long dest, unsigned char type) ROMCODE;
 void rcpCanMessageSetup(unsigned long id,unsigned short ext, unsigned short dlc, unsigned short bus, unsigned short mailBox) ROMCODE;
+#endif
 
 #if RCP_CAN
 void rcp_frame_manager() ROMCODE;
@@ -64,6 +68,13 @@ void send_frame_0x702() ROMCODE;
 void send_frame_0x703() ROMCODE;
 void send_frame_0x704() ROMCODE;
 void send_frame_0x705() ROMCODE;
+
+extern unsigned long rcpCAN_ID_m0;
+extern unsigned long rcpCAN_ID_m1;
+extern unsigned long rcpCAN_ID_m2;
+extern unsigned long rcpCAN_ID_m3;
+extern unsigned long rcpCAN_ID_m4;
+extern unsigned long rcpCAN_ID_m5;
 #endif
 
 void WGDCHack(void) ROMCODE;
@@ -263,6 +274,7 @@ extern unsigned char DefaultLCSparkEventsToCut;
 extern unsigned char DefaultLCSparkEventsCutFrom;
 
 //CEL flahs defaults
+#if CEL_HACKS
 extern unsigned char FBKCLoFlashes;
 extern unsigned char FBKCLoFlashSpeed;
 extern unsigned char FBKCHiFlashes;
@@ -280,7 +292,7 @@ extern float FBKCHiThreshold;
 extern float FBKCLoadThreshold;
 extern float EGTCelLoadThreshold;
 extern float EGTResistanceThreshold;
-
+#endif
 
 //Rev Limiter Defaults
 extern unsigned char DefaultRevLimMode;
@@ -302,8 +314,8 @@ extern float ValetModeRevLim;
 #if CAN_HACKS
 #define ccmCount 12
 #define RACEGRADE_LED_CCM 1
-#define RACEGRADE_CANOPEN_START 3
-#define RAMETUNE_RESPONSE 5
+//#define RACEGRADE_CANOPEN_START_CCM 3
+#define RAMETUNE_RESPONSE_CCM 5
 extern unsigned char rgButtonEthanolSource;
 extern unsigned char rgButtonValetSource;
 extern unsigned char rgButtonFFSSource;
@@ -311,6 +323,7 @@ extern unsigned char rgButtonBailSource;
 extern unsigned char rgButtonModeSource;
 extern unsigned char rgButtonUpSource;
 extern unsigned char rgButtonDownSource;
+extern unsigned char rcpStreamEnabled;
 extern float rgLC_MIN;
 extern float rgLC_STEP;
 extern float rgBLEND_STEP;
@@ -339,7 +352,7 @@ extern float cmDTscale[];
 extern float cmDToffset[];
 
 extern TwoDTable FuelPressureTable;
-void updateFuelPressure(unsigned short rawVoltage);
+void updateFuelPressure(unsigned short rawVoltage) ROMCODE;
 void raceGradeKeyPadCallback(unsigned char* data) ROMCODE;
 void canCallbackRamTune(unsigned char* data) ROMCODE;
 void canCallbackAEMwideband(unsigned char* data) ROMCODE;

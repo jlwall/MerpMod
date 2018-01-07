@@ -51,7 +51,7 @@ void send_frame_0x700()
  		SG_ rLam : 56|8@1+ (0.0078125,0) [0|2] "rat"  RCPMK2
 	*/
 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
-	rcpCanMessageSetup(0x700, 0, 8, 0, RPCBUF); 		 	
+	rcpCanMessageSetup(rcpCAN_ID_m0, 0, 8, 0, RPCBUF); 		 	
 	((unsigned char*)addrtemp)[0] = limit_u8((*pAfCorrection_1)/0.0078125f);
 	((unsigned char*)addrtemp)[1] = limit_u8((*pIgnitionTimeTotal)/0.5f + 128);
 	((unsigned short*)addrtemp)[1] = limit_u16((*pMassAirFlow)/0.01f);
@@ -76,7 +76,7 @@ void send_frame_0x701()
  		
  	*/
 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
-	rcpCanMessageSetup(0x701, 0, 8, 0, RPCBUF); 	
+	rcpCanMessageSetup(rcpCAN_ID_m1, 0, 8, 0, RPCBUF); 	
  	((unsigned char*)addrtemp)[0] = limit_u8((*pIam4)*16); 		
 	((unsigned char*)addrtemp)[1] = *pFbkc1; 		
 	((unsigned char*)addrtemp)[2] = *pkclearn1; 
@@ -104,7 +104,7 @@ void send_frame_0x702()
  		SG_ aCamExL : 56|8@1+ (1,-50) [-50|50] ""  RCPMK2
  	*/
 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
-	rcpCanMessageSetup(0x702, 0, 8, 0, RPCBUF); 	 		
+	rcpCanMessageSetup(rcpCAN_ID_m2, 0, 8, 0, RPCBUF); 	 		
 	((unsigned char*)addrtemp)[0] = *pKnockSum1; 	
 	((unsigned char*)addrtemp)[1] = *pKnockSum2; 		
  	((unsigned char*)addrtemp)[2] = *pKnockSum3;		
@@ -128,8 +128,10 @@ void send_frame_0x703()
  		SG_ rTDint : 48|8@1+ (0.2,-25.6) [-25|25] "%"  RCPMK2 		
 	*/
 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);		
-	rcpCanMessageSetup(0x703, 0, 8, 0, RPCBUF); 	 
-	((unsigned short*)addrtemp)[0] = limit_u16((pRamVariables.TargetBoost-242.850759f)*25.3447147559339f);
+	rcpCanMessageSetup(rcpCAN_ID_m3, 0, 8, 0, RPCBUF); 
+	#if BOOST_HACKS	 
+		((unsigned short*)addrtemp)[0] = limit_u16((pRamVariables.TargetBoost-242.850759f)*25.3447147559339f);
+	#endif
 	((unsigned char*)addrtemp)[2] = limit_u8(pRamVariables.MapBlendRatio * 255);
 	((unsigned char*)addrtemp)[3] = limit_u8((*pAFLearning_1)/0.0078125f);
 	((unsigned char*)addrtemp)[4] = limit_u8((*pBatteryVoltage)/0.08);
@@ -151,11 +153,12 @@ void send_frame_0x704()
  		SG_ rLamLearnD : 56|8@1+ (0.01,-128) [-100|100] "%"  RCPMK2
 	*/
 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
-	rcpCanMessageSetup(0x704, 0, 8, 0, RPCBUF); 	 	
-	
-	((unsigned short*)addrtemp)[0] = limit_u16(pRamVariables.PolfOutput * 1000);
-	((unsigned char*)addrtemp)[2] = limit_u8((pRamVariables.TargetedStoich-8)*36);
-	((unsigned char*)addrtemp)[3] = limit_u8((pRamVariables.kFuelPressure / 0.0078125));
+	rcpCanMessageSetup(rcpCAN_ID_m4, 0, 8, 0, RPCBUF); 	 	
+	#if POLF_HACKS
+		((unsigned short*)addrtemp)[0] = limit_u16(pRamVariables.PolfOutput * 1000);	
+		((unsigned char*)addrtemp)[2] = limit_u8((pRamVariables.TargetedStoich-8)*36);
+		((unsigned char*)addrtemp)[3] = limit_u8((pRamVariables.kFuelPressure / 0.0078125));
+	#endif
 	((unsigned char*)addrtemp)[4] = limit_u8((*prLamLearnA*100) + 128);
  	((unsigned char*)addrtemp)[5] = limit_u8((*prLamLearnB*100) + 128);
  	((unsigned char*)addrtemp)[6] = limit_u8((*prLamLearnC*100) + 128);
@@ -172,7 +175,7 @@ void send_frame_0x705()
 		SG_ pFuelAbs : 48|16@1+ (0.01,0) [0|65.55] "psia"  RCPMK2
 	*/
 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
-	rcpCanMessageSetup(0x705, 0, 8, 0, RPCBUF); 	
+	rcpCanMessageSetup(rcpCAN_ID_m5, 0, 8, 0, RPCBUF); 	
 	((unsigned long*)addrtemp)[0] = limit_u32(*pEstimatedOdometer * 10);
 	((unsigned short*)addrtemp)[2] = limit_u16((pRamVariables.pFuelCanRel*100));
 	((unsigned short*)addrtemp)[3] = limit_u16((pRamVariables.pFuelCan*100));

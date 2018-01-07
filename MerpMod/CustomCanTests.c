@@ -65,8 +65,8 @@ unsigned long getMailBoxId(unsigned short mailbox, unsigned short bus)
 unsigned char dt1[8]  = {0,0,0,0,0,0,0,0};
 unsigned char dt2[8]  = {0,0,0,0,0,0,0,0};
 unsigned char dt3[8]  = {4,0,0,0,0,0,0,0};
-unsigned char dtAEM[8] ROMCODE = {4,2,5,2,0,0,0,0};
-unsigned char dte85[8] ROMCODE = {1,2,45,0,0x38,0x52,7,8};
+unsigned char dtAEM[8] = {4,2,5,2,0,0,0,0};
+unsigned char dte85[8] = {1,2,45,0,0x38,0x52,7,8};
 #endif
 
 void CustomCanUnitTests() __attribute__ ((section ("Misc")));

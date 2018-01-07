@@ -16,6 +16,8 @@
 #include "EcuHacks.h"
 #if CAN_HACKS
 
+unsigned long shC[24] CANDATA = {1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384,32768,65536,131072,262144,524288,1048576,2097152,4192304,8388608};
+
 void setupMailBoxStruct(CanMessageSetupStruct* cs)
 {
 	unsigned short* ptr;	
@@ -213,51 +215,8 @@ void sendCanMessage(unsigned char ccm)
 			tmp = (unsigned short)ccmGroup[ccm].mailBox;
 			ptr = (unsigned short*)(0xFFFFD000 + 0x800*(ccmGroup[ccm].bus&0x01) + 0x22);	//This is 	TXPR0	
 			}
-		switch(tmp)
-		{
-			case  0: ptr[0] = 0x001; break;
-			case  1: ptr[0] = 0x002; break;
-			case  2: ptr[0] = 0x004; break;
-			case  3: ptr[0] = 0x008; break;
-			case  4: ptr[0] = 0x010; break;
-			case  5: ptr[0] = 0x020; break;
-			case  6: ptr[0] = 0x040; break;
-			case  7: ptr[0] = 0x080; break;
-			case  8: ptr[0] = 0x100; break;
-			case  9: ptr[0] = 0x200; break;
-			case 10: ptr[0] = 0x400; break;
-			case 11: ptr[0] = 0x800; break;
-			case 12: ptr[0] = 0x1000; break;
-			case 13: ptr[0] = 0x2000; break;
-			case 14: ptr[0] = 0x4000; break;
-			case 15: ptr[0] = 0x8000; break;
-			default: break;
-		}
+		ptr[0] = shC[tmp];
 	}
-}
-
-unsigned short returnShifter(unsigned char c)
-{	
-	switch(c)
-		{
-		case  0: return 0x001; break;
-		case  1: return 0x002; break;
-		case  2: return 0x004; break;
-		case  3: return 0x008; break;
-		case  4: return 0x010; break;
-		case  5: return 0x020; break;
-		case  6: return 0x040; break;
-		case  7: return 0x080; break;
-		case  8: return 0x100; break;
-		case  9: return 0x200; break;
-		case 10: return 0x400; break;
-		case 11: return 0x800; break;
-		case 12: return 0x1000; break;
-		case 13: return 0x2000; break;
-		case 14: return 0x4000; break;
-		case 15: return 0x8000; break;
-		default: return 0;break;
-		}
 }
 
 void recieveCanMessage(unsigned char ccm)
@@ -279,28 +238,9 @@ void recieveCanMessage(unsigned char ccm)
 			tmp = (unsigned short)ccmGroup[ccm].mailBox;
 			ptr = (unsigned short*)(0xFFFFD000 + 0x800*(ccmGroup[ccm].bus&0x01) + 0x42);	//This is 	RXPR0	
 		}	
-		if((ptr[0] & returnShifter(tmp)) >0)
-		{		
-			switch(tmp)
-			{
-				case  0: ptr[0] = 0x001; break;
-				case  1: ptr[0] = 0x002; break;
-				case  2: ptr[0] = 0x004; break;
-				case  3: ptr[0] = 0x008; break;
-				case  4: ptr[0] = 0x010; break;
-				case  5: ptr[0] = 0x020; break;
-				case  6: ptr[0] = 0x040; break;
-				case  7: ptr[0] = 0x080; break;
-				case  8: ptr[0] = 0x100; break;
-				case  9: ptr[0] = 0x200; break;
-				case 10: ptr[0] = 0x400; break;
-				case 11: ptr[0] = 0x800; break;
-				case 12: ptr[0] = 0x1000; break;
-				case 13: ptr[0] = 0x2000; break;
-				case 14: ptr[0] = 0x4000; break;
-				case 15: ptr[0] = 0x8000; break;
-				default: return; break;
-			}
+		if((ptr[0] & shC[tmp]) >0)//returnShifter(tmp)) >0)
+		{	
+			ptr[0] = shC[tmp];
 				
 			if(ccmGroup[ccm].callback >0)
 			{
@@ -315,7 +255,6 @@ void recieveCanMessage(unsigned char ccm)
 	}
 }
 
-unsigned long shC[24] CANDATA = {1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384,32768,65536,131072,262144,524288,1048576,2097152,4192304,8388608};
 
 void canCallbackAEMwideband(unsigned char* data)
 {
@@ -332,6 +271,7 @@ void canCallbackMK3e85Packet(unsigned char* data)
 	updateFuelPressure((unsigned short)((unsigned short)data[2]*256 + (unsigned short)data[3]));
 	pRamVariables.pFuelCanRel = pRamVariables.pFuelCan - (*pManifoldAbsolutePressure-760)/51.71492510510006;
 	
+	#if POLF_HACKS
 	//Update scale for fuel Pressure
 	if(pRamVariables.fuelPressureFlowEnabled == 1)
 	{		
@@ -343,17 +283,25 @@ void canCallbackMK3e85Packet(unsigned char* data)
 	//Update Injector scaling based off new 	
 	if(pRamVariables.flexFuelSensorEnabaled == 1)	
 	{
-		pRamVariables.TargetedStoich = Pull2DHooked(&FlexFuelStoichTable, pRamVariables.MapBlendRatio);	 
+		#if SWITCH_HACKS	
+			pRamVariables.TargetedStoich = Pull2DHooked(&FlexFuelStoichTable, pRamVariables.MapBlendRatio);	 
+		#else
+			pRamVariables.TargetedStoich = 14.65;
+		#endif
 		pRamVariables.InjectorScaling =  pRamVariables.kFuelPressure *(pRamVariables.TargetedStoich / BaseGasolineAFR) *  (*dInjectorScaling);
 	}
 	else
 		pRamVariables.InjectorScaling = pRamVariables.kFuelPressure * (*dInjectorScaling);
+	
+	#endif
 }
 
 void updateFuelPressure(unsigned short rawVoltage)
 {
-	pRamVariables.vFuelPressureRel = ShortToFloatHooked(rawVoltage, (1/13107.2f),0);
-	pRamVariables.pFuelCan = Pull2DHooked(&FuelPressureTable, pRamVariables.vFuelPressureRel);	 
+	#if POLF_HACKS
+		pRamVariables.vFuelPressureRel = ShortToFloatHooked(rawVoltage, (1/13107.2f),0);
+		pRamVariables.pFuelCan = Pull2DHooked(&FuelPressureTable, pRamVariables.vFuelPressureRel);	 
+	#endif
 }
 
 void raceGradeKeyPadCallback(unsigned char* data)
@@ -443,8 +391,8 @@ void canCallbackRamTune(unsigned char* data)
 				default :
 					break;				
 			}
-			updateCanRaw((unsigned long)&retWord, dtLong, RAMETUNE_RESPONSE, 0);										
-			sendCanMessage(RAMETUNE_RESPONSE);	
+			updateCanRaw((unsigned long)&retWord, dtLong, RAMETUNE_RESPONSE_CCM, 0);										
+			sendCanMessage(RAMETUNE_RESPONSE_CCM);	
 		}		
 		break;
 		case 0x60 :		//RAM Read
@@ -458,27 +406,27 @@ void canCallbackRamTune(unsigned char* data)
 					if((addr%1)==0)
 					{	
 						retWord = addr&0x00FFFFFF+0xE1000000;										
-						updateCanRaw(addr, dtChar, RAMETUNE_RESPONSE, 4);						
+						updateCanRaw(addr, dtChar, RAMETUNE_RESPONSE_CCM, 4);						
 					}
 					break;
 				case 2:		// Write to 2 byte
 					if((addr%2)==0)
 					{
 						retWord = addr&0x00FFFFFF+0xE1000000;								
-						updateCanRaw(addr, dtShort, RAMETUNE_RESPONSE, 4);						
+						updateCanRaw(addr, dtShort, RAMETUNE_RESPONSE_CCM, 4);						
 					}
 					break;
 				case 3:		// Write to 4 byte
 					if((addr%4)==0)
 					{
 						retWord = addr&0x00FFFFFF+0xE1000000;								
-						updateCanRaw(addr, dtLong, RAMETUNE_RESPONSE, 4);
+						updateCanRaw(addr, dtLong, RAMETUNE_RESPONSE_CCM, 4);
 					}
 				break;
 				default: break;
 			}
-			updateCanRaw((unsigned long)&retWord, dtLong, RAMETUNE_RESPONSE, 0);				
-			sendCanMessage(RAMETUNE_RESPONSE);	
+			updateCanRaw((unsigned long)&retWord, dtLong, RAMETUNE_RESPONSE_CCM, 0);				
+			sendCanMessage(RAMETUNE_RESPONSE_CCM);	
 		}												
 		break;
 		case 0x70 :		//Flash Read
@@ -491,27 +439,27 @@ void canCallbackRamTune(unsigned char* data)
 					if((addr%1)==0)
 					{			
 						retWord = addr+0xF1000000;								
-						updateCanRaw(addr, dtChar, RAMETUNE_RESPONSE, 4);			
+						updateCanRaw(addr, dtChar, RAMETUNE_RESPONSE_CCM, 4);			
 					}
 					break;
 				case 2:		// Write to 2 byte
 					if((addr%2)==0)
 					{
 						retWord = addr+0xF2000000;								
-						updateCanRaw(addr, dtShort, RAMETUNE_RESPONSE, 4);			
+						updateCanRaw(addr, dtShort, RAMETUNE_RESPONSE_CCM, 4);			
 					}
 					break;
 				case 3:		// Write to 4 byte
 					if((addr%4)==0)
 					{
 						retWord = addr+0xF3000000;								
-						updateCanRaw(addr, dtLong, RAMETUNE_RESPONSE, 4);			
+						updateCanRaw(addr, dtLong, RAMETUNE_RESPONSE_CCM, 4);			
 					}
 				break;
 				default: break;
 			}
-			updateCanRaw((unsigned long)&retWord, dtLong, RAMETUNE_RESPONSE, 0);
-			sendCanMessage(RAMETUNE_RESPONSE);													
+			updateCanRaw((unsigned long)&retWord, dtLong, RAMETUNE_RESPONSE_CCM, 0);
+			sendCanMessage(RAMETUNE_RESPONSE_CCM);													
 		}
 		default: break;
 	}
@@ -533,11 +481,11 @@ void CanSetup()
 		i++;
 	}
 	pRamVariables.initFunctionRun = 1;
-	#if RACEGRADE_KEYPAD_HACKS
-		//SETUP the CANOPN Broadcast Packet to start the RaceGrade Module
-		unsigned short setupCOP = 0x010A;
-		updateCanRaw((unsigned long)&setupCOP,dtShort,RACEGRADE_CANOPEN_START,0);
-	#endif
+	//#if RACEGRADE_KEYPAD_HACKS
+	//	//SETUP the CANOPN Broadcast Packet to start the RaceGrade Module
+	//	unsigned short setupCOP = 0x010A;
+	//	updateCanRaw((unsigned long)&setupCOP,dtShort,RACEGRADE_CANOPEN_START,0);
+	//#endif
 }
 
 
@@ -550,6 +498,7 @@ void CanSetup()
 void CustomCanService()
 {
 	unsigned char i = 0;
+	unsigned char j = 0;
 	CanMessageSetupStruct *ccmGroup = (CanMessageSetupStruct *)(&ccm00);
 	unsigned char* ptrMB = (unsigned char*)(0xFFFFD100 + 0x800*(ccmGroup[0].bus&0x01) + 0x20*(ccmGroup[0].mailBox&0x1f) + 0x04);		
 	
@@ -558,17 +507,7 @@ void CustomCanService()
 	{
 		CanSetup();
 	}
-	
-	//Update all possible DataTransfers, stop when list is seen to be not configured	
-	while(i<cmDTCount)
-	{
-		if(cmDTtypeIn[i] > 0) //update if a Type is defined
-		{
-			updateCanDT(i);
-		}
-		i++;
-	}
-	
+
 	//Send all Possible Messages
 	i=0;
 	while(i<ccmCount)
@@ -577,6 +516,24 @@ void CustomCanService()
 		{
 			if(++pRamVariables.ccmSendTimers[i] >= ccmGroup[i].rate) //Send message once 1mSec timer has rolled up
 			{
+				////////////
+				//Update all possible DataTransfers, stop when list is seen to be not configured	
+				j=0;
+				while(j<cmDTCount)
+				{
+					if(cmDTtypeIn[j] > 0) //update if a Type is defined
+					{
+						if(cmDTccm[j] == i)	//update DT if it needs to be sent
+							updateCanDT(j);
+					}
+					else
+					{
+						break;
+					}
+					j++;
+				}
+				
+				/////////////
 				sendCanMessage(i);
 				pRamVariables.ccmSendTimers[i] = 0; //rest timer
 			}
@@ -587,8 +544,10 @@ void CustomCanService()
 		}
 		i++;
 	}
+	
 	#ifdef RCP_CAN
-	rcp_frame_manager();
+	if(rcpStreamEnabled==1)
+		rcp_frame_manager();
 	#endif
 }
 #endif

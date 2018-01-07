@@ -57,8 +57,8 @@ void PopulateRamVariables()
 {
 	
 #if CRUISE_CONTROL
-pRamVariables.CruiseResumeLast = TestCruiseResumeSwitch();
-pRamVariables.CruiseCoastLast = TestCruiseCoastSwitch();
+	pRamVariables.CruiseResumeLast = TestCruiseResumeSwitch();
+	pRamVariables.CruiseCoastLast = TestCruiseCoastSwitch();
 #endif
 
 #if INJECTOR_HACKS
@@ -74,7 +74,7 @@ pRamVariables.CruiseCoastLast = TestCruiseCoastSwitch();
 
 #if CAN_HACKS
 	pRamVariables.initFunctionRun = 0;
-	pRamVariables.sdTimer = 0;
+//	pRamVariables.sdTimer = 0;
 #endif 
 
 #if PROG_MODE
@@ -140,8 +140,8 @@ pRamVariables.CruiseCoastLast = TestCruiseCoastSwitch();
 	pRamVariables.MafMode = DefaultMafMode;
 #endif
 
+pRamVariables.ecuHacksMainCtr = 0x00;
 pRamVariables.MasterInitFlag = 0xB4;//TODO Absract this
-
 }
 
 #if VIN_HACKS

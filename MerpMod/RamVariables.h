@@ -21,38 +21,29 @@
 
 typedef struct
 {
-	unsigned char MasterInitFlag;
-	unsigned char VinAuth;
-	unsigned char CruiseCoastLast;
-	unsigned char CruiseResumeLast;
+	unsigned char MasterInitFlag; 		//00
+	unsigned char ecuHacksMainCtr;		//01
 	
-#if VIN_HACKS
-	unsigned char VehicleIdent[20];
-#endif
+	#if INJECTOR_HACKS
+		float InjectorScaling;			//04
+	#endif
 
-	float InjectorScaling;	
-	float TargetedStoich;
-	float kFuelPressure;	
-	
-	unsigned char fuelPressureFlowEnabled;
-	unsigned char flexFuelSensorEnabaled;
-#if CAN_HACKS	
-	//float ethanolContentCAN;
-	//unsigned short ethanolContentShortCAN;
-	unsigned short ccmSendTimers[ccmCount];
-	unsigned short sdTimer;
-	
-	unsigned short initFunctionRun;
-	unsigned char randomTimer;
-	unsigned char rgBackLight;
-	unsigned char ecuHacksMainCtr;
-	
+#if CAN_HACKS
+	unsigned short initFunctionRun;				//20	
+	unsigned short ccmSendTimers[ccmCount];		//12
+
+	#if POLF_HACKS
+		unsigned char fuelPressureFlowEnabled;		//10
+		unsigned char flexFuelSensorEnabaled;		//11
+	#endif
+
 	#if RACEGRADE_KEYPAD_HACKS
-		buttonRGStruct buttons[8];
+		buttonRGStruct buttons[8];				//24
+		unsigned char rgBackLight;					//22
 	#endif
 	
 	#ifdef RCP_CAN
-	unsigned char rcpFrameState;
+		unsigned char rcpFrameState;
 	#endif
 	
 	#if AEMXFINITY
@@ -67,27 +58,19 @@ typedef struct
 		unsigned char aemSensorFault;
 		unsigned char aemn1;
 		unsigned char aemn2;
-		
 	#endif
 #endif
 
-#if SPARK_CUT
-	unsigned char SparkEventsX;
-	unsigned char se;
-	unsigned char se1;
-	unsigned char se2;
-	unsigned char SparkEventsY;
-	unsigned char se3;
-	unsigned char se4;
-	unsigned char se5;
-#endif
+
 
 #if SWITCH_HACKS	
 	float MapBlendRatio;
-	float TGVLeftVolts;
-	float TGVRightVolts;
-	float TGVLeftScaled;
-	float TGVRightScaled;
+	#ifdef TGV_USE
+		float TGVLeftVolts;
+		float TGVRightVolts;
+		float TGVLeftScaled;
+		float TGVRightScaled;
+	#endif
 	unsigned char MapSwitch;
 	unsigned char null1;
 	unsigned char null2;
@@ -95,11 +78,6 @@ typedef struct
 #endif
 
 #if SD_HACKS
-	//MAF/SD params
-	unsigned char SDInitFlag;		//96d
-	unsigned char MafMode;
-	unsigned char SDempty;
-	unsigned char sdempty1;	
 	float VolumetricEfficiency;	//	96d
 	float MafFromSpeedDensity;
 	float MafFromSensor;
@@ -107,7 +85,8 @@ typedef struct
 	float DeltaMapCompensation;	
 	float SDMafBlendRatio;
 	float SDMafFromBlend;
-
+	unsigned char SDInitFlag;		//96d
+	unsigned char MafMode;	
 #endif
 	
 #if REVLIM_HACKS
@@ -197,6 +176,8 @@ typedef struct
 	float LCFuelEnrich;			//97
 	float LCFuelLock;			//97
 	float LCFuelEnrichMultiplier;
+	float TargetedStoich;		//	08
+	float kFuelPressure;		//	0C
 #endif
 
 #if BOOST_HACKS	
@@ -212,6 +193,25 @@ typedef struct
 	float WGDCMax;
 #endif
 	
+#if SPARK_CUT
+	unsigned char SparkEventsX;
+	unsigned char se;
+	unsigned char se1;
+	unsigned char se2;
+	unsigned char SparkEventsY;
+	unsigned char se3;
+	unsigned char se4;
+	unsigned char se5;
+#endif
+	
+#if VIN_HACKS
+	unsigned char VehicleIdent[20];
+#endif
+
+#if CRUISE_CONTROL
+	unsigned char CruiseCoastLast;		//02
+	unsigned char CruiseResumeLast;		//03
+#endif
 	
 #if VE_RAMTUNING
 //VE RAMTUNING

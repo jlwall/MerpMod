@@ -150,7 +150,7 @@ DEFINERAMVAR("MerpMod Prog Mode Value",ProgModeValue,4,"E");
 
 
 #if CAN_HACKS
-//DEFNEW1D("Custom Can Messages",ccm00);
+DEFNEW3D("Custom Can Messages",ccm00);
 DEFNEW1D("Custom Can Data Transfer Address", cmDTaddr);
 DEFNEW1D("Custom Can Data Transfer Type In", cmDTtypeIn);
 DEFNEW1D("Custom Can Data Transfer Type Out", cmDTtypeOut);
@@ -158,6 +158,31 @@ DEFNEW1D("Custom Can Data Transfer Position", cmDTpos);
 DEFNEW1D("Custom Can Data Transfer Message", cmDTccm);
 DEFNEW1D("Custom Can Data Transfer Scale", cmDTscale);
 DEFNEW1D("Custom Can Data Transfer Offset", cmDToffset);
+
+DEFNEW1D("Race Capture Pro Stream", rcpStreamEnabled);
+
+DEFNEW1D("Race Capture Pro CAN ID 0", rcpCAN_ID_m0);
+DEFNEW1D("Race Capture Pro CAN ID 1", rcpCAN_ID_m1);
+DEFNEW1D("Race Capture Pro CAN ID 2", rcpCAN_ID_m2);
+DEFNEW1D("Race Capture Pro CAN ID 3", rcpCAN_ID_m3);
+DEFNEW1D("Race Capture Pro CAN ID 4", rcpCAN_ID_m4);
+DEFNEW1D("Race Capture Pro CAN ID 5", rcpCAN_ID_m5);
+
+DEFNEW1D("Race Grade Button Blend", rgButtonEthanolSource);
+DEFNEW1D("Race Grade Button Valet", rgButtonValetSource);
+DEFNEW1D("Race Grade Button FlatFoot", rgButtonFFSSource);
+DEFNEW1D("Race Grade Button Bail", rgButtonBailSource);
+DEFNEW1D("Race Grade Button Mode", rgButtonModeSource);
+DEFNEW1D("Race Grade Button Up", rgButtonUpSource);
+DEFNEW1D("Race Grade Button Down", rgButtonDownSource);
+
+DEFNEW1D("Race Grade Launch Control Min Rev", rgLC_MIN);
+DEFNEW1D("Race Grade Launch Control Step", rgLC_STEP);
+DEFNEW1D("Race Grade Blend Step", rgBLEND_STEP);
+
+
+
+
 #endif
 	
 DEFIDA1D("ECU Identifier",dEcuId);
@@ -247,8 +272,9 @@ DEFNEW1D("LC Minimum Throttle Threshold",LCMinimumThrottle);
 DEFNEW1D("FFS Minimum Throttle Threshold",FFSMinimumThrottle);
 #ifdef pCurrentGear
 DEFNEW1D("FFS Gear Ratios",GearRatios);
-#endif
 DEFNEW1D("Rev Limit (Launch Control)",DefaultLaunchControlCut);	
+#endif
+
 	
 	//PARAMS
 DEFINERAMVAR("MerpMod FFS Mode",FlatFootShiftMode,1,"E");//TODO add to def base
@@ -268,23 +294,27 @@ DEFINERAMVAR("MerpMod FFS Speed Threshold",FlatFootShiftSpeedThreshold,4,"E");
 DEFINERAMVAR("MerpMod LC Speed Threshold",LaunchControlSpeedMax,4,"E");
 #endif
 
+#if REVLIM_HACKS
 #if LC_ADJUST
 DEFNEW1D("Launch Control Adjustment Step",LCAdjustStep);
+#endif
 #endif
 
 #if SWITCH_HACKS
 DEFINERAMVAR("MerpMod Master Init Flag",MasterInitFlag,1,"E");
-	
-DEFINERAMVAR("MerpMod TGV Volts Left",TGVLeftVolts,4,"E");
-DEFINERAMVAR("MerpMod TGV Volts Right",TGVRightVolts,4,"E");
-
-DEFNEW1D("Map Switch Input Threshold Low",MapSwitchThresholdLo);
-DEFNEW1D("Map Switch Input Threshold High",MapSwitchThresholdHi);
+	#ifdef TGV_USE
+		DEFINERAMVAR("MerpMod TGV Volts Left",TGVLeftVolts,4,"E");
+		DEFINERAMVAR("MerpMod TGV Volts Right",TGVRightVolts,4,"E");
+		DEFNEW1D("Map Switch Input Threshold Low",MapSwitchThresholdLo);
+		DEFNEW1D("Map Switch Input Threshold High",MapSwitchThresholdHi);
+	#endif
 DEFNEW1D("Map Switch Input Mode",MapSwitchInput);
 DEFNEW1D("Map Blending Input Mode",BlendRatioInput);
 DEFINERAMVAR("MerpMod Map Blending Ratio Direct",MapBlendRatio,4,"E");
-DEFINERAMVAR("MerpMod TGV Left Scaled",TGVLeftScaled,4,"E");	
-DEFINERAMVAR("MerpMod TGV Right Scaled",TGVRightScaled,4,"E");
+	#ifdef TGV_USE
+		DEFINERAMVAR("MerpMod TGV Left Scaled",TGVLeftScaled,4,"E");	
+		DEFINERAMVAR("MerpMod TGV Right Scaled",TGVRightScaled,4,"E");
+	#endif
 
 DEFNEW1D("Default Map Blending Ratio",DefaultMapBlendRatio);
 DEFNEW1D("Default Map Switch",DefaultMapSwitch);
@@ -367,6 +397,8 @@ DEFINERAMVAR("MerpMod CEL Speed Counter",CelFlashSpeedCounter,1,"E");
 
 #if BOOST_HACKS
 DEFINERAMVAR("MerpMod PGWG Compensation",PGWGComp,4,"E");
+DEFNEW1D("Valet Boost Limit",ValetModeMaxBoost);
+
 //DEFNEW1D("Boost Hack Enable",DefaultPolfHackEnabled);
 #if SWITCH_HACKS
 DEFNEW3D("Per Gear Wastegate Table 1 Intelligent",PGWGTable1i);

@@ -61,7 +61,7 @@
 #define BLEND_MIN 0.0f
 
 #define IAM_MIN 0
-#ifdef pIAM4
+#ifdef pIam4
 #define IAM_MAX 1.0f
 #define IAM_STEP 0.125
 #else
@@ -104,6 +104,7 @@ void ProgModeMain()
 	else 
 		pRamVariables.buttons[rgButtonValetSource].led = 4;	
 		
+		#if REVLIM_HACKS
 	//Button 4 - Flat Foot Shift Mode pRamVariables.FlatFootShiftMode
 	if(pRamVariables.buttons[rgButtonFFSSource].edgeDetect == 1)
 	{			
@@ -118,16 +119,21 @@ void ProgModeMain()
 		pRamVariables.buttons[rgButtonFFSSource].led = 1;
 	else if(pRamVariables.FlatFootShiftMode == 2) 
 		pRamVariables.buttons[rgButtonFFSSource].led = 2;
+		#endif
 		
+		#if REVLIM_HACKS
 	//Light up 3rd LED when FFS is engaged	
 	if(pRamVariables.FFSEngaged >= 1)
 		pRamVariables.buttons[rgButtonFFSSource].led &= 0x04;
+		#endif
 		
 	//Button 5 - Bail out Button
 	if(pRamVariables.buttons[rgButtonBailSource].edgeDetect == 1)	
 	{
 		*pIAM = IAM_MIN;
-		pRamVariables.FlatFootShiftMode = 0;
+	#if REVLIM_HACKS
+			pRamVariables.FlatFootShiftMode = 0;
+	#endif
 		pRamVariables.ValetMode = ValetModeEnabled;
 	#if SWITCH_HACKS
 		pRamVariables.MapSwitch = DefaultMapSwitch;
@@ -245,6 +251,7 @@ void ProgModeBlendMode()
 
 void ProgModeLCAdjust()
 {
+	#if REVLIM_HACKS
 	#if !AUTO_TRANS
 	if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
 	{	
@@ -264,6 +271,7 @@ void ProgModeLCAdjust()
 	#else
 	pRamVariables.ProgModeValue = 0.0f;
 	pRamVariables.ProgModeValueFlashes = 0;
+	#endif
 	#endif
 }
 

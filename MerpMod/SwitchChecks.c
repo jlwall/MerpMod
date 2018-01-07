@@ -56,6 +56,7 @@ unsigned char TestCruiseCoastSwitch()
 }
 #endif
 
+#if  SWITCH_HACKS
 void TestCruiseControlToggles()
 {
 	unsigned char resume = TestCruiseResumeSwitch();
@@ -97,3 +98,4 @@ void TestCruiseControlToggles()
 	pRamVariables.CruiseCoastLast = coast;
 	pRamVariables.CruiseResumeLast = resume;
 }
+#endif
