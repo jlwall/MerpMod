@@ -34,7 +34,7 @@ void rcp_frame_manager()
 		case  6:	send_frame_0x703();		pRamVariables.rcpFrameState++; break;
 		case  7:	pRamVariables.rcpFrameState++; break;
 		case  8:	send_frame_0x704();		pRamVariables.rcpFrameState++; break;
-		case  9:	send_frame_0x705();		pRamVariables.rcpFrameState = 0; break;		
+		case  9:	/*send_frame_0x705();*/		pRamVariables.rcpFrameState = 0; break;		
 		default: 	pRamVariables.rcpFrameState = 0;break;				
 	}		
 }
@@ -109,10 +109,10 @@ void send_frame_0x702()
 	((unsigned char*)addrtemp)[1] = *pKnockSum2; 		
  	((unsigned char*)addrtemp)[2] = *pKnockSum3;		
 	((unsigned char*)addrtemp)[3] = *pKnockSum4;	
- 	((unsigned char*)addrtemp)[4] = *pAVCSIntakeRight;
- 	((unsigned char*)addrtemp)[5] = *pAVCSIntakeLeft;
- 	((unsigned char*)addrtemp)[6] = *pAVCSExhaustRight;
-	((unsigned char*)addrtemp)[7] = *pAVCSExhaustLeft; 	
+ 	((unsigned char*)addrtemp)[4] = limit_u8((*pAVCSIntakeRight * 2) + 128);
+ 	((unsigned char*)addrtemp)[5] = limit_u8((*pAVCSIntakeLeft * 2) + 128);
+ 	((unsigned char*)addrtemp)[6] = limit_u8((*pAVCSExhaustRight * 2) + 128);
+	((unsigned char*)addrtemp)[7] = limit_u8((*pAVCSExhaustLeft * 2) + 128);
 	sendCanMessage(11);
 }
 
@@ -159,28 +159,29 @@ void send_frame_0x704()
 		((unsigned char*)addrtemp)[2] = limit_u8((pRamVariables.TargetedStoich-8)*36);
 		((unsigned char*)addrtemp)[3] = limit_u8((pRamVariables.kFuelPressure / 0.0078125));
 	#endif
-	((unsigned char*)addrtemp)[4] = limit_u8((*prLamLearnA*100) + 128);
- 	((unsigned char*)addrtemp)[5] = limit_u8((*prLamLearnB*100) + 128);
- 	((unsigned char*)addrtemp)[6] = limit_u8((*prLamLearnC*100) + 128);
-	((unsigned char*)addrtemp)[7] = limit_u8((*prLamLearnD*100) + 128); 
+	((unsigned char*)addrtemp)[4] = limit_u8((*prLamLearnA*200) + 128);
+ 	((unsigned char*)addrtemp)[5] = limit_u8((*prLamLearnB*200) + 128);
+ 	((unsigned char*)addrtemp)[6] = limit_u8((*prLamLearnC*200) + 128);
+	((unsigned char*)addrtemp)[7] = limit_u8((*prLamLearnD*200) + 128); 
 	sendCanMessage(11);
 }
 
+/*
 void send_frame_0x705()
 {
-	/*
+	//
 	BO_ 1797 ecm_stat6: 8 PCANROUTER
   		SG_ xOdometer : 0|32@1+ (0.1,0) [0|65535.] "km"  RCPMK2
 		SG_ pFuel : 32|16@1+ (0.01,0) [0|65.55] "psig"  RCPMK2
 		SG_ pFuelAbs : 48|16@1+ (0.01,0) [0|65.55] "psia"  RCPMK2
-	*/
+	//
 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
 	rcpCanMessageSetup(rcpCAN_ID_m5, 0, 8, 0, RPCBUF); 	
 	((unsigned long*)addrtemp)[0] = limit_u32(*pEstimatedOdometer * 10);
 	((unsigned short*)addrtemp)[2] = limit_u16((pRamVariables.pFuelCanRel*100));
 	((unsigned short*)addrtemp)[3] = limit_u16((pRamVariables.pFuelCan*100));
 	sendCanMessage(11);
-}
+}*/
 #endif
 #endif
 

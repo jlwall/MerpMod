@@ -280,6 +280,7 @@ void canCallbackMK3e85Packet(unsigned char* data)
 	else
 		pRamVariables.kFuelPressure = 1;
 	
+	#if INJECTOR_HACKS
 	//Update Injector scaling based off new 	
 	if(pRamVariables.flexFuelSensorEnabaled == 1)	
 	{
@@ -287,11 +288,13 @@ void canCallbackMK3e85Packet(unsigned char* data)
 			pRamVariables.TargetedStoich = Pull2DHooked(&FlexFuelStoichTable, pRamVariables.MapBlendRatio);	 
 		#else
 			pRamVariables.TargetedStoich = 14.65;
-		#endif
-		pRamVariables.InjectorScaling =  pRamVariables.kFuelPressure *(pRamVariables.TargetedStoich / BaseGasolineAFR) *  (*dInjectorScaling);
+		#endif		
+			pRamVariables.InjectorScaling =  pRamVariables.kFuelPressure *(pRamVariables.TargetedStoich / BaseGasolineAFR) *  (*dInjectorScaling);
+		
 	}
 	else
 		pRamVariables.InjectorScaling = pRamVariables.kFuelPressure * (*dInjectorScaling);
+	#endif
 	
 	#endif
 }
