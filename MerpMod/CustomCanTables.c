@@ -12,6 +12,7 @@ unsigned char rgButtonEthanolSource CANDATA = 0;
 unsigned char rgButtonValetSource CANDATA = 1;
 unsigned char rgButtonFFSSource CANDATA = 4;
 unsigned char rgButtonBailSource CANDATA = 5;
+unsigned char rgButtonPLSLSource CANDATA = 6;
 unsigned char rgButtonModeSource CANDATA = 2;
 unsigned char rgButtonUpSource CANDATA = 3;
 unsigned char rgButtonDownSource CANDATA = 7;
@@ -25,6 +26,9 @@ unsigned long rcpCAN_ID_m3 CANDATA = 0x703;
 unsigned long rcpCAN_ID_m4 CANDATA = 0x704;
 unsigned long rcpCAN_ID_m5 CANDATA = 0x705;
 
+#if REVLIM_HACKS
+	float rgPLSL[3] CANDATA = {-30.0f, 2.0f,30.0f};
+#endif
 
 float rgLC_MIN CANDATA = 2000.0f;
 float rgLC_STEP CANDATA = 250.0f;
@@ -38,9 +42,9 @@ CanMessageSetupStruct ccm04 CANDATA = {.id = 0x720,	.ext = 0,	.dlc = 8,	.bus = 0
 CanMessageSetupStruct ccm05 CANDATA = {.id = 0x728,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 24,	.mcs = mcsTrans, 	.nmc = 0, .rate =   0, .callback = 0}; //Ram Response Message
 CanMessageSetupStruct ccm06 CANDATA = {.id = 0x180, .ext = 1,	.dlc = 8,	.bus = 0,	.mailBox = 25,	.mcs = mcsReceive, 	.nmc = 1, .rate =   0, .callback = (unsigned long)&canCallbackAEMwideband};
 CanMessageSetupStruct ccm07 CANDATA = {.id = 0x710,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 26,	.mcs = mcsReceive, 	.nmc = 1, .rate =   0, .callback = (unsigned long)&canCallbackMK3e85Packet};
-CanMessageSetupStruct ccm08 CANDATA = {.id = 0x708,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 27,	.mcs = mcsTrans, 	.nmc = 0, .rate =  50, .callback = 0};	//Config 1
-CanMessageSetupStruct ccm09 CANDATA = {.id = 0x709,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 28,	.mcs = mcsTrans, 	.nmc = 0, .rate =  20, .callback = 0};	//Config 2
-CanMessageSetupStruct ccm10 CANDATA = {.id = 0x70A,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 29,	.mcs = mcsTrans, 	.nmc = 0, .rate =  20, .callback = 0};	//Config 3
+CanMessageSetupStruct ccm08 CANDATA = {.id = 0x708,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 27,	.mcs = mcsTrans, 	.nmc = 0, .rate =  20, .callback = 0};	//Config 1
+CanMessageSetupStruct ccm09 CANDATA = {.id = 0x000,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 28,	.mcs = mcsInactive, .nmc = 0, .rate =   0, .callback = 0};	//Config 2
+CanMessageSetupStruct ccm10 CANDATA = {.id = 0x000,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 29,	.mcs = mcsInactive, .nmc = 0, .rate =   0, .callback = 0};	//Config 3
 CanMessageSetupStruct ccm11 CANDATA = {.id = 0x000,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 30,	.mcs = mcsInactive, .nmc = 0, .rate =   0, .callback = 0};	//RCP Stream
 //CanMessageSetupStruct *ccmGroup[8] CANDATA;// = {&ccm00,&ccm01,&ccm02,&ccm03,&ccm04,&ccm05,&ccm06,&ccm07};
 
@@ -49,54 +53,37 @@ unsigned char dataLinkedInRam  __attribute__ ((section ("RamHole")));
 
 unsigned long cmDTaddr[cmDTCount] CANDATA = {
 	(unsigned long)&pRamVariables.rgBackLight,(unsigned long)&pRamVariables.rgBackLight,
-	(unsigned long)&pRamVariables.FFSEngaged, (unsigned long)&pRamVariables.FlatFootShiftMode, (unsigned long)&pRamVariables.RevLimCut, (unsigned long)&pRamVariables.RevLimResume, (unsigned long)&pRamVariables.LCEngaged,
-	(unsigned long)&pRamVariables.BlendMode, (unsigned long)&pRamVariables.ValetMode, (unsigned long)&pRamVariables.LaunchControlCut, (unsigned long)&pRamVariables.MapBlendRatio, (unsigned long)&pRamVariables.MapSwitch, 
+	(unsigned long)&pRamVariables.RevLimCut, (unsigned long)&pRamVariables.RevLimResume, 
+	(unsigned long)&pRamVariables.LaunchControlCut, 
 	#if SD_HACKS 
-		(unsigned long)&pRamVariables.MafFromSpeedDensity,
+		(unsigned long)&pRamVariables.MafFromSpeedDensity
 	#else
-		(unsigned long)&pRamVariables.MapBlendRatio,
-	#endif
-	#if INJECTOR_HACKS
-		(unsigned long)&pRamVariables.InjectorScaling
-	#else
-		0
+		(unsigned long)&pRamVariables.MapBlendRatio
 	#endif
 	};
 	
 unsigned char cmDTtypeIn[cmDTCount] CANDATA = {
 	dtChar,dtChar,
-	dtChar,dtChar,dtFloat,dtFloat,dtChar,
-	dtChar,dtChar,dtFloat,dtFloat,dtChar,dtFloat,
-	dtFloat};
+	dtFloat,dtFloat,dtFloat,dtFloat};
 
 unsigned char cmDTtypeOut[cmDTCount] CANDATA = {
 	dtChar,dtChar,
-	dtChar,dtChar,dtShort,dtShort,dtChar,
-	dtChar,dtChar,dtShort,dtChar,dtChar,dtShort,
-	dtShort};
+	dtShort,dtShort,dtShort,dtShort};
 	
 unsigned char cmDTccm[cmDTCount] CANDATA = {
 	2,2,
-	8,8,8,8,8,
-	9,9,9,9,9,9,
-	10};
+	8,8,8,8};
 	
 unsigned char cmDTpos[cmDTCount] CANDATA = {
 	0,2,
-	0,1,2,4,6,
-	0,1,2,4,5,6,
-	0};
+	0,2,4,6};
 	
 float cmDTscale[cmDTCount] CANDATA = {
 	0,0,
-	0,0,4,4,0,
-	0,0,4,2.55,0,100,
-	0};
+	4,4,4,100};
 	
 float cmDToffset[cmDTCount] CANDATA = {
 	0,0,
-	0,0,0,0,0,
-	0,0,0,0,0,0,
-	0};
+	0,0,0,0};
 
 #endif

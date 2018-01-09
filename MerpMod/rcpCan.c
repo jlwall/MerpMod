@@ -34,7 +34,17 @@ void rcp_frame_manager()
 		case  6:	send_frame_0x703();		pRamVariables.rcpFrameState++; break;
 		case  7:	pRamVariables.rcpFrameState++; break;
 		case  8:	send_frame_0x704();		pRamVariables.rcpFrameState++; break;
-		case  9:	/*send_frame_0x705();*/		pRamVariables.rcpFrameState = 0; break;		
+		case  9:	pRamVariables.rcpFrameState++; break;	
+		case 10:	pRamVariables.rcpFrameState++; break;
+		case 11:	pRamVariables.rcpFrameState++; break;
+		case 12:	pRamVariables.rcpFrameState++; break;
+		case 13:	pRamVariables.rcpFrameState++; break;
+		case 14:	pRamVariables.rcpFrameState++; break;
+		case 15:	pRamVariables.rcpFrameState++; break;
+		case 16:	pRamVariables.rcpFrameState++; break;
+		case 17:	pRamVariables.rcpFrameState++; break;
+		case 18:	pRamVariables.rcpFrameState++; break;
+		case 19:	pRamVariables.rcpFrameState = 0; break;	
 		default: 	pRamVariables.rcpFrameState = 0;break;				
 	}		
 }
@@ -125,9 +135,11 @@ void send_frame_0x703()
  		SG_ rLamLearn : 24|8@1+ (0.78125,-100) [-20|20] "%"  RCPMK2
  		SG_ vBattery : 32|8@1+ (0.08,0) [0|20] "V"  RCPMK2
  		SG_ rTDprop : 40|8@1+ (0.2,-25.6) [-25|25] "%"  RCPMK2
- 		SG_ rTDint : 48|8@1+ (0.2,-25.6) [-25|25] "%"  RCPMK2 		
+ 		SG_ rTDint : 48|8@1+ (0.2,-25.6) [-25|25] "%"  RCPMK2 	
+		SG_ bCutArray : 56|8@1+ (1,0) [0|255] ""  RCPMK2 	
 	*/
-	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);		
+	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
+	unsigned char bitArray = 0;	
 	rcpCanMessageSetup(rcpCAN_ID_m3, 0, 8, 0, RPCBUF); 
 	#if BOOST_HACKS	 
 		((unsigned short*)addrtemp)[0] = limit_u16((pRamVariables.TargetBoost-242.850759f)*25.3447147559339f);
@@ -137,6 +149,16 @@ void send_frame_0x703()
 	((unsigned char*)addrtemp)[4] = limit_u8((*pBatteryVoltage)/0.08);
 	((unsigned char*)addrtemp)[5] = limit_u8((*pTD_wg_prop*5)+128);
 	((unsigned char*)addrtemp)[6] = limit_u8((*pTD_wg_int*5)+128);
+	if(pRamVariables.FFSEngaged==1) bitArray |= 0x01;
+	if(pRamVariables.FlatFootShiftMode>0) bitArray |= 0x02;
+	if(pRamVariables.LCEngaged==1) bitArray |= 0x04;
+	if(pRamVariables.BlendMode==1) bitArray |= 0x08;
+	if(pRamVariables.ValetMode==1) bitArray |= 0x10;
+	if(pRamVariables.bPLSLRequest==1) bitArray |= 0x20;
+	if(pRamVariables.bPLSLcutting==1) bitArray |= 0x40;
+	if((*pFlagsRevLim&0x01)>0) bitArray |= 0x80;
+	((unsigned char*)addrtemp)[7] = bitArray;	
+	
 	sendCanMessage(11);
 }
 

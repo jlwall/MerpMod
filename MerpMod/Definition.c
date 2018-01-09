@@ -150,7 +150,7 @@ DEFINERAMVAR("MerpMod Prog Mode Value",ProgModeValue,4,"E");
 
 
 #if CAN_HACKS
-DEFNEW3D("Custom Can Messages",ccm00);
+//DEFNEW1D("Custom Can Messages",ccm00);
 DEFNEW1D("Custom Can Data Transfer Address", cmDTaddr);
 DEFNEW1D("Custom Can Data Transfer Type In", cmDTtypeIn);
 DEFNEW1D("Custom Can Data Transfer Type Out", cmDTtypeOut);
@@ -172,6 +172,7 @@ DEFNEW1D("Race Grade Button Blend", rgButtonEthanolSource);
 DEFNEW1D("Race Grade Button Valet", rgButtonValetSource);
 DEFNEW1D("Race Grade Button FlatFoot", rgButtonFFSSource);
 DEFNEW1D("Race Grade Button Bail", rgButtonBailSource);
+DEFNEW1D("Race Grade Button PLSL", rgButtonPLSLSource);
 DEFNEW1D("Race Grade Button Mode", rgButtonModeSource);
 DEFNEW1D("Race Grade Button Up", rgButtonUpSource);
 DEFNEW1D("Race Grade Button Down", rgButtonDownSource);
@@ -180,7 +181,7 @@ DEFNEW1D("Race Grade Launch Control Min Rev", rgLC_MIN);
 DEFNEW1D("Race Grade Launch Control Step", rgLC_STEP);
 DEFNEW1D("Race Grade Blend Step", rgBLEND_STEP);
 
-
+DEFNEW1D("Race Grade PLSL Adjust", rgPLSL);
 
 
 #endif
@@ -274,6 +275,9 @@ DEFNEW1D("FFS Minimum Throttle Threshold",FFSMinimumThrottle);
 DEFNEW1D("FFS Gear Ratios",GearRatios);
 DEFNEW1D("Rev Limit (Launch Control)",DefaultLaunchControlCut);	
 #endif
+DEFNEW1D("PLSL Target Speed",NPLSL_Limit);
+DEFNEW1D("PLSL Target Speed Hysterisis",NPLSL_Hyst);
+DEFNEW1D("PLSL Max Activation Speed",NPLSL_RequestMax);
 
 	
 	//PARAMS

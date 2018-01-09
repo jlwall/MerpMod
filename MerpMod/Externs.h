@@ -92,6 +92,7 @@ void ProgModeMapSwitch()  ROMCODE;
 void ProgModeBlendAdjust()  ROMCODE;
 void ProgModeBlendMode() ROMCODE;
 void ProgModeLCAdjust()  ROMCODE;
+void ProgModePLSLAdjust() ROMCODE;
 void ProgModeIAMAdjust() ROMCODE;
 void ProgModeValetMode() ROMCODE;
 void ProgModeRaceGradeBackLight() ROMCODE;
@@ -308,8 +309,11 @@ extern float DefaultFlatFootShiftHyst;
 extern float DefaultFlatFootShiftSpeedThreshold;
 extern float DefaultFlatFootShiftRpmThreshold;
 extern float LCAdjustStep;
-
 extern float ValetModeRevLim;
+extern float NPLSL_RequestMax;
+extern float NPLSL_Limit;
+extern float NPLSL_Hyst;
+extern float rgPLSL[];
 
 #if CAN_HACKS
 #define ccmCount 12
@@ -320,6 +324,7 @@ extern unsigned char rgButtonEthanolSource;
 extern unsigned char rgButtonValetSource;
 extern unsigned char rgButtonFFSSource;
 extern unsigned char rgButtonBailSource;
+extern unsigned char rgButtonPLSLSource;
 extern unsigned char rgButtonModeSource;
 extern unsigned char rgButtonUpSource;
 extern unsigned char rgButtonDownSource;

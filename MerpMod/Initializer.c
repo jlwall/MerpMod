@@ -103,6 +103,9 @@ void PopulateRamVariables()
 	pRamVariables.LaunchControlHyst = DefaultLaunchControlHyst;
 	pRamVariables.FlatFootShiftSpeedThreshold = DefaultFlatFootShiftSpeedThreshold;
 	pRamVariables.FlatFootShiftRpmThreshold = DefaultFlatFootShiftRpmThreshold;
+	pRamVariables.bPLSLRequest = 0;
+	pRamVariables.bPLSLcutting = 0;
+	pRamVariables.VPLSL_Adjust = 0;
 #endif 
 
 #if VIN_HACKS

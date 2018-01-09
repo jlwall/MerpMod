@@ -55,7 +55,7 @@
 	*/
 
 
-#define PROG_MODE_COUNT 4
+#define PROG_MODE_COUNT 5
 
 #define BLEND_MAX 1.0f
 #define BLEND_MIN 0.0f
@@ -92,17 +92,36 @@ void ProgModeMain()
 	if(pRamVariables.BlendMode == 0) 
 		pRamVariables.buttons[rgButtonEthanolSource].led = 1; 
 	else 
-		pRamVariables.buttons[rgButtonEthanolSource].led = 4;
+		pRamVariables.buttons[rgButtonEthanolSource].led = 0;
 	
 	//Button 1 - Valet Mode
 	if(pRamVariables.buttons[rgButtonValetSource].edgeDetect == 1)
 	{
 		pRamVariables.ValetMode ^= 0x01;
 	}
-	if(pRamVariables.ValetMode == 0) 
-		pRamVariables.buttons[rgButtonValetSource].led = 1;
+	if(pRamVariables.ValetMode == ValetModeDisabled) 
+		pRamVariables.buttons[rgButtonValetSource].led = 0;
 	else 
 		pRamVariables.buttons[rgButtonValetSource].led = 4;	
+		
+	//Button 6 - PLSL Mode
+	if(pRamVariables.buttons[rgButtonPLSLSource].edgeDetect == 1)
+	{		
+		if((pRamVariables.bPLSLRequest == 0) && (*pVehicleSpeed < NPLSL_RequestMax))
+			pRamVariables.bPLSLRequest = 1;
+		else			
+			pRamVariables.bPLSLRequest = 0;			
+	}
+	if(pRamVariables.bPLSLRequest == 1) 
+		if(pRamVariables.bPLSLcutting ==1)
+			pRamVariables.buttons[rgButtonPLSLSource].led = 5; //Active and Cutting
+		else
+			pRamVariables.buttons[rgButtonPLSLSource].led = 1;	//Active
+	else 
+		pRamVariables.buttons[rgButtonPLSLSource].led = 0;	
+		
+		
+		
 		
 		#if REVLIM_HACKS
 	//Button 4 - Flat Foot Shift Mode pRamVariables.FlatFootShiftMode
@@ -124,7 +143,7 @@ void ProgModeMain()
 		#if REVLIM_HACKS
 	//Light up 3rd LED when FFS is engaged	
 	if(pRamVariables.FFSEngaged >= 1)
-		pRamVariables.buttons[rgButtonFFSSource].led &= 0x04;
+		pRamVariables.buttons[rgButtonFFSSource].led |= 0x04;
 		#endif
 		
 	//Button 5 - Bail out Button
@@ -134,11 +153,12 @@ void ProgModeMain()
 	#if REVLIM_HACKS
 			pRamVariables.FlatFootShiftMode = 0;
 	#endif
-		pRamVariables.ValetMode = ValetModeEnabled;
+		pRamVariables.bPLSLRequest = 0;
 	#if SWITCH_HACKS
 		pRamVariables.MapSwitch = DefaultMapSwitch;
 		pRamVariables.MapBlendRatio = DefaultMapBlendRatio;
 		pRamVariables.BlendMode = 1; //Manual Mode
+		pRamVariables.VPLSL_Adjust = 0;
 	#endif
 		pRamVariables.buttons[rgButtonBailSource].led = 7; 
 	}
@@ -166,6 +186,10 @@ void ProgModeMain()
 		break;	
 		
 		case 4:
+			ProgModePLSLAdjust();
+		break;
+		
+		case 5:
 			ProgModeRaceGradeBackLight();
 		break;
 		
@@ -272,6 +296,32 @@ void ProgModeLCAdjust()
 	pRamVariables.ProgModeValue = 0.0f;
 	pRamVariables.ProgModeValueFlashes = 0;
 	#endif
+	#endif
+}
+
+void ProgModePLSLAdjust()
+{
+	#if REVLIM_HACKS
+	if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
+	{	
+		if((pRamVariables.VPLSL_Adjust + rgPLSL[1]) <= rgPLSL[2])
+			pRamVariables.VPLSL_Adjust += rgPLSL[1];
+		else
+			pRamVariables.VPLSL_Adjust = rgPLSL[2];
+	}
+	else if(pRamVariables.buttons[rgButtonDownSource].edgeDetect == 1)
+	{
+		if((pRamVariables.VPLSL_Adjust - rgPLSL[1]) >= rgPLSL[0])
+			pRamVariables.VPLSL_Adjust -= rgPLSL[1];//Hard limit, does not cycle to top again.
+		else
+			pRamVariables.VPLSL_Adjust = rgPLSL[0];
+	}
+	
+	pRamVariables.ProgModeValue = pRamVariables.LaunchControlCut;
+	pRamVariables.ProgModeValueFlashes = (unsigned char)((pRamVariables.LaunchControlCut / rgLC_STEP) - (unsigned char)(rgLC_MIN / rgLC_STEP));
+	#else
+	pRamVariables.ProgModeValue = 0.0f;
+	pRamVariables.ProgModeValueFlashes = 0;
 	#endif
 }
 

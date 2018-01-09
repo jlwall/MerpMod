@@ -93,12 +93,12 @@ typedef struct
 	//Rev Limiter params
 	unsigned char  	RevLimInitFlag;  //96
 	unsigned char  	RevLimMode;
+	char	bPLSLRequest;
+	char	bPLSLcutting;
 	char	FlatFootShiftMode;
 	char	LCEngaged;
 	char	FFSEngaged;
 	char	elemptteey;
-	char	elempty1;
-	char	eleemee2;
 	unsigned char	FFSGear;
 	float 	RevLimCut;	//96
 	float 	RevLimResume;
@@ -113,6 +113,7 @@ typedef struct
 	float	FlatFootShiftStaticDelta;
 	float  	FlatFootShiftHyst;	//9
   	float  	FlatFootShiftSpeedThreshold; //97
+	float	VPLSL_Adjust;
 #endif
 	
 #if CEL_HACKS
