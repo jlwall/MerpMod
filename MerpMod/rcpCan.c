@@ -48,7 +48,7 @@ void rcp_frame_manager()
 		default: 	pRamVariables.rcpFrameState = 0;break;				
 	}		
 }
-#define RPCBUF 30
+
 void send_frame_0x700()
 {
 	/*

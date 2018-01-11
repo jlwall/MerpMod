@@ -266,7 +266,7 @@ void canCallbackAEMwideband(unsigned char* data)
 
 void canCallbackMK3e85Packet(unsigned char* data)
 {
-	pRamVariables.rEthanolCAN = (float)(data[0])*0.03921568627; 		//0 to 255 for 0 to 100% 1/255 LSB/%	
+	pRamVariables.rEthanolCAN = (float)(data[0])*0.003921568627; 		//0 to 255 for 0 to 100% 1/255 LSB/%	
 	pRamVariables.tFuelCAN = (float)(data[1])-40;	//0 to 165 for -40 to 125C
 	updateFuelPressure((unsigned short)((unsigned short)data[2]*256 + (unsigned short)data[3]));
 	pRamVariables.pFuelCanRel = pRamVariables.pFuelCan - (*pManifoldAbsolutePressure-760)/51.71492510510006;
@@ -477,7 +477,7 @@ void CanSetup()
 	CanMessageSetupStruct *ccmGroup = (CanMessageSetupStruct *)(&ccm00);	
 	while(i< ccmCount)
 	{
-		if(ccmGroup[i].mcs < 7)
+		if(ccmGroup[i].mcs <= 7)
 		{
 			setupMailBoxStruct(&ccmGroup[i]);
 		}	

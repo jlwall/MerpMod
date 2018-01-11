@@ -61,6 +61,8 @@ void rcpCanMessageSetup(unsigned long id,unsigned short ext, unsigned short dlc,
 #endif
 
 #if RCP_CAN
+#define RPCBUF 30
+
 void rcp_frame_manager() ROMCODE;
 void send_frame_0x700() ROMCODE;
 void send_frame_0x701() ROMCODE;
@@ -77,6 +79,7 @@ extern unsigned long rcpCAN_ID_m4;
 extern unsigned long rcpCAN_ID_m5;
 #endif
 
+void WideBandScaling(void) ROMCODE;
 void WGDCHack(void) ROMCODE;
 void TargetBoostHack(void) ROMCODE;
 void POLFHack()  ROMCODE;
@@ -95,6 +98,7 @@ void ProgModeLCAdjust()  ROMCODE;
 void ProgModePLSLAdjust() ROMCODE;
 void ProgModeIAMAdjust() ROMCODE;
 void ProgModeValetMode() ROMCODE;
+void ProgModeAFRSource() ROMCODE;
 void ProgModeRaceGradeBackLight() ROMCODE;
 
 void LCAdjustCruiseToggled(unsigned char) ROMCODE;

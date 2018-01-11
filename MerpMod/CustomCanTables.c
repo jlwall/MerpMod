@@ -17,7 +17,7 @@ unsigned char rgButtonModeSource CANDATA = 2;
 unsigned char rgButtonUpSource CANDATA = 3;
 unsigned char rgButtonDownSource CANDATA = 7;
 
-unsigned char rcpStreamEnabled CANDATA = 0;
+unsigned char rcpStreamEnabled CANDATA = 1;
 
 unsigned long rcpCAN_ID_m0 CANDATA = 0x700;
 unsigned long rcpCAN_ID_m1 CANDATA = 0x701;

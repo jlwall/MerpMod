@@ -61,17 +61,18 @@ unsigned long getMailBoxId(unsigned short mailbox, unsigned short bus)
 	return id;
 }
 
-#if RACEGRADE_KEYPAD_HACKS
-unsigned char dt1[8]  = {0,0,0,0,0,0,0,0};
-unsigned char dt2[8]  = {0,0,0,0,0,0,0,0};
-unsigned char dt3[8]  = {4,0,0,0,0,0,0,0};
-unsigned char dtAEM[8] = {4,2,5,2,0,0,0,0};
-unsigned char dte85[8] = {1,2,45,0,0x38,0x52,7,8};
-#endif
+
 
 void CustomCanUnitTests() __attribute__ ((section ("Misc")));
 void CustomCanUnitTests()
 {
+
+unsigned char dt1[8];
+unsigned char dt2[8];
+unsigned char dt3[8];
+unsigned char dtAEM[8];
+unsigned char dte85[8];
+
 	PopulateRamVariables();
 	
 	//Test E85 Stuff
@@ -79,14 +80,206 @@ void CustomCanUnitTests()
 	*pIgnitionTimeTotal = 31.223f;	
 	*pMassAirFlow = 1.29f;
 	*pManifoldAbsolutePressure = (12.45f)*51.71492410239613f + 760; //12.45 psig to mmHG
+	*pWgdc4 = 4;
+	*pAf1Res = 1.1f;
+		/*
+	BO_ 1792 ecm_stat1: 8 ECM
+ 		SG_ rLamCor : 0|8@1+ (0.78125,-100) [-20|20] "%"  RCPMK2
+ 		SG_ aIgn : 8|8@1+ (0.5,-64) [-20|60] "deg"  RCPMK2
+ 		SG_ rMaf : 16|16@1+ (0.01,0) [0|400] "g/s"  RCPMK2
+ 		SG_ pPlenum : 32|16@1+ (0.000762951,-10) [-10|40] "psig"  RCPMK2
+ 		SG_ rWG : 48|8@1+ (0.392157,0) [0|100] "%"  RCPMK2
+ 		SG_ rLam : 56|8@1+ (0.0078125,0) [0|2] "rat"  RCPMK2
+		((unsigned char*)addrtemp)[0] = limit_u8((*pAfCorrection_1)/0.0078125f);
+		((unsigned char*)addrtemp)[1] = limit_u8((*pIgnitionTimeTotal)/0.5f + 128);
+		((unsigned short*)addrtemp)[1] = limit_u16((*pMassAirFlow)/0.01f);
+		((unsigned short*)addrtemp)[2] = limit_u16(((*pManifoldAbsolutePressure)-242.850759f)*25.3447147559339f);
+		((unsigned char*)addrtemp)[6] = limit_u8((*pWgdc4)/0.392157f);
+		((unsigned char*)addrtemp)[7] = limit_u8((*pAf1Res)/0.0078125f);
+	*/
 	send_frame_0x700();
 	
-	unsigned long addrtemp = (0xFFFFD108 + 0x20*31);
+	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);
 	
-	Assert( ((unsigned char*)addrtemp)[0] == 0x20	,"CAN 0x300 d0");
-	Assert( ((unsigned char*)addrtemp)[1] == 190	,"CAN 0x300 d1");
-	Assert( ((unsigned short*)addrtemp)[1] == 129	,"CAN 0x300 d2.d3");
-	Assert( ((unsigned short*)addrtemp)[2] == 29425	,"CAN 0x300 d4.d5");
+	Assert( ((unsigned char*)addrtemp)[0] == 0x20	,"CAN 0x700 d0");
+	Assert( ((unsigned char*)addrtemp)[1] == 190	,"CAN 0x700 d1");
+	Assert( ((unsigned short*)addrtemp)[1] == 129	,"CAN 0x700 d2.d3");
+	Assert( ((unsigned short*)addrtemp)[2] == 29425	,"CAN 0x700 d4.d5");
+	Assert( ((unsigned char*)addrtemp)[6] == 10	,"CAN 0x700 d6");
+	Assert( ((unsigned char*)addrtemp)[7] == 141 ,"CAN 0x700 d7");
+	
+	
+		/*
+	BO_ 1793 ecm_stat2: 8 ECM
+ 		SG_ iam : 0|8@1+ (0.0625,0) [0|0] ""  RCPMK2
+ 		SG_ aKnockFeed : 8|8@1+ (0.351563,-45) [0|0] ""  RCPMK2
+ 		SG_ aKnockFine : 16|8@1+ (0.351563,-45) [0|0] ""  RCPMK2
+		SG_ CLOL : 24|8@1+ (1,0) [0|125] ""  RCPMK2
+ 		SG_ nRoughC1 : 32|8@1+ (1,0) [0|255] ""  RCPMK2
+ 		SG_ nRoughC2 : 40|8@1+ (1,0) [0|255] ""  RCPMK2
+ 		SG_ nRoughC3 : 48|8@1+ (1,0) [0|255] ""  RCPMK2
+ 		SG_ nRoughC4 : 56|8@1+ (1,0) [0|255] ""  RCPMK2
+ 		
+
+	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
+	rcpCanMessageSetup(rcpCAN_ID_m1, 0, 8, 0, RPCBUF); 	
+ 	((unsigned char*)addrtemp)[0] = limit_u8((*pIam4)*16); 		
+	((unsigned char*)addrtemp)[1] = *pFbkc1; 		
+	((unsigned char*)addrtemp)[2] = *pkclearn1; 
+	((unsigned char*)addrtemp)[3] = *pCLOL;			
+	((unsigned char*)addrtemp)[4] = *pNRough_C1; 		
+	((unsigned char*)addrtemp)[5] = *pNRough_C2; 		
+	((unsigned char*)addrtemp)[6] = *pNRough_C3; 		
+	((unsigned char*)addrtemp)[7] = *pNRough_C4; 
+	 	*/
+	*pIam4 = 0.5;
+	*pFbkc1 = 2;
+	*pkclearn1 = 3;
+	*pCLOL = 4;
+	
+	*pNRough_C1 = 1;
+	*pNRough_C2 = 2;
+	*pNRough_C3 = 3;
+	*pNRough_C4 = 4;
+		
+	send_frame_0x701();
+	
+	addrtemp = (0xFFFFD108 + 0x20*RPCBUF);
+	Assert( ((unsigned char*)addrtemp)[0] == 8	,"CAN 0x701 d0");
+	Assert( ((unsigned char*)addrtemp)[1] == 2	,"CAN 0x701 d1");
+	Assert( ((unsigned char*)addrtemp)[2] == 3	,"CAN 0x701 d2");
+	Assert( ((unsigned char*)addrtemp)[3] == 4	,"CAN 0x701 d3");
+	Assert( ((unsigned char*)addrtemp)[4] == 1	,"CAN 0x701 d4");
+	Assert( ((unsigned char*)addrtemp)[5] == 2	,"CAN 0x701 d5");
+	Assert( ((unsigned char*)addrtemp)[6] == 3  ,"CAN 0x701 d6");
+	Assert( ((unsigned char*)addrtemp)[7] == 4  ,"CAN 0x701 d7");
+	
+		/*
+	BO_ 1794 ecm_stat3: 8 ECM
+ 		SG_ nKnockC1 : 0|8@1+ (1,0) [0|255] ""  RCPMK2
+ 		SG_ nKnockC2 : 8|8@1+ (1,0) [0|255] ""  RCPMK2
+ 		SG_ nKnockC3 : 16|8@1+ (1,0) [0|255] ""  RCPMK2
+ 		SG_ nKnockC4 : 24|8@1+ (1,0) [0|255] ""  RCPMK2
+ 		SG_ aCamInR : 32|8@1+ (1,-50) [-50|50] ""  RCPMK2
+ 		SG_ aCamInL : 40|8@1+ (1,-50) [-50|50] ""  RCPMK2
+ 		SG_ aCamExR : 48|8@1+ (1,-50) [-50|50] ""  RCPMK2
+ 		SG_ aCamExL : 56|8@1+ (1,-50) [-50|50] ""  RCPMK2
+ 
+	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
+	rcpCanMessageSetup(rcpCAN_ID_m2, 0, 8, 0, RPCBUF); 	 		
+	((unsigned char*)addrtemp)[0] = *pKnockSum1; 	
+	((unsigned char*)addrtemp)[1] = *pKnockSum2; 		
+ 	((unsigned char*)addrtemp)[2] = *pKnockSum3;		
+	((unsigned char*)addrtemp)[3] = *pKnockSum4;	
+ 	((unsigned char*)addrtemp)[4] = limit_u8((*pAVCSIntakeRight * 2) + 128);
+ 	((unsigned char*)addrtemp)[5] = limit_u8((*pAVCSIntakeLeft * 2) + 128);
+ 	((unsigned char*)addrtemp)[6] = limit_u8((*pAVCSExhaustRight * 2) + 128);
+	((unsigned char*)addrtemp)[7] = limit_u8((*pAVCSExhaustLeft * 2) + 128);
+	sendCanMessage(11);
+		*/
+		
+	*pKnockSum1 = 1;
+	*pKnockSum2 = 2;
+	*pKnockSum3 = 3;
+	*pKnockSum4 = 4;
+	
+	*pAVCSIntakeRight = -40;
+	*pAVCSIntakeLeft = -20;
+	*pAVCSExhaustRight = 0;
+	*pAVCSExhaustLeft = 20;
+		
+	send_frame_0x702();
+	
+	addrtemp = (0xFFFFD108 + 0x20*RPCBUF);
+	Assert( ((unsigned char*)addrtemp)[0] == 1	,"CAN 0x702 d0");
+	Assert( ((unsigned char*)addrtemp)[1] == 2	,"CAN 0x702 d1");
+	Assert( ((unsigned char*)addrtemp)[2] == 3	,"CAN 0x702 d2");
+	Assert( ((unsigned char*)addrtemp)[3] == 4	,"CAN 0x702 d3");
+	Assert( ((unsigned char*)addrtemp)[4] == 48	,"CAN 0x702 d4");
+	Assert( ((unsigned char*)addrtemp)[5] == 88	,"CAN 0x702 d5");
+	Assert( ((unsigned char*)addrtemp)[6] == 128,"CAN 0x702 d6");
+	Assert( ((unsigned char*)addrtemp)[7] == 168,"CAN 0x702 d7");
+	
+	
+		/*
+	BO_ 1795 ecm_stat4: 8 PCANROUTER 		
+ 		SG_ pPlenumTarg : 0|16@1+ (0.000762951,-10) [-10|40] "psig" RCPMK2
+		SG_ rBlendFuel : 16|8@1+ (0.3921568627,0) [0|100] "%"  RCPMK2
+ 		SG_ rLamLearn : 24|8@1+ (0.78125,-100) [-20|20] "%"  RCPMK2
+ 		SG_ vBattery : 32|8@1+ (0.08,0) [0|20] "V"  RCPMK2
+ 		SG_ rTDprop : 40|8@1+ (0.2,-25.6) [-25|25] "%"  RCPMK2
+ 		SG_ rTDint : 48|8@1+ (0.2,-25.6) [-25|25] "%"  RCPMK2 	
+		SG_ bCutArray : 56|8@1+ (1,0) [0|255] ""  RCPMK2 	
+	((unsigned short*)addrtemp)[0] = limit_u16((pRamVariables.TargetBoost-242.850759f)*25.3447147559339f);
+	((unsigned char*)addrtemp)[2] = limit_u8(pRamVariables.MapBlendRatio * 255);
+	((unsigned char*)addrtemp)[3] = limit_u8((*pAFLearning_1)/0.0078125f);
+	((unsigned char*)addrtemp)[4] = limit_u8((*pBatteryVoltage)/0.08);
+	((unsigned char*)addrtemp)[5] = limit_u8((*pTD_wg_prop*5)+128);
+	((unsigned char*)addrtemp)[6] = limit_u8((*pTD_wg_int*5)+128);
+	if(pRamVariables.FFSEngaged==1) bitArray |= 0x01;
+	if(pRamVariables.FlatFootShiftMode>0) bitArray |= 0x02;
+	if(pRamVariables.LCEngaged==1) bitArray |= 0x04;
+	if(pRamVariables.BlendMode==1) bitArray |= 0x08;
+	if(pRamVariables.ValetMode==1) bitArray |= 0x10;
+	if(pRamVariables.bPLSLRequest==1) bitArray |= 0x20;
+	if(pRamVariables.bPLSLcutting==1) bitArray |= 0x40;
+	if((*pFlagsRevLim&0x01)>0) bitArray |= 0x80;
+	((unsigned char*)addrtemp)[7] = bitArray;	
+	
+	sendCanMessage(11);*/
+	pRamVariables.TargetBoost = ((13.5 * 51.71492510510006) + 760);
+	pRamVariables.MapBlendRatio = 0.44;
+	*pAFLearning_1 = 1.1;
+	*pBatteryVoltage = 14.5;
+	*pTD_wg_prop = 1.2;
+	*pTD_wg_int = 2.4;
+	
+	pRamVariables.FFSEngaged = 0;
+	pRamVariables.FlatFootShiftMode = 0;
+	pRamVariables.LCEngaged = 0;
+	pRamVariables.BlendMode = 0;
+	pRamVariables.ValetMode = 0;
+	pRamVariables.bPLSLRequest = 0;
+	pRamVariables.bPLSLcutting = 0;
+	*pFlagsRevLim = 0;
+		
+	send_frame_0x703();
+	
+	addrtemp = (0xFFFFD108 + 0x20*RPCBUF);
+	Assert( ((unsigned char*)addrtemp)[0] == 0x78	,"CAN 0x703 d0");
+	Assert( ((unsigned char*)addrtemp)[1] == 0x51	,"CAN 0x703 d1");
+	Assert( ((unsigned char*)addrtemp)[2] == 112,"CAN 0x703 d2");
+	Assert( ((unsigned char*)addrtemp)[3] == 141,"CAN 0x703 d3");
+	Assert( ((unsigned char*)addrtemp)[4] == 181,"CAN 0x703 d4");
+	Assert( ((unsigned char*)addrtemp)[5] == 134,"CAN 0x703 d5");
+	Assert( ((unsigned char*)addrtemp)[6] == 140,"CAN 0x703 d6");
+	Assert( ((unsigned char*)addrtemp)[7] == 0  ,"CAN 0x703 d7");
+	
+	pRamVariables.FFSEngaged = 1; send_frame_0x703(); 
+	Assert( ((unsigned char*)addrtemp)[7] == 1  ,"CAN 0x703 FFSEngaged");
+	
+	pRamVariables.FlatFootShiftMode = 1; send_frame_0x703(); 
+
+	Assert( ((unsigned char*)addrtemp)[7] == 3  ,"CAN 0x703 FlatFootShiftMode");
+	
+	pRamVariables.LCEngaged = 1; send_frame_0x703(); 
+	Assert( ((unsigned char*)addrtemp)[7] == 7  ,"CAN 0x703 LCEngaged");
+	
+	pRamVariables.BlendMode = 1; send_frame_0x703(); 
+	Assert( ((unsigned char*)addrtemp)[7] == 15  ,"CAN 0x703 BlendMode");
+	
+	pRamVariables.ValetMode = 1; send_frame_0x703(); 
+	Assert( ((unsigned char*)addrtemp)[7] == 31  ,"CAN 0x703 ValetMode");
+	
+	pRamVariables.bPLSLRequest = 1; send_frame_0x703(); 
+	Assert( ((unsigned char*)addrtemp)[7] == 63  ,"CAN 0x703 bPLSLRequest");
+	
+	pRamVariables.bPLSLcutting = 1; send_frame_0x703();
+	Assert( ((unsigned char*)addrtemp)[7] == 127  ,"CAN 0x703 bPLSLcutting");
+	
+	*pFlagsRevLim = 1; send_frame_0x703(); 
+	Assert( ((unsigned char*)addrtemp)[7] == 255 ,"CAN 0x703 pFlagsRevLim");
+
 	
 	
 	
@@ -105,42 +298,54 @@ void CustomCanUnitTests()
 	Assert(getMailBoxId(ccm10.mailBox, ccm10.bus) == ccm10.id, "CAN ID 10 is not set Correctly");
 	Assert(getMailBoxId(ccm11.mailBox, ccm11.bus) == ccm11.id, "CAN ID 11 is not set Correctly");
 	
-	
-	//dtAEM[8]  = {4,1,5,2,0,0,0,0};
-	dtAEM[4] = 0;
-	canCallbackAEMwideband(&dtAEM[0]);
-	dtAEM[4] = 1;
-	canCallbackAEMwideband(&dtAEM[0]);
-	dtAEM[4] = 2;
-	canCallbackAEMwideband(&dtAEM[0]);
-	dtAEM[4] = 3;
-	canCallbackAEMwideband(&dtAEM[0]);
-	dtAEM[4] = 4;
-	canCallbackAEMwideband(&dtAEM[0]);
-	dtAEM[4] = 5;
+	dtAEM[0] = 32;
+	dtAEM[1] = 1;
+	dtAEM[2] = 5;
+	dtAEM[3] = 2;
 	canCallbackAEMwideband(&dtAEM[0]);
 	
-	Assert(Abs(pRamVariables.aemLambda - 0.1026f) < 0.0001, "aem lambda Fault Failed");
+	Assert(Abs(pRamVariables.aemLambda - 0.8193f) < 0.0001, "aem lambda Fault Failed");
 	Assert(Abs(pRamVariables.aemOxygen - 1.282f) < 0.0001, "aem oxygen Fault Failed");
 	
 	dtAEM[6]  = 0x80;
 	canCallbackAEMwideband(&dtAEM[0]);
 	Assert(pRamVariables.aemDataValid == 1, "aem Data Valid Failed");
 	
-	
 	dtAEM[7]  = 0x40;
 	canCallbackAEMwideband(&dtAEM[0]);
 	Assert(pRamVariables.aemSensorFault == 1, "aem Sensor Fault Failed");	
+
+	dtAEM[6]  = 0x00;
+	canCallbackAEMwideband(&dtAEM[0]);
+	Assert(pRamVariables.aemDataValid == 0, "aem Data Valid Failed");
+	
+	dtAEM[7]  = 0x00;
+	canCallbackAEMwideband(&dtAEM[0]);
+	Assert(pRamVariables.aemSensorFault == 0, "aem Sensor Fault Failed");
 	
 	
 	
 	////////CHECK e85 Packet
-	dte85[0] = 0x31;	dte85[1] = 0x4d; dte85[2] = 45;	dte85[4] = 0x38;	dte85[5] = 0x52;	*pManifoldAbsolutePressure = 10.2;	
+	dte85[0] = 0x31;	
+	dte85[1] = 45; 
+	dte85[2] = 0x54; //1.65 Volts
+	dte85[3] = 0x7A;	
+	dte85[4] = 0x38;	
+	dte85[5] = 0x52;	
+	*pManifoldAbsolutePressure = (-2.27*51.71492510510006)+760;	
 	canCallbackMK3e85Packet(&dte85[0]);	
-	Assert(Abs(pRamVariables.pFuelCan - 22.5) <0.001f, "mk3 pFuelTest failed");
+	
+	/*
+		pRamVariables.rEthanolCAN = (float)(data[0])*0.003921568627; 		//0 to 255 for 0 to 100% 1/255 LSB/%	
+	pRamVariables.tFuelCAN = (float)(data[1])-40;	//0 to 165 for -40 to 125C
+	updateFuelPressure((unsigned short)((unsigned short)data[2]*256 + (unsigned short)data[3]));
+	pRamVariables.pFuelCanRel = pRamVariables.pFuelCan - (*pManifoldAbsolutePressure-760)/51.71492510510006;
+	*/
+	Assert(Abs(pRamVariables.rEthanolCAN - 0.1921569) <0.001f, "mk3 rEthanolCAN failed");
 	Assert(Abs(pRamVariables.tFuelCAN - 5) <0.001f, "mk3 tFuelCAN failed");
-	Assert(Abs(pRamVariables.rEthanolCAN - 0.2465) <0.001f, "mk3 rEthanolCAN failed");
-	Assert(Abs(pRamVariables.pFuelCanRel - 12.3) <0.001f, "mk3 pFuelCanRel failed");
+	Assert(Abs(pRamVariables.vFuelPressureRel - 1.65) <0.001f, "mk3 vFuelPressure failed");
+	Assert(Abs(pRamVariables.pFuelCan - 43.123) <0.01f, "mk3 pFuelTest failed");
+	Assert(Abs(pRamVariables.pFuelCanRel - (43.123 + 2.27)) <0.001f, "mk3 pFuelCanRel failed");
 	
 	//Try all DT types, 1,2,3 U8,U16,U32
 	cmDTccm[0] = 0;	

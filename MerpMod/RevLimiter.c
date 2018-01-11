@@ -23,7 +23,6 @@ void RevLimReset()
 	//Disable FFS if clutch is out or brake is pressed
 	pRamVariables.FFSEngaged = 0;
 	pRamVariables.LCEngaged = 0;
-	pRamVariables.bPLSLcutting = 0;
 	if(*pCurrentGear > 0)
 	{
 		pRamVariables.FFSGear = *pCurrentGear;
@@ -32,6 +31,20 @@ void RevLimReset()
 
 void RevLimCode()
 {	
+	if (pRamVariables.bPLSLRequest == 1)
+	{
+		if((pRamVariables.bPLSLcutting == 0) && (*pVehicleSpeed > (NPLSL_Limit + pRamVariables.VPLSL_Adjust)))
+		{
+			pRamVariables.bPLSLcutting = 1;
+		}
+		else if((pRamVariables.bPLSLcutting == 1 ) && (*pVehicleSpeed < (NPLSL_Limit + pRamVariables.VPLSL_Adjust - Abs(NPLSL_Hyst))))
+		{
+			pRamVariables.bPLSLcutting = 0;
+		}
+	}
+	else
+		pRamVariables.bPLSLcutting = 0;
+		
 	if (!TestClutchSwitch() || TestBrakeSwitch())
 	{
 			RevLimReset();
@@ -106,7 +119,7 @@ void RevLimCode()
 	}
 	
 	//Add a SW unadjustable Hard Limit, having this in ram only is not safe
-	if (*pEngineSpeed > pRamVariables.RevLimCut || *pEngineSpeed > pRamVariables.RedLineCut || *pEngineSpeed > 7500 || (pRamVariables.bPLSLcutting = 1))
+	if (*pEngineSpeed > pRamVariables.RevLimCut || *pEngineSpeed > pRamVariables.RedLineCut || *pEngineSpeed > 7500 || (pRamVariables.bPLSLcutting == 1))
 		{
 			*pFlagsRevLim |= RevLimBitMask;
 		} 
