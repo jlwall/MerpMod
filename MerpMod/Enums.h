@@ -42,6 +42,13 @@ enum ValetModes
 	ValetModeEnabled = 1
 };
 
+enum AFRModeValues
+{
+	AFRModeStock = 0,
+	AFRModeBlend = 1,	
+	AFRModeWide = 2,
+};
+
 enum MafModeValues
 {
 	MafModeUndefined = 0,

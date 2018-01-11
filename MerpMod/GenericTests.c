@@ -35,10 +35,18 @@ void GenericTests()
 	
 	ResetRamVariables();
 	
-    RevLimHook();
+#if WIDEBAND_HACKS
+	*pAFRsensedCurrent = 0.24;
+	*pAFRConverted4 = 0;
+	WideBandScaling();
+#endif
 	
 #if CAN_HACKS
 	CustomCanUnitTests();
+#endif
+
+#if REVLIM_HACKS
+	RevLimUnitTests();
 #endif
 	
 #if VIN_HACKS
@@ -49,9 +57,7 @@ void GenericTests()
 	CelFlashUnitTests();
 #endif
 
-#if REVLIM_HACKS
-	RevLimUnitTests();
-#endif
+
 
 #if SD_HACKS
 	SpeedDensityUnitTests();

@@ -69,6 +69,17 @@
         <define name="sMafCalc">
             <ida name="SBR_MAFCALC" />
         </define>
+		
+		<define name="hAFRSensorScaling">
+            <ida name="HOOK_AFRCALC" />
+        </define>
+        <define name="sAFRSensorScaling">
+            <ida name="SBR_AFRCALC" />
+        </define>
+		
+        <define name="tAFRSensorScaling">
+            <ida name="tAFRSensorScaling" />
+        </define>
     </category>
 
     <category name="Injector Hack">
@@ -441,6 +452,8 @@
 		<define name="pTD_wg_prop" type="float*"><ida name="pTD_wg_prop" /></define>
 		<define name="pTD_wg_int" type="float*"><ida name="pTD_wg_int" /></define>
 		<define name="pBatteryVoltage" type="float*"><ida name="pBatteryVoltage" /></define>
+		<define name="pAFRConverted4" type="float*"><ida name="pAFRConverted4" /></define>
+		<define name="pAFRsensedCurrent" type="float*"><ida name="pAFRsensedCurrent" /></define>
 		
         <define name="pAf1Res" type="float*">
             <ida name="E_AF_SENSOR_1_RES" />

@@ -87,6 +87,7 @@ typedef struct
 	float SDMafFromBlend;
 	unsigned char SDInitFlag;		//96d
 	unsigned char MafMode;	
+	unsigned char AFRSource;
 #endif
 	
 #if REVLIM_HACKS

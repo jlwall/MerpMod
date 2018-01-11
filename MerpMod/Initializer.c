@@ -141,6 +141,7 @@ void PopulateRamVariables()
 
 #if SD_HACKS
 	pRamVariables.MafMode = DefaultMafMode;
+	pRamVariables.AFRSource = AFRModeStock;
 #endif
 
 pRamVariables.ecuHacksMainCtr = 0x00;

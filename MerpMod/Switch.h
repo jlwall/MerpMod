@@ -37,6 +37,7 @@
 #define RACEGRADE_KEYPAD_HACKS 1//
 #define AEMXFINITY 1		//
 #define RCP_CAN 1			//
+#define WIDEBAND_HACKS 1	//
 //////////////////////////////
 							
 //////////////////////////////

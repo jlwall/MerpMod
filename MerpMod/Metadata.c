@@ -574,6 +574,23 @@ const MetaReplace POLFHook METADATA =
 
 #endif
 
+
+#if WIDEBAND_HACKS
+//////////////////////
+//					//
+//WIDEBAND HACKS	//
+//					//
+//////////////////////
+const MetaReplace WidebandHook METADATA =
+	{
+		op: OpReplace4Bytes,
+		address: hAFRSensorScaling,
+		oldval: sAFRSensorScaling,
+		newval: (int)WideBandScaling,
+		name: STR(Wideband Replacing Narrow Band)
+	};
+#endif
+
 #if INJECTOR_HACKS
 //////////////////////
 //					//

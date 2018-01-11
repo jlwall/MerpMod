@@ -54,8 +54,8 @@
 
 	*/
 
-
-#define PROG_MODE_COUNT 5
+#define LED_STEP 24
+#define PROG_MODE_COUNT 6
 
 #define BLEND_MAX 1.0f
 #define BLEND_MIN 0.0f
@@ -123,7 +123,7 @@ void ProgModeMain()
 		
 		
 		
-		#if REVLIM_HACKS
+#if REVLIM_HACKS
 	//Button 4 - Flat Foot Shift Mode pRamVariables.FlatFootShiftMode
 	if(pRamVariables.buttons[rgButtonFFSSource].edgeDetect == 1)
 	{			
@@ -138,28 +138,29 @@ void ProgModeMain()
 		pRamVariables.buttons[rgButtonFFSSource].led = 1;
 	else if(pRamVariables.FlatFootShiftMode == 2) 
 		pRamVariables.buttons[rgButtonFFSSource].led = 2;
-		#endif
+#endif
 		
-		#if REVLIM_HACKS
+#if REVLIM_HACKS
 	//Light up 3rd LED when FFS is engaged	
 	if(pRamVariables.FFSEngaged >= 1)
 		pRamVariables.buttons[rgButtonFFSSource].led |= 0x04;
-		#endif
+#endif
 		
 	//Button 5 - Bail out Button
 	if(pRamVariables.buttons[rgButtonBailSource].edgeDetect == 1)	
 	{
 		*pIAM = IAM_MIN;
-	#if REVLIM_HACKS
-			pRamVariables.FlatFootShiftMode = 0;
-	#endif
+#if REVLIM_HACKS
+		pRamVariables.FlatFootShiftMode = 0;
+#endif
 		pRamVariables.bPLSLRequest = 0;
-	#if SWITCH_HACKS
+#if SWITCH_HACKS
 		pRamVariables.MapSwitch = DefaultMapSwitch;
 		pRamVariables.MapBlendRatio = DefaultMapBlendRatio;
 		pRamVariables.BlendMode = 1; //Manual Mode
 		pRamVariables.VPLSL_Adjust = 0;
-	#endif
+		pRamVariables.AFRSource = AFRModeStock;
+#endif
 		pRamVariables.buttons[rgButtonBailSource].led = 7; 
 	}
 	else
@@ -177,19 +178,23 @@ void ProgModeMain()
 			ProgModeBlendAdjust();
 		break;
 		
-		case 2:
-			ProgModeLCAdjust();
+		case 2:			
+			ProgModeAFRSource();
 		break;
 		
 		case 3:
+			ProgModeLCAdjust();
+		break;
+		
+		case 4:
 			ProgModeIAMAdjust();
 		break;	
 		
-		case 4:
+		case 5:
 			ProgModePLSLAdjust();
 		break;
 		
-		case 5:
+		case 6:
 			ProgModeRaceGradeBackLight();
 		break;
 		
@@ -211,8 +216,29 @@ void ProgModeMain()
 	}	
 }
 
+void ProgModeAFRSource()
+{
+	if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
+	{	
+		if(pRamVariables.AFRSource >= AFRModeWide)
+			pRamVariables.AFRSource = AFRModeWide;
+		else
+			pRamVariables.AFRSource++;
+	}
+	else if(pRamVariables.buttons[rgButtonDownSource].edgeDetect == 1)
+	{
+		if(pRamVariables.AFRSource == AFRModeStock )
+			pRamVariables.AFRSource = AFRModeStock;
+		else
+			pRamVariables.AFRSource--;
+	}	
+	pRamVariables.ProgModeValue = pRamVariables.AFRSource+1;
+	pRamVariables.ProgModeValueFlashes = pRamVariables.AFRSource;
+}
+
 void ProgModeMapSwitch()
 {
+#if SWITCH_HACKS
 	if(MapSwitchInput == InputModeRaceGradePad)
 	{	
 		if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
@@ -232,10 +258,15 @@ void ProgModeMapSwitch()
 	}
 	pRamVariables.ProgModeValue = pRamVariables.MapSwitch;
 	pRamVariables.ProgModeValueFlashes = pRamVariables.MapSwitch;
+#else
+	pRamVariables.ProgModeValue = 0.0f;
+	pRamVariables.ProgModeValueFlashes = 0;
+#endif
 }
 
 void ProgModeBlendAdjust()
 {
+#if SWITCH_HACKS
 	if(pRamVariables.BlendMode == 1)
 	{
 		if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
@@ -255,6 +286,10 @@ void ProgModeBlendAdjust()
 	}
 	pRamVariables.ProgModeValue = pRamVariables.MapBlendRatio + 1;
 	pRamVariables.ProgModeValueFlashes = (unsigned char)(pRamVariables.MapBlendRatio*8);
+#else
+	pRamVariables.ProgModeValue = 0.0f;
+	pRamVariables.ProgModeValueFlashes = 0;
+#endif
 }
 
 void ProgModeBlendMode()
@@ -275,8 +310,8 @@ void ProgModeBlendMode()
 
 void ProgModeLCAdjust()
 {
-	#if REVLIM_HACKS
-	#if !AUTO_TRANS
+#if REVLIM_HACKS
+#if !AUTO_TRANS
 	if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
 	{	
 		if(pRamVariables.LaunchControlCut < pRamVariables.RedLineCut)
@@ -292,16 +327,16 @@ void ProgModeLCAdjust()
 	
 	pRamVariables.ProgModeValue = pRamVariables.LaunchControlCut;
 	pRamVariables.ProgModeValueFlashes = (unsigned char)((pRamVariables.LaunchControlCut / rgLC_STEP) - (unsigned char)(rgLC_MIN / rgLC_STEP));
-	#else
+#else
 	pRamVariables.ProgModeValue = 0.0f;
 	pRamVariables.ProgModeValueFlashes = 0;
-	#endif
-	#endif
+#endif
+#endif
 }
 
 void ProgModePLSLAdjust()
 {
-	#if REVLIM_HACKS
+#if REVLIM_HACKS
 	if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
 	{	
 		if((pRamVariables.VPLSL_Adjust + rgPLSL[1]) <= rgPLSL[2])
@@ -319,10 +354,10 @@ void ProgModePLSLAdjust()
 	
 	pRamVariables.ProgModeValue = pRamVariables.LaunchControlCut;
 	pRamVariables.ProgModeValueFlashes = (unsigned char)((pRamVariables.LaunchControlCut / rgLC_STEP) - (unsigned char)(rgLC_MIN / rgLC_STEP));
-	#else
+#else
 	pRamVariables.ProgModeValue = 0.0f;
 	pRamVariables.ProgModeValueFlashes = 0;
-	#endif
+#endif
 }
 
 void ProgModeIAMAdjust()
@@ -361,7 +396,7 @@ void ProgModeValetMode()
 	pRamVariables.ProgModeValueFlashes = pRamVariables.ValetMode;
 }
 
-#define LED_STEP 24
+
 void ProgModeRaceGradeBackLight()
 {
 	if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)

@@ -17,6 +17,33 @@
 #if POLF_HOOK_DEFINED
 	void (*PolfHooked)() __attribute__ ((section ("RomHole_Functions"))) = (void(*)()) sPolf;
 
+#if WIDEBAND_HACKS
+void WideBandScaling()
+{
+	float afrTemp = 0;
+	if(pRamVariables.AFRSource == AFRModeStock)
+	{		
+		*pAFRConverted4 = Pull2DHooked((void*)tAFRSensorScaling, *pAFRsensedCurrent);
+	}
+	else if(pRamVariables.AFRSource == AFRModeBlend)
+	{
+		afrTemp = pRamVariables.aemLambda;
+		afrTemp += Pull2DHooked((void*)tAFRSensorScaling, *pAFRsensedCurrent);
+		afrTemp *= 0.5f;
+		*pAFRConverted4 = afrTemp;
+	}
+	else if(pRamVariables.AFRSource == AFRModeWide)
+	{
+		*pAFRConverted4 = pRamVariables.aemLambda;
+	}
+	else
+	{
+		pRamVariables.AFRSource = AFRModeStock;
+	}
+	
+}
+#endif
+
 void POLFHack()
 {		
 #if POLF_MAIN_HOOK
