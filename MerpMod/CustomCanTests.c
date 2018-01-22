@@ -101,7 +101,7 @@ unsigned char dte85[8];
 	
 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);
 	
-	Assert( ((unsigned char*)addrtemp)[0] == 0x20	,"CAN 0x700 d0");
+	Assert( ((unsigned char*)addrtemp)[0] == 0xA0	,"CAN 0x700 d0");
 	Assert( ((unsigned char*)addrtemp)[1] == 190	,"CAN 0x700 d1");
 	Assert( ((unsigned short*)addrtemp)[1] == 129	,"CAN 0x700 d2.d3");
 	Assert( ((unsigned short*)addrtemp)[2] == 29425	,"CAN 0x700 d4.d5");
@@ -115,10 +115,10 @@ unsigned char dte85[8];
  		SG_ aKnockFeed : 8|8@1+ (0.351563,-45) [0|0] ""  RCPMK2
  		SG_ aKnockFine : 16|8@1+ (0.351563,-45) [0|0] ""  RCPMK2
 		SG_ CLOL : 24|8@1+ (1,0) [0|125] ""  RCPMK2
- 		SG_ nRoughC1 : 32|8@1+ (1,0) [0|255] ""  RCPMK2
- 		SG_ nRoughC2 : 40|8@1+ (1,0) [0|255] ""  RCPMK2
- 		SG_ nRoughC3 : 48|8@1+ (1,0) [0|255] ""  RCPMK2
- 		SG_ nRoughC4 : 56|8@1+ (1,0) [0|255] ""  RCPMK2
+ 		SG_ pKnockSum1 : 32|8@1+ (1,0) [0|255] ""  RCPMK2
+ 		SG_ pKnockSum2 : 40|8@1+ (1,0) [0|255] ""  RCPMK2
+ 		SG_ pKnockSum3 : 48|8@1+ (1,0) [0|255] ""  RCPMK2
+ 		SG_ pKnockSum4 : 56|8@1+ (1,0) [0|255] ""  RCPMK2
  		
 
 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
@@ -127,20 +127,21 @@ unsigned char dte85[8];
 	((unsigned char*)addrtemp)[1] = *pFbkc1; 		
 	((unsigned char*)addrtemp)[2] = *pkclearn1; 
 	((unsigned char*)addrtemp)[3] = *pCLOL;			
-	((unsigned char*)addrtemp)[4] = *pNRough_C1; 		
-	((unsigned char*)addrtemp)[5] = *pNRough_C2; 		
-	((unsigned char*)addrtemp)[6] = *pNRough_C3; 		
-	((unsigned char*)addrtemp)[7] = *pNRough_C4; 
+	((unsigned char*)addrtemp)[4] = *pKnockSum1; 		
+	((unsigned char*)addrtemp)[5] = *pKnockSum2; 		
+	((unsigned char*)addrtemp)[6] = *pKnockSum3; 		
+	((unsigned char*)addrtemp)[7] = *pKnockSum4; 
 	 	*/
 	*pIam4 = 0.5;
 	*pFbkc1 = 2;
 	*pkclearn1 = 3;
 	*pCLOL = 4;
 	
-	*pNRough_C1 = 1;
-	*pNRough_C2 = 2;
-	*pNRough_C3 = 3;
-	*pNRough_C4 = 4;
+	*pKnockSum1 = 1;
+	*pKnockSum2 = 2;
+	*pKnockSum3 = 3;
+	*pKnockSum4 = 4;
+	
 		
 	send_frame_0x701();
 	
@@ -156,10 +157,10 @@ unsigned char dte85[8];
 	
 		/*
 	BO_ 1794 ecm_stat3: 8 ECM
- 		SG_ nKnockC1 : 0|8@1+ (1,0) [0|255] ""  RCPMK2
- 		SG_ nKnockC2 : 8|8@1+ (1,0) [0|255] ""  RCPMK2
- 		SG_ nKnockC3 : 16|8@1+ (1,0) [0|255] ""  RCPMK2
- 		SG_ nKnockC4 : 24|8@1+ (1,0) [0|255] ""  RCPMK2
+ 		SG_ pNRough_C1 : 0|8@1+ (1,0) [0|255] ""  RCPMK2
+ 		SG_ pNRough_C2 : 8|8@1+ (1,0) [0|255] ""  RCPMK2
+ 		SG_ pNRough_C3 : 16|8@1+ (1,0) [0|255] ""  RCPMK2
+ 		SG_ pNRough_C4 : 24|8@1+ (1,0) [0|255] ""  RCPMK2
  		SG_ aCamInR : 32|8@1+ (1,-50) [-50|50] ""  RCPMK2
  		SG_ aCamInL : 40|8@1+ (1,-50) [-50|50] ""  RCPMK2
  		SG_ aCamExR : 48|8@1+ (1,-50) [-50|50] ""  RCPMK2
@@ -167,10 +168,10 @@ unsigned char dte85[8];
  
 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
 	rcpCanMessageSetup(rcpCAN_ID_m2, 0, 8, 0, RPCBUF); 	 		
-	((unsigned char*)addrtemp)[0] = *pKnockSum1; 	
-	((unsigned char*)addrtemp)[1] = *pKnockSum2; 		
- 	((unsigned char*)addrtemp)[2] = *pKnockSum3;		
-	((unsigned char*)addrtemp)[3] = *pKnockSum4;	
+	((unsigned char*)addrtemp)[0] = *pNRough_C1; 	
+	((unsigned char*)addrtemp)[1] = *pNRough_C2; 		
+ 	((unsigned char*)addrtemp)[2] = *pNRough_C3;		
+	((unsigned char*)addrtemp)[3] = *pNRough_C4;	
  	((unsigned char*)addrtemp)[4] = limit_u8((*pAVCSIntakeRight * 2) + 128);
  	((unsigned char*)addrtemp)[5] = limit_u8((*pAVCSIntakeLeft * 2) + 128);
  	((unsigned char*)addrtemp)[6] = limit_u8((*pAVCSExhaustRight * 2) + 128);
@@ -178,10 +179,10 @@ unsigned char dte85[8];
 	sendCanMessage(11);
 		*/
 		
-	*pKnockSum1 = 1;
-	*pKnockSum2 = 2;
-	*pKnockSum3 = 3;
-	*pKnockSum4 = 4;
+	*pNRough_C1 = 1;
+	*pNRough_C2 = 2;
+	*pNRough_C3 = 3;
+	*pNRough_C4 = 4;
 	
 	*pAVCSIntakeRight = -40;
 	*pAVCSIntakeLeft = -20;
@@ -229,7 +230,7 @@ unsigned char dte85[8];
 	sendCanMessage(11);*/
 	pRamVariables.TargetBoost = ((13.5 * 51.71492510510006) + 760);
 	pRamVariables.MapBlendRatio = 0.44;
-	*pAFLearning_1 = 1.1;
+	*pAFLearning_1 = 0.1;
 	*pBatteryVoltage = 14.5;
 	*pTD_wg_prop = 1.2;
 	*pTD_wg_int = 2.4;
@@ -279,6 +280,34 @@ unsigned char dte85[8];
 	
 	*pFlagsRevLim = 1; send_frame_0x703(); 
 	Assert( ((unsigned char*)addrtemp)[7] == 255 ,"CAN 0x703 pFlagsRevLim");
+	
+	
+	
+	
+	
+		
+	pRamVariables.RevLimCut = 6402;
+	pRamVariables.RevLimResume = 6300;
+	
+	pRamVariables.InjectorScaling = 2707090 /1065.5;
+	
+	pRamVariables.MapBlendRatio = 0.5;
+	
+	pRamVariables.MapSwitch = 2;
+	pRamVariables.MafFromSpeedDensity = 10.23;
+	
+		
+	send_frame_0x708();
+	
+	addrtemp = (0xFFFFD108 + 0x20*RPCBUF);
+	Assert( ((unsigned char*)addrtemp)[0] == 0xc8	,"CAN 0x702 d0");
+	Assert( ((unsigned char*)addrtemp)[1] == 0x1C	,"CAN 0x702 d1");
+	Assert( ((unsigned char*)addrtemp)[2] == 0x4E	,"CAN 0x702 d2");
+	Assert( ((unsigned char*)addrtemp)[3] == 0x85	,"CAN 0x702 d3");
+	Assert( ((unsigned char*)addrtemp)[4] == 0x28	,"CAN 0x702 d4");
+	Assert( ((unsigned char*)addrtemp)[5] == 0x08	,"CAN 0x702 d5");
+	Assert( ((unsigned char*)addrtemp)[6] == 0x03	,"CAN 0x702 d6");
+	Assert( ((unsigned char*)addrtemp)[7] == 0xFF	,"CAN 0x702 d7");
 
 	
 	
@@ -505,11 +534,11 @@ unsigned char dte85[8];
 	
 	cmDTtypeIn[0] = 4;
 	cmDTtypeOut[0] = 3;
-	*((float*)cmDTaddr[0]) = 4294967296;
+	*((float*)cmDTaddr[0]) = 0xFFFFFFFF;
 	cmDTscale[0] = 0;
 	cmDToffset[0] = 0;
 	updateCanDT(0);
-	Assert(*(unsigned long*)(0xFFFFD100+0x08+19*0x20) == 4294967295, "DT float u8 Check Failed");
+	Assert(*(unsigned long*)(0xFFFFD100+0x08+19*0x20) == 0xFFFFFFFF, "DT float u8 Check Failed");
 	
 	CustomCanService();
 	

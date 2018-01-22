@@ -35,9 +35,9 @@ void rcp_frame_manager()
 		case  7:	pRamVariables.rcpFrameState++; break;
 		case  8:	send_frame_0x704();		pRamVariables.rcpFrameState++; break;
 		case  9:	pRamVariables.rcpFrameState++; break;	
-		case 10:	pRamVariables.rcpFrameState++; break;
+		case 10:	send_frame_0x708();		pRamVariables.rcpFrameState++; break;
 		case 11:	pRamVariables.rcpFrameState++; break;
-		case 12:	pRamVariables.rcpFrameState++; break;
+		case 12:	send_frame_0x709();		pRamVariables.rcpFrameState++; break;
 		case 13:	pRamVariables.rcpFrameState++; break;
 		case 14:	pRamVariables.rcpFrameState++; break;
 		case 15:	pRamVariables.rcpFrameState++; break;
@@ -67,7 +67,7 @@ void send_frame_0x700()
 	((unsigned short*)addrtemp)[1] = limit_u16((*pMassAirFlow)/0.01f);
 	((unsigned short*)addrtemp)[2] = limit_u16(((*pManifoldAbsolutePressure)-242.850759f)*25.3447147559339f);
  	((unsigned char*)addrtemp)[6] = limit_u8((*pWgdc4)/0.392157f);
-	((unsigned char*)addrtemp)[7] = limit_u8((*pAf1Res)/0.0078125f);
+	((unsigned char*)addrtemp)[7] = limit_u8((pRamVariables.kFuelPressure / 0.0078125));
 	sendCanMessage(11);
 }
 
@@ -91,10 +91,10 @@ void send_frame_0x701()
 	((unsigned char*)addrtemp)[1] = *pFbkc1; 		
 	((unsigned char*)addrtemp)[2] = *pkclearn1; 
 	((unsigned char*)addrtemp)[3] = *pCLOL;			
-	((unsigned char*)addrtemp)[4] = *pNRough_C1; 		
-	((unsigned char*)addrtemp)[5] = *pNRough_C2; 		
-	((unsigned char*)addrtemp)[6] = *pNRough_C3; 		
-	((unsigned char*)addrtemp)[7] = *pNRough_C4; 		
+	((unsigned char*)addrtemp)[4] = *pKnockSum1; 		
+	((unsigned char*)addrtemp)[5] = *pKnockSum2; 		
+	((unsigned char*)addrtemp)[6] = *pKnockSum3; 		
+	((unsigned char*)addrtemp)[7] = *pKnockSum4; 		
 
 	
 	sendCanMessage(11);
@@ -113,17 +113,23 @@ void send_frame_0x702()
  		SG_ aCamExR : 48|8@1+ (1,-50) [-50|50] ""  RCPMK2
  		SG_ aCamExL : 56|8@1+ (1,-50) [-50|50] ""  RCPMK2
  	*/
-	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
-	rcpCanMessageSetup(rcpCAN_ID_m2, 0, 8, 0, RPCBUF); 	 		
-	((unsigned char*)addrtemp)[0] = *pKnockSum1; 	
-	((unsigned char*)addrtemp)[1] = *pKnockSum2; 		
- 	((unsigned char*)addrtemp)[2] = *pKnockSum3;		
-	((unsigned char*)addrtemp)[3] = *pKnockSum4;	
- 	((unsigned char*)addrtemp)[4] = limit_u8((*pAVCSIntakeRight * 2) + 128);
- 	((unsigned char*)addrtemp)[5] = limit_u8((*pAVCSIntakeLeft * 2) + 128);
- 	((unsigned char*)addrtemp)[6] = limit_u8((*pAVCSExhaustRight * 2) + 128);
-	((unsigned char*)addrtemp)[7] = limit_u8((*pAVCSExhaustLeft * 2) + 128);
-	sendCanMessage(11);
+	if(pRamVariables.rcp0x702_tick == 0)
+	{
+		unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
+		rcpCanMessageSetup(rcpCAN_ID_m2, 0, 8, 0, RPCBUF); 	 		
+		((unsigned char*)addrtemp)[0] = *pNRough_C1; 	
+		((unsigned char*)addrtemp)[1] = *pNRough_C2; 		
+	 	((unsigned char*)addrtemp)[2] = *pNRough_C3;		
+		((unsigned char*)addrtemp)[3] = *pNRough_C4;	
+	 	((unsigned char*)addrtemp)[4] = limit_u8((*pAVCSIntakeRight * 2) + 128);
+	 	((unsigned char*)addrtemp)[5] = limit_u8((*pAVCSIntakeLeft * 2) + 128);
+	 	((unsigned char*)addrtemp)[6] = limit_u8((*pAVCSExhaustRight * 2) + 128);
+		((unsigned char*)addrtemp)[7] = limit_u8((*pAVCSExhaustLeft * 2) + 128);
+		sendCanMessage(11);
+		pRamVariables.rcp0x702_tick = 1;
+	}
+	else
+		pRamVariables.rcp0x702_tick--;
 }
 
 void send_frame_0x703()
@@ -145,7 +151,7 @@ void send_frame_0x703()
 		((unsigned short*)addrtemp)[0] = limit_u16((pRamVariables.TargetBoost-242.850759f)*25.3447147559339f);
 	#endif
 	((unsigned char*)addrtemp)[2] = limit_u8(pRamVariables.MapBlendRatio * 255);
-	((unsigned char*)addrtemp)[3] = limit_u8((*pAFLearning_1)/0.0078125f);
+	((unsigned char*)addrtemp)[3] = limit_u8((*pAFLearning_1)/0.0078125f + 128);
 	((unsigned char*)addrtemp)[4] = limit_u8((*pBatteryVoltage)/0.08);
 	((unsigned char*)addrtemp)[5] = limit_u8((*pTD_wg_prop*5)+128);
 	((unsigned char*)addrtemp)[6] = limit_u8((*pTD_wg_int*5)+128);
@@ -177,10 +183,10 @@ void send_frame_0x704()
 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
 	rcpCanMessageSetup(rcpCAN_ID_m4, 0, 8, 0, RPCBUF); 	 	
 	#if POLF_HACKS
-		((unsigned short*)addrtemp)[0] = limit_u16(pRamVariables.PolfOutput * 1000);	
+		((unsigned short*)addrtemp)[0] = limit_u16(1000/(1+pRamVariables.PolfOutput));	
 		((unsigned char*)addrtemp)[2] = limit_u8((pRamVariables.TargetedStoich-8)*36);
-		((unsigned char*)addrtemp)[3] = limit_u8((pRamVariables.kFuelPressure / 0.0078125));
 	#endif
+	((unsigned char*)addrtemp)[3] = limit_u8((*pAf1Res)/0.0078125f);	
 	((unsigned char*)addrtemp)[4] = limit_u8((*prLamLearnA*200) + 128);
  	((unsigned char*)addrtemp)[5] = limit_u8((*prLamLearnB*200) + 128);
  	((unsigned char*)addrtemp)[6] = limit_u8((*prLamLearnC*200) + 128);
@@ -188,22 +194,70 @@ void send_frame_0x704()
 	sendCanMessage(11);
 }
 
-/*
-void send_frame_0x705()
+void send_frame_0x708()
 {
-	//
-	BO_ 1797 ecm_stat6: 8 PCANROUTER
-  		SG_ xOdometer : 0|32@1+ (0.1,0) [0|65535.] "km"  RCPMK2
-		SG_ pFuel : 32|16@1+ (0.01,0) [0|65.55] "psig"  RCPMK2
-		SG_ pFuelAbs : 48|16@1+ (0.01,0) [0|65.55] "psia"  RCPMK2
-	//
-	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
-	rcpCanMessageSetup(rcpCAN_ID_m5, 0, 8, 0, RPCBUF); 	
-	((unsigned long*)addrtemp)[0] = limit_u32(*pEstimatedOdometer * 10);
-	((unsigned short*)addrtemp)[2] = limit_u16((pRamVariables.pFuelCanRel*100));
-	((unsigned short*)addrtemp)[3] = limit_u16((pRamVariables.pFuelCan*100));
-	sendCanMessage(11);
-}*/
+	/*BO_ 1800 ecm_slow1: 8 ECM
+ SG_ nRevLimCut : 7|12@0+ (2,0) [0|8000] "rpm"  RCP
+ SG_ nRevLimResume : 11|12@0+ (2,0) [0|8000] "rpm"  RCP
+ SG_ nLaunchControlCut : 31|12@0+ (2,0) [0|8000] "rpm"  RCP
+ 			SG_ rMapBlendRatio : 35|8@0+ (0.3921568627,0) [0|100] "%"  RCP
+ SG_ MapSwitch : 42|2@1+ (1,0) [0|1] "x"  RCP
+ SG_ rMafFromSpeedDensity : 55|16@0+ (0.01,0) [0|400] "g/s"  RCP*/
+ 
+	if(pRamVariables.rcp0x708_tick == 0)
+	{
+	 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
+		unsigned short vtemp = 0;
+		rcpCanMessageSetup(0x708, 0, 8, 0, RPCBUF); 	 	
+	
+		vtemp = (unsigned short)( pRamVariables.RevLimCut/2);
+		((unsigned char*)addrtemp)[0] = (vtemp>>4)&0xFF;
+		((unsigned char*)addrtemp)[1] = (vtemp<<4)&0xF0;
+	
+		vtemp = (unsigned short)( pRamVariables.RevLimResume/2);
+		((unsigned char*)addrtemp)[1] += ((vtemp>>8)&0x0F);
+		((unsigned char*)addrtemp)[2] = ((vtemp)&0xFF);
+	
+		vtemp = (unsigned short)( 2707090 / pRamVariables.InjectorScaling*2);
+		((unsigned char*)addrtemp)[3] = (vtemp>>4)&0xFF;
+		((unsigned char*)addrtemp)[4] = (vtemp<<4)&0xF0;
+	
+		vtemp = (unsigned short)limit_u8( pRamVariables.MapBlendRatio*255);
+		((unsigned char*)addrtemp)[4] += ((vtemp>>4)&0x0F);
+		((unsigned char*)addrtemp)[5] = ((vtemp<<4)&0xF0);
+	
+		((unsigned char*)addrtemp)[5] += ((pRamVariables.MapSwitch<<2)&0x0C);
+	
+		((unsigned short*)addrtemp)[3] = limit_u16((pRamVariables.MafFromSpeedDensity)*100);
+		sendCanMessage(11);
+		pRamVariables.rcp0x708_tick = 1;
+	}
+	else
+		pRamVariables.rcp0x708_tick--;
+}
+
+void send_frame_0x709()
+{
+	if(pRamVariables.rcp0x709_tick == 0)
+	{
+	 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);			
+		rcpCanMessageSetup(0x709, 0, 8, 0, RPCBUF); 	 	
+			
+		((unsigned char*)addrtemp)[0] = pRamVariables.nINJCutCTR;
+		((unsigned char*)addrtemp)[1] = pRamVariables.nINJFuncCTR;		
+		((unsigned short*)addrtemp)[1] = pRamVariables.nINJCutPattern;
+		((unsigned char*)addrtemp)[4] = limit_u8(*pInjCompC1*128); 
+		((unsigned char*)addrtemp)[5] = limit_u8(*pInjCompC2*128); 
+		((unsigned char*)addrtemp)[6] = limit_u8(*pInjCompC3*128); 
+		((unsigned char*)addrtemp)[7] = limit_u8(*pInjCompC4*128); 
+		
+		sendCanMessage(11);
+		pRamVariables.rcp0x709_tick = 1;
+	}
+	else
+		pRamVariables.rcp0x709_tick--;
+}
+
 #endif
 #endif
 

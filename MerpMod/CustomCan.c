@@ -293,7 +293,10 @@ void canCallbackMK3e85Packet(unsigned char* data)
 		
 	}
 	else
+	{
+		pRamVariables.TargetedStoich = 14.65;
 		pRamVariables.InjectorScaling = pRamVariables.kFuelPressure * (*dInjectorScaling);
+	}
 	#endif
 	
 	#endif
@@ -307,49 +310,7 @@ void updateFuelPressure(unsigned short rawVoltage)
 	#endif
 }
 
-void raceGradeKeyPadCallback(unsigned char* data)
-{
-	unsigned char i = 0;
-	unsigned char statenew = 0;
-	while(i<8)
-	{
-		statenew = ((data[0]&shC[i]) == shC[i]) ? 1 : 0;
-		if(statenew>pRamVariables.buttons[i].state)
-		{
-			pRamVariables.buttons[i].edgeDetect = edgeRising;
-		}
-		else if(statenew < pRamVariables.buttons[i].state)
-		{
-			pRamVariables.buttons[i].edgeDetect = edgeFailing;
-		}
-		else
-		{
-			pRamVariables.buttons[i].edgeDetect = edgeNA;
-		}
-		pRamVariables.buttons[i].state = statenew;
-		pRamVariables.buttons[i].led = 0;
-		i++;	
-	}
-	
-	#if PROG_MODE
-		ProgModeMain();
-	#endif
-	
-	unsigned long leds = 0;
-	unsigned long ledTemp = 0;
-	i=0;
-	while(i<8)
-	{
-		ledTemp = ((unsigned long)(pRamVariables.buttons[i].led&0x07)*shC[i*3]);
-		leds += ledTemp;
-		i++;	
-	}
-	
-	ledTemp = ((leds&0xFF)<<24) + ((leds>>8&0xFF)<<16) + ((leds>>16&0xFF)<<8);
-	updateCanRaw((unsigned long)&ledTemp,dtLong,RACEGRADE_LED_CCM,0);
-	sendCanMessage(RACEGRADE_LED_CCM);
-	
-}
+
 
 void canCallbackRamTune(unsigned char* data)
 {

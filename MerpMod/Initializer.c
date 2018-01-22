@@ -64,6 +64,11 @@ void PopulateRamVariables()
 #if INJECTOR_HACKS
 	//Injector Scalar init to default
 	pRamVariables.InjectorScaling = *dInjectorScaling;
+	pRamVariables.nINJCutPattern = 0;
+	pRamVariables.nPLSLCutRatio = 0;
+	pRamVariables.nINJFuncCTR = 0;
+	pRamVariables.cutPatternAsk = 0;
+	pRamVariables.nINJCutCTR = 0;
 #endif
 
 #if SWITCH_HACKS
@@ -74,6 +79,9 @@ void PopulateRamVariables()
 
 #if CAN_HACKS
 	pRamVariables.initFunctionRun = 0;
+	pRamVariables.rcp0x702_tick = 0;
+	pRamVariables.rcp0x708_tick = 0;
+	pRamVariables.rcp0x709_tick = 0;
 //	pRamVariables.sdTimer = 0;
 #endif 
 
@@ -83,6 +91,14 @@ void PopulateRamVariables()
 	pRamVariables.ProgModeEntry = 0;
 	pRamVariables.ProgModeEnable = 0;
 	pRamVariables.ProgModeCurrentMode = 0;
+	unsigned char i = 0;
+	while(i < rgButtonCount)
+	{
+		pRamVariables.buttons[i].state = 0;
+		pRamVariables.buttons[i].led = 0;
+		pRamVariables.buttons[i].edgeDetect = 0;
+		i++;	
+	}
 #endif
 
 #if REVLIM_HACKS

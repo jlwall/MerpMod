@@ -26,11 +26,20 @@ typedef struct
 	
 	#if INJECTOR_HACKS
 		float InjectorScaling;			//04
+		unsigned long nPLSLCutRatio;
+		unsigned char nINJCutCTR;
+		unsigned char nINJFuncCTR;
+		unsigned char cutPatternAsk;
+		unsigned short nINJCutPattern;		
 	#endif
 
 #if CAN_HACKS
 	unsigned short initFunctionRun;				//20	
 	unsigned short ccmSendTimers[ccmCount];		//12
+	
+	unsigned char rcp0x702_tick;
+	unsigned char rcp0x708_tick;
+	unsigned char rcp0x709_tick;
 
 	#if POLF_HACKS
 		unsigned char fuelPressureFlowEnabled;		//10
@@ -38,7 +47,7 @@ typedef struct
 	#endif
 
 	#if RACEGRADE_KEYPAD_HACKS
-		buttonRGStruct buttons[8];				//24
+		buttonRGStruct buttons[rgButtonCount];				//24
 		unsigned char rgBackLight;					//22
 	#endif
 	
