@@ -45,16 +45,13 @@ TableGroup FuelTableGroup FUELDATA = {
 };
 #endif
 
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//!! FlexFuelFlowTable Injector Flow
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 //Ethanol Percentage
 float FlexFuelFlow_ROWS[11] FUELDATA =
 {0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1};
 
 //Target Air Fuel Ratio for stoichiometric 
-short FlexFuelStoich_DATA[11] FUELDATA =
+unsigned short FlexFuelStoich_DATA[11] FUELDATA =
 {14700,14128,13545,12973,12411,11843,11272,10709,10142,9575,9001};
 
 TwoDTable FlexFuelStoichTable  FUELDATA = {
@@ -64,6 +61,63 @@ TwoDTable FlexFuelStoichTable  FUELDATA = {
 	.tableCells = FlexFuelStoich_DATA,
 	.multiplier = 0.001,
 	.offset = 0.0 };
+
+
+
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//!! FlexFuelFlowTable Injector Flow
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+//Ethanol Percentage
+unsigned long FuelCutTable_ROWS_U32[17] FUELDATA =
+{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
+
+//Target Air Fuel Ratio for stoichiometric 
+unsigned short FuelCutTable_DATA[17] FUELDATA =
+{
+	0x0000,
+	0x0001,
+	0x0101,
+	0x0421,
+	0x1111,
+	0x4889,
+	0x4A49,
+	0x9265,
+	0xAA65,
+	0x6AAD,
+	0x66DB,
+	0xB6DD,
+	0xDDDD,
+	0xEF7D,
+	0xDFDF,
+	0xFF7F,
+	0xFFFF
+};
+
+TwoDTableU16 FuelCutTable  FUELDATA = {
+	.columnCount = 17,
+	.tableType = 0,
+	.columnHeaderArray = FuelCutTable_ROWS_U32,
+	.tableCells = FuelCutTable_DATA
+	};
+
+//PLSL Cut Tables 
+float PLSL_CutRatioTable_ROWS[11] FUELDATA =
+{-4,-3,-2,-1,0,1,2,3,4,5,10};
+
+unsigned short PLSL_CutRatioTable_DATA[11] FUELDATA =
+{0,0,1,2,3,5,7,9,11,15,16};
+
+TwoDTable PLSL_CutRatioTable  FUELDATA = {
+	.columnCount = 11,
+	.tableType = UInt16Table2D,
+	.columnHeaderArray = PLSL_CutRatioTable_ROWS,
+	.tableCells = PLSL_CutRatioTable_DATA,
+	.multiplier = 1,
+	.offset = 0.0
+	};
+	
+	
 	
 //Fuel Pressure Scaling
 float FuelPressure_ROWS[4] FUELDATA =

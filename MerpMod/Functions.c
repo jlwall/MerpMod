@@ -73,7 +73,7 @@ unsigned long limit_u32(float input)
 {
 	input += 0.5f;
 	if(input <0) return 0;
-	else if(input > 4294967295) return 0xFFFFFFFF;
+	else if(input > 0xFFFFFFFF) return 0xFFFFFFFF;
 	else return (unsigned long)input;	
 }
 

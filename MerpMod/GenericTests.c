@@ -35,6 +35,62 @@ void GenericTests()
 	
 	ResetRamVariables();
 	
+	*pInjectorLastPulse = 6000;
+	*pEngineSpeed = 7200;
+	*pEngineLoad = 1.6;
+	
+	float speedDiff = -1;
+	unsigned char cutRat = Pull2DHookedU8((TwoDTable*)&PLSL_CutRatioTable,*((float*)&speedDiff));	
+	
+	unsigned long rr = 14;
+	rr = 14;
+	unsigned short cutPattern = Pull2DHookedU16fp((TwoDTableU16*)&FuelCutTable,*((unsigned long*)&rr));	
+	rr = 15;
+	unsigned short cutPattern1 = Pull2DHookedU16fp((TwoDTableU16*)&FuelCutTable,*((unsigned long*)&rr));	
+	rr = 21;
+	unsigned short cutPattern2 = Pull2DHookedU16fp((TwoDTableU16*)&FuelCutTable,*((unsigned long*)&rr));
+		
+	InjectorTrims();
+	
+	float r1 = *pInjCompC1;
+	float r2 = *pInjCompC2;
+	float r3 = *pInjCompC3;
+	float r4 = *pInjCompC4;
+	
+	pRamVariables.nINJCutPattern = 0x20FC;
+	pRamVariables.nINJCutCTR = 0;
+	
+	InjectorTrims();
+	 r1 = *pInjCompC1;
+	 r2 = *pInjCompC2;
+	 r3 = *pInjCompC3;
+	 r4 = *pInjCompC4;
+	
+	InjectorTrims();
+	 r1 = *pInjCompC1;
+	 r2 = *pInjCompC2;
+	 r3 = *pInjCompC3;
+	 r4 = *pInjCompC4;
+	 
+	 InjectorTrims();
+	 r1 = *pInjCompC1;
+	 r2 = *pInjCompC2;
+	 r3 = *pInjCompC3;
+	 r4 = *pInjCompC4;
+	 
+	 InjectorTrims();
+	 r1 = *pInjCompC1;
+	 r2 = *pInjCompC2;
+	 r3 = *pInjCompC3;
+	 r4 = *pInjCompC4;
+	 
+	 InjectorTrims();
+	 r1 = *pInjCompC1;
+	 r2 = *pInjCompC2;
+	 r3 = *pInjCompC3;
+	 r4 = *pInjCompC4;
+	
+	
 #if WIDEBAND_HACKS
 	*pAFRsensedCurrent = 0.24;
 	*pAFRConverted4 = 0;

@@ -601,9 +601,18 @@ const MetaReplace WidebandHook METADATA =
 	{
 		op: OpReplace4Bytes,
 		address: hInjectorScaling,
-		oldval: dInjectorScaling,
+		oldval: (unsigned long)dInjectorScaling,
 		newval: (int)&(pRamVariables.InjectorScaling),
 		name: STR(Injector Scalar Hook)
+	};
+	
+	const MetaReplace InjectorTrimHook METADATA =
+	{
+		op: OpReplace4Bytes,
+		address: hInjectorTrims,
+		oldval: sInjectorTrims,
+		newval: (int)InjectorTrims,
+		name: STR(Injector Trim FC Hook)
 	};
 #endif
 

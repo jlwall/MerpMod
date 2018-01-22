@@ -94,40 +94,39 @@ void RevLimUnitTest(unsigned char flag, int brake, int clutch, float throttle, f
 void RevLimUnitTests() __attribute__ ((section ("Misc")));
 void RevLimUnitTests()
 {
-	RevLimUnitTest(0,0,0,25,59.6,5500,1);
+	RevLimUnitTest(0,0,0,25,56,5500,1);
 	Assert(pRamVariables.bPLSLcutting == 0, "PLSL should not be cutting");
-	
-	
-	*pVehicleSpeed = 59.9;
+		
+	*pVehicleSpeed = 57;
 	RevLimCode();
 	Assert(pRamVariables.bPLSLcutting == 0, "PLSL should not be cutting");
 	
 	*pVehicleSpeed = 60.1;
 	RevLimCode();
 	Assert(pRamVariables.bPLSLcutting == 1, "PLSL should be cutting");
-	Assert(GetFuelCutFlag(), "PLSL should be fuel cutting");
+//	Assert(GetFuelCutFlag(), "PLSL should be fuel cutting");
 	
 	
 	*pVehicleSpeed = 59.9;
 	RevLimCode();
 	Assert(pRamVariables.bPLSLcutting == 1, "PLSL should be cutting");
-	Assert(GetFuelCutFlag(), "PLSL should be fuel cutting");
+	//Assert(GetFuelCutFlag(), "PLSL should be fuel cutting");
 	
-	*pVehicleSpeed = 59.6;
+	*pVehicleSpeed = 56;
 	RevLimCode();
 	Assert(pRamVariables.bPLSLcutting == 0, "PLSL should not be cutting");
-	Assert(!GetFuelCutFlag(), "PLSL should be fuel cutting");
+	//Assert(!GetFuelCutFlag(), "PLSL should be fuel cutting");
 	
 	*pVehicleSpeed = 60.1;
 	RevLimCode();
 	Assert(pRamVariables.bPLSLcutting == 1, "PLSL should be cutting");
-	Assert(GetFuelCutFlag(), "PLSL should be fuel cutting");
+//	Assert(GetFuelCutFlag(), "PLSL should be fuel cutting");
 	
 	pRamVariables.bPLSLRequest = 0;
 	*pVehicleSpeed = 60.1;
 	RevLimCode();
 	Assert(pRamVariables.bPLSLcutting == 0, "PLSL should be off");
-	Assert(!GetFuelCutFlag(), "PLSL should be fuel cutting");
+	//Assert(!GetFuelCutFlag(), "PLSL should be fuel cutting");
 
 	//Set just below REDLINE, should not cut
 	//void RevLimUnitTest(unsigned char flag, int brake, int clutch, float throttle, float mph, float rpm) __attribute__ ((section ("Misc")));

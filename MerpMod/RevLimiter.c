@@ -33,17 +33,36 @@ void RevLimCode()
 {	
 	if (pRamVariables.bPLSLRequest == 1)
 	{
-		if((pRamVariables.bPLSLcutting == 0) && (*pVehicleSpeed > (NPLSL_Limit + pRamVariables.VPLSL_Adjust)))
+		float vPLSL_error = *pVehicleSpeed - (NPLSL_Limit + pRamVariables.VPLSL_Adjust);
+		
+		unsigned long nCutTemp = (unsigned long)(Pull2DHooked((TwoDTable*)&PLSL_CutRatioTable,vPLSL_error));
+		pRamVariables.nPLSLCutRatio = nCutTemp;	
+		
+		unsigned short nCutPattern =  Pull2DHookedU16fp((TwoDTableU16*)&FuelCutTable,pRamVariables.nPLSLCutRatio);				
+		pRamVariables.nINJCutPattern = nCutPattern;
+		
+		if(pRamVariables.nINJCutPattern > 0)
 		{
 			pRamVariables.bPLSLcutting = 1;
 		}
-		else if((pRamVariables.bPLSLcutting == 1 ) && (*pVehicleSpeed < (NPLSL_Limit + pRamVariables.VPLSL_Adjust - Abs(NPLSL_Hyst))))
+		else
 		{
 			pRamVariables.bPLSLcutting = 0;
 		}
 	}
 	else
-		pRamVariables.bPLSLcutting = 0;
+	{
+		if(pRamVariables.cutPatternAsk == 1)
+		{
+			pRamVariables.bPLSLcutting = 1;
+			pRamVariables.nINJCutPattern = 1;
+		}
+		else
+			{
+			pRamVariables.bPLSLcutting = 0;
+			pRamVariables.nINJCutPattern = 0;
+			}
+	}
 		
 	if (!TestClutchSwitch() || TestBrakeSwitch())
 	{
@@ -119,7 +138,7 @@ void RevLimCode()
 	}
 	
 	//Add a SW unadjustable Hard Limit, having this in ram only is not safe
-	if (*pEngineSpeed > pRamVariables.RevLimCut || *pEngineSpeed > pRamVariables.RedLineCut || *pEngineSpeed > 7500 || (pRamVariables.bPLSLcutting == 1))
+	if (*pEngineSpeed > pRamVariables.RevLimCut || *pEngineSpeed > pRamVariables.RedLineCut || *pEngineSpeed > 7500 )
 		{
 			*pFlagsRevLim |= RevLimBitMask;
 		} 
