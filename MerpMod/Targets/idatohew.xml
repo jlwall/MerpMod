@@ -24,6 +24,10 @@
         <define name="sPull3DFloat">
             <ida name="SBR_PULL3D_FLOAT" />
         </define>
+		<define name="sPull2D_U8"><ida name="sPull2D_U8" /></define>
+		<define name="sPull2D_U16"><ida name="sPull2D_U16" /></define>
+		<define name="sPull2D_U8_U32Axis"><ida name="sPull2D_U8_U32Axis" /></define>
+		<define name="sPull2D_U16_U32Axis"><ida name="sPull2D_U16_U32Axis" /></define>			
     </category>
 
     <category name="Switch Hacks">
@@ -80,6 +84,15 @@
         <define name="tAFRSensorScaling">
             <ida name="tAFRSensorScaling" />
         </define>
+		
+		<define name="subFuncCalcIgnitionDwell">
+		<ida name="subFuncCalcIgnitionDwell" />
+        </define>
+		
+		
+		<define name="subFuncCalcInjectorTrims">
+		<ida name="subFuncCalcInjectorTrims" />
+        </define>
     </category>
 
     <category name="Injector Hack">
@@ -89,6 +102,19 @@
         <define name="hInjectorScaling">
             <ida name="HOOK_INJECTOR_SCALING" />
         </define>
+		
+		<define name="pInjCompC1" type="float*"><ida name="pInjCompC1" /> </define>
+		<define name="pInjCompC2" type="float*"><ida name="pInjCompC2" /> </define>
+		<define name="pInjCompC3" type="float*"><ida name="pInjCompC3" /> </define>
+		<define name="pInjCompC4" type="float*"><ida name="pInjCompC4" /> </define>
+		<define name="pInjectorLastPulse" type="float*"><ida name="pInjectorLastPulse" /> </define>
+		
+		<define name="hInjectorTrims"><ida name="hInjectorTrims" /> </define>
+		<define name="sInjectorTrims"><ida name="sInjectorTrims" /> </define>
+		<define name="TabInjCompC1"><ida name="TabInjCompC1" /> </define>
+		<define name="TabInjCompC2"><ida name="TabInjCompC2" /> </define>
+		<define name="TabInjCompC3"><ida name="TabInjCompC3" /> </define>
+		<define name="TabInjCompC4"><ida name="TabInjCompC4" /> </define>
     </category>
 
     <category name="Cel Hacks">
@@ -440,10 +466,10 @@
 		<define name="pKnockSum3" type="char*"><ida name="pKnockSum3" /></define>
 		<define name="pKnockSum4" type="char*"><ida name="pKnockSum4" /></define>
 		<define name="pCLOL" type="char*"><ida name="E_CLOL_FuelingExt__E33" /></define>	
-		<define name="pAVCSIntakeLeft" type="char*"><ida name="pAVCSIntakeLeft" /></define>	
-		<define name="pAVCSIntakeRight" type="char*"><ida name="pAVCSIntakeRight" /></define>
-		<define name="pAVCSExhaustLeft" type="char*"><ida name="pAVCSExhaustLeft" /></define>
-		<define name="pAVCSExhaustRight" type="char*"><ida name="pAVCSExhaustRight" /></define>
+		<define name="pAVCSIntakeLeft" type="float*"><ida name="pAVCSIntakeLeft" /></define>	
+		<define name="pAVCSIntakeRight" type="float*"><ida name="pAVCSIntakeRight" /></define>
+		<define name="pAVCSExhaustLeft" type="float*"><ida name="pAVCSExhaustLeft" /></define>
+		<define name="pAVCSExhaustRight" type="float*"><ida name="pAVCSExhaustRight" /></define>
 		
 		<define name="prLamLearnA" type="float*"><ida name="E_AF_Learning_1_A_StoredExt__E44" /></define>
 		<define name="prLamLearnB" type="float*"><ida name="E_AF_Learning_1_B_StoredExt__E45" /></define>
@@ -452,6 +478,12 @@
 		<define name="pTD_wg_prop" type="float*"><ida name="pTD_wg_prop" /></define>
 		<define name="pTD_wg_int" type="float*"><ida name="pTD_wg_int" /></define>
 		<define name="pBatteryVoltage" type="float*"><ida name="pBatteryVoltage" /></define>
+		
+		<define name="pEngineSpeedDwell" type="float*"><ida name="pEngineSpeedDwell" /></define>
+		
+		<define name="pIgnitionDwellTiming" type="float*"><ida name="pIgnitionDwellTiming" /></define>
+		<define name="pInjectorLastPulse" type="float*"><ida name="pInjectorLastPulse" /></define>
+		
 		<define name="pAFRConverted4" type="float*"><ida name="pAFRConverted4" /></define>
 		<define name="pAFRsensedCurrent" type="float*"><ida name="pAFRsensedCurrent" /></define>
 		

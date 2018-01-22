@@ -25,6 +25,8 @@ enum TableType2D
 {
 	UInt8Table2D = (unsigned short)0x0400,
 	UInt16Table2D = (unsigned short)0x0800,
+	Int8Table2D = (unsigned short)0x0C00,
+	Int16Table2D = (unsigned short)0x1000,
 	FloatTable2D = (unsigned short)0x0000
 };
 
@@ -126,6 +128,24 @@ typedef struct
 	float multiplier;
 	float offset;
 } TwoDTable;
+
+typedef struct 
+{
+	short columnCount;
+	short tableType;
+	unsigned long* columnHeaderArray;
+	unsigned char* tableCells;
+} TwoDTableU8;
+
+typedef struct 
+{
+	short columnCount;
+	short tableType;
+	unsigned long* columnHeaderArray;
+	unsigned short* tableCells;
+} TwoDTableU16;
+
+
 
 typedef struct
 {
