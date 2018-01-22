@@ -171,11 +171,17 @@ DEFNEW1D("Race Capture Pro CAN ID 5", rcpCAN_ID_m5);
 DEFNEW1D("Race Grade Button Blend", rgButtonEthanolSource);
 DEFNEW1D("Race Grade Button Valet", rgButtonValetSource);
 DEFNEW1D("Race Grade Button FlatFoot", rgButtonFFSSource);
-DEFNEW1D("Race Grade Button Bail", rgButtonBailSource);
+DEFNEW1D("Race Grade Button Failsafe", rgButtonFailsafeSource);
 DEFNEW1D("Race Grade Button PLSL", rgButtonPLSLSource);
 DEFNEW1D("Race Grade Button Mode", rgButtonModeSource);
 DEFNEW1D("Race Grade Button Up", rgButtonUpSource);
 DEFNEW1D("Race Grade Button Down", rgButtonDownSource);
+DEFNEW1D("Race Grade Button Cut Test", rgButtonCutTestSource);
+
+DEFNEW2D("PLSL Cut Level",PLSL_CutRatioTable);
+DEFNEW2D("PLSL Cut Pattern",FuelCutTable);
+
+
 
 DEFNEW1D("Race Grade Launch Control Min Rev", rgLC_MIN);
 DEFNEW1D("Race Grade Launch Control Step", rgLC_STEP);

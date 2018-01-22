@@ -69,6 +69,50 @@
 #define IAM_STEP 2
 #endif
 
+void raceGradeKeyPadCallback(unsigned char* data)
+{
+	unsigned char i = 0;
+	unsigned char statenew = 0;
+	while(i < (rgButtonCount-1)) //9th button is a holder for a null button
+	{
+		statenew = ((data[0]&shC[i]) == shC[i]) ? 1 : 0;
+		if(statenew>pRamVariables.buttons[i].state)
+		{
+			pRamVariables.buttons[i].edgeDetect = edgeRising;
+		}
+		else if(statenew < pRamVariables.buttons[i].state)
+		{
+			pRamVariables.buttons[i].edgeDetect = edgeFailing;
+		}
+		else
+		{
+			pRamVariables.buttons[i].edgeDetect = edgeNA;
+		}
+		pRamVariables.buttons[i].state = statenew;
+		pRamVariables.buttons[i].led = 0;
+		i++;	
+	}
+	
+	#if PROG_MODE
+		ProgModeMain();
+	#endif
+	
+	unsigned long leds = 0;
+	unsigned long ledTemp = 0;
+	i=0;
+	while(i<(rgButtonCount-1))
+	{
+		ledTemp = ((unsigned long)(pRamVariables.buttons[i].led&0x07)*shC[i*3]);
+		leds += ledTemp;
+		i++;	
+	}
+	
+	//endian Swap the LED fields
+	ledTemp = ((leds&0xFF)<<24) + ((leds>>8&0xFF)<<16) + ((leds>>16&0xFF)<<8);
+	updateCanRaw((unsigned long)&ledTemp,dtLong,RACEGRADE_LED_CCM,0);
+	sendCanMessage(RACEGRADE_LED_CCM);
+}
+
 void ProgModeButtonToggled(unsigned char toggle)
 {
 	if(toggle==1)
@@ -80,11 +124,8 @@ void ProgModeButtonToggled(unsigned char toggle)
 
 }
 
-void ProgModeMain()
+void ProgMode_Button_Blend()
 {
-	pRamVariables.ProgModeEnable = 1;
-	
-	//Button 0 - Blend Overide Mode
 	if(pRamVariables.buttons[rgButtonEthanolSource].edgeDetect == 1)
 	{	
 		pRamVariables.BlendMode ^= 0x01;
@@ -93,7 +134,10 @@ void ProgModeMain()
 		pRamVariables.buttons[rgButtonEthanolSource].led = 1; 
 	else 
 		pRamVariables.buttons[rgButtonEthanolSource].led = 0;
-	
+}
+
+void ProgMode_Button_Valet()
+{
 	//Button 1 - Valet Mode
 	if(pRamVariables.buttons[rgButtonValetSource].edgeDetect == 1)
 	{
@@ -103,8 +147,11 @@ void ProgModeMain()
 		pRamVariables.buttons[rgButtonValetSource].led = 0;
 	else 
 		pRamVariables.buttons[rgButtonValetSource].led = 4;	
-		
-	//Button 6 - PLSL Mode
+}
+
+void ProgMode_Button_PLSL()
+{
+//Button 6 - PLSL Mode
 	if(pRamVariables.buttons[rgButtonPLSLSource].edgeDetect == 1)
 	{		
 		if((pRamVariables.bPLSLRequest == 0) && (*pVehicleSpeed < NPLSL_RequestMax))
@@ -119,10 +166,26 @@ void ProgModeMain()
 			pRamVariables.buttons[rgButtonPLSLSource].led = 1;	//Active
 	else 
 		pRamVariables.buttons[rgButtonPLSLSource].led = 0;	
-		
-		
-		
-		
+}
+
+void ProgMode_Button_CutTestPattern()
+{
+//Button 9 - CutTest Mode
+	if(pRamVariables.buttons[rgButtonCutTestSource].edgeDetect == 1)
+	{		
+		if(pRamVariables.cutPatternAsk == 0)
+			pRamVariables.cutPatternAsk = 1;
+		else			
+			pRamVariables.cutPatternAsk = 0;			
+	}
+	if(pRamVariables.nINJCutPattern != 0) 		
+		pRamVariables.buttons[rgButtonCutTestSource].led = 4; //Active and Cutting		
+	else 
+		pRamVariables.buttons[rgButtonCutTestSource].led = 0;	
+}
+
+void ProgMode_Button_FFS()
+{
 #if REVLIM_HACKS
 	//Button 4 - Flat Foot Shift Mode pRamVariables.FlatFootShiftMode
 	if(pRamVariables.buttons[rgButtonFFSSource].edgeDetect == 1)
@@ -138,16 +201,18 @@ void ProgModeMain()
 		pRamVariables.buttons[rgButtonFFSSource].led = 1;
 	else if(pRamVariables.FlatFootShiftMode == 2) 
 		pRamVariables.buttons[rgButtonFFSSource].led = 2;
-#endif
-		
-#if REVLIM_HACKS
+			
 	//Light up 3rd LED when FFS is engaged	
 	if(pRamVariables.FFSEngaged >= 1)
 		pRamVariables.buttons[rgButtonFFSSource].led |= 0x04;
 #endif
-		
-	//Button 5 - Bail out Button
-	if(pRamVariables.buttons[rgButtonBailSource].edgeDetect == 1)	
+}
+
+
+void ProgMode_Button_Failsafe()
+{		
+	//Button 5 - Failsafe Button
+	if(pRamVariables.buttons[rgButtonFailsafeSource].edgeDetect == 1)	
 	{
 		*pIAM = IAM_MIN;
 #if REVLIM_HACKS
@@ -161,12 +226,36 @@ void ProgModeMain()
 		pRamVariables.VPLSL_Adjust = 0;
 		pRamVariables.AFRSource = AFRModeStock;
 #endif
-		pRamVariables.buttons[rgButtonBailSource].led = 7; 
+		pRamVariables.buttons[rgButtonFailsafeSource].led = 7; 
 	}
 	else
-		pRamVariables.buttons[rgButtonBailSource].led = 0; 
-		
-	//Button 3 - Mod Select Toggle	
+		pRamVariables.buttons[rgButtonFailsafeSource].led = 0; 
+}
+
+void ProgModeMain()
+{
+	pRamVariables.ProgModeEnable = 1;
+	
+	//Button 0,0 - Blend Overide Mode
+	ProgMode_Button_Blend();
+	
+	//Button 0,1 - Valet Mode
+	ProgMode_Button_Valet();
+	
+	//Button 1,0 - FFS Mode
+	ProgMode_Button_FFS();
+	
+	//Button 1,1 - Failsafge Mode
+	ProgMode_Button_Failsafe();
+	
+	//Button 1,2 - PLSL Mode
+	ProgMode_Button_PLSL();
+	
+	//Button 1,4 - CutTest Mode
+	ProgMode_Button_CutTestPattern();
+	
+			
+	//Button 0,2 - Mod Select Toggle	
 	ProgModeButtonToggled(pRamVariables.buttons[rgButtonModeSource].edgeDetect);
 	switch(pRamVariables.ProgModeCurrentMode)
 	{
@@ -176,6 +265,7 @@ void ProgModeMain()
 		
 		case 1:			
 			ProgModeBlendAdjust();
+			pRamVariables.buttons[rgButtonEthanolSource].led = 7;
 		break;
 		
 		case 2:			
@@ -184,14 +274,17 @@ void ProgModeMain()
 		
 		case 3:
 			ProgModeLCAdjust();
+			pRamVariables.buttons[rgButtonFFSSource].led = 7;
 		break;
 		
 		case 4:
 			ProgModeIAMAdjust();
+			pRamVariables.buttons[rgButtonFailsafeSource].led = 7;
 		break;	
 		
 		case 5:
 			ProgModePLSLAdjust();
+			pRamVariables.buttons[rgButtonPLSLSource].led = 7;
 		break;
 		
 		case 6:

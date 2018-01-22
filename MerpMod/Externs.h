@@ -37,6 +37,10 @@ void InitRamVariables() ROMCODE;
 void EcuHacksMain() ROMCODE;
 void RevLimHook() ROMCODE;
 
+#if INJECTOR_HACKS
+void InjectorTrims() ROMCODE;
+#endif
+
 float ComputeMassAirFlow(TwoDTable* MafScalingTable, float MafVoltage)  ROMCODE;
 float CallSpeedDensityHook()  ROMCODE;
 #if CEL_HACKS
@@ -71,6 +75,9 @@ void send_frame_0x703() ROMCODE;
 void send_frame_0x704() ROMCODE;
 void send_frame_0x705() ROMCODE;
 
+void send_frame_0x708() ROMCODE;
+void send_frame_0x709() ROMCODE;
+
 extern unsigned long rcpCAN_ID_m0;
 extern unsigned long rcpCAN_ID_m1;
 extern unsigned long rcpCAN_ID_m2;
@@ -100,6 +107,14 @@ void ProgModeIAMAdjust() ROMCODE;
 void ProgModeValetMode() ROMCODE;
 void ProgModeAFRSource() ROMCODE;
 void ProgModeRaceGradeBackLight() ROMCODE;
+
+void ProgMode_Button_Blend() ROMCODE;
+void ProgMode_Button_Valet() ROMCODE;
+
+void ProgMode_Button_FFS() ROMCODE;
+void ProgMode_Button_Failsafe() ROMCODE;
+void ProgMode_Button_PLSL() ROMCODE;
+void ProgMode_Button_CutTestPattern() ROMCODE;
 
 void LCAdjustCruiseToggled(unsigned char) ROMCODE;
 
@@ -134,6 +149,12 @@ void MapSwitchThresholdCheck(float input) ROMCODE;
 //////////////////////////
 extern float (*Pull3DHooked)(ThreeDTable* table, float xLookup, float yLookup);
 extern float (*Pull2DHooked)(TwoDTable* table, float xLookup);
+extern unsigned char (*Pull2DHookedU8)(TwoDTable* table, float xLookup);
+extern unsigned short (*Pull2DHookedU16)(TwoDTable* table, float xLookup);
+extern unsigned char (*Pull2DHookedU8fp)(TwoDTableU8* table, unsigned long xLookup);
+extern unsigned short (*Pull2DHookedU16fp)(TwoDTableU16* table, unsigned long xLookup);
+
+
 extern float (*ShortToFloatHooked)(unsigned short input, float grad, float offs);
 extern void (*RevLimDeleteHooked) ();
 
@@ -161,6 +182,8 @@ extern float ValetModeMaxBoost;
 extern float BaseGasolineAFR;
 extern float BaseInjectorFlowPressureRelative;
 extern TwoDTable FlexFuelStoichTable;
+extern TwoDTableU16 FuelCutTable;
+extern TwoDTable PLSL_CutRatioTable;
 extern unsigned char DefaultkPFuelPressureEnabled;
 extern unsigned char DefaultFlexFuelSensorEnabled;
 extern unsigned char DefaultPolfHackEnabled;
@@ -327,8 +350,9 @@ extern float rgPLSL[];
 extern unsigned char rgButtonEthanolSource;
 extern unsigned char rgButtonValetSource;
 extern unsigned char rgButtonFFSSource;
-extern unsigned char rgButtonBailSource;
+extern unsigned char rgButtonFailsafeSource;
 extern unsigned char rgButtonPLSLSource;
+extern unsigned char rgButtonCutTestSource;
 extern unsigned char rgButtonModeSource;
 extern unsigned char rgButtonUpSource;
 extern unsigned char rgButtonDownSource;
@@ -349,6 +373,8 @@ extern CanMessageSetupStruct ccm09;
 extern CanMessageSetupStruct ccm10;
 extern CanMessageSetupStruct ccm11;
 
+extern unsigned long shC[];
+
 extern unsigned char dataLinkedInRam;
 
 #define cmDTCount 32
@@ -361,6 +387,8 @@ extern float cmDTscale[];
 extern float cmDToffset[];
 
 extern TwoDTable FuelPressureTable;
+
+#define rgButtonCount 9
 void updateFuelPressure(unsigned short rawVoltage) ROMCODE;
 void raceGradeKeyPadCallback(unsigned char* data) ROMCODE;
 void canCallbackRamTune(unsigned char* data) ROMCODE;
