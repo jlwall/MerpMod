@@ -14,6 +14,55 @@
 
 #include "EcuHacks.h"
 
+#if CAN_HACKS
+
+void canCallbackAEMwideband(unsigned char* data)
+{
+	pRamVariables.aemLambda = (float)(data[0]*256 + data[1])*0.0001;
+	pRamVariables.aemOxygen = (float)(data[2]*256 + data[3])*0.001;
+	pRamVariables.aemDataValid = (unsigned char)(data[6])>>7&0x01;
+	pRamVariables.aemSensorFault = (unsigned char)(data[7])>>6&0x01;	
+}
+
+void canCallbackMK3e85Packet(unsigned char* data)
+{
+	pRamVariables.rEthanolCAN = (float)(data[0])*0.003921568627; 		//0 to 255 for 0 to 100% 1/255 LSB/%	
+	pRamVariables.tFuelCAN = (float)(data[1])-40;	//0 to 165 for -40 to 125C
+	pRamVariables.pFuelCan = (float)(data[2])/3.8;	//0 to 67psig
+	pRamVariables.pFuelCanRel = pRamVariables.pFuelCan - ((*pManifoldAbsolutePressure-760)/51.71492510510006);
+	pRamVariables.pFuelCanRelFilt = (((1-xFuelPressureFilter)* pRamVariables.pFuelCanRelFilt) + (xFuelPressureFilter * pRamVariables.pFuelCanRel));
+	
+	#if POLF_HACKS
+		//Update scale for fuel Pressure
+		if(pRamVariables.fuelPressureFlowEnabled == 1)
+		{		
+			pRamVariables.kFuelPressure = sqrt(pRamVariables.pFuelCanRelFilt/BaseInjectorFlowPressureRelative);
+		}
+		else
+			pRamVariables.kFuelPressure = 1;
+	
+		#if INJECTOR_HACKS
+			//Update Injector scaling based off new 	
+			if(pRamVariables.flexFuelSensorEnabaled == 1)	
+			{
+				#if SWITCH_HACKS	
+					pRamVariables.TargetedStoich = Pull2DHooked(&FlexFuelStoichTable, pRamVariables.MapBlendRatio);	 
+				#else
+					pRamVariables.TargetedStoich = 14.65;
+				#endif		
+				pRamVariables.InjectorScaling =  pRamVariables.kFuelPressure *(pRamVariables.TargetedStoich / BaseGasolineAFR) *  (*dInjectorScaling);		
+			}
+			else
+			{
+				pRamVariables.TargetedStoich = 14.65;
+				pRamVariables.InjectorScaling = pRamVariables.kFuelPressure * (*dInjectorScaling);
+			}
+		#endif	
+	#endif
+}
+
+#endif
+
 #if POLF_HOOK_DEFINED
 	void (*PolfHooked)() __attribute__ ((section ("RomHole_Functions"))) = (void(*)()) sPolf;
 
@@ -57,7 +106,7 @@ void InjectorTrims()
 void WideBandScaling()
 {
 	float afrTemp = 0;
-	if(pRamVariables.AFRSource == AFRModeStock)
+	if((pRamVariables.AFRSource == AFRModeStock) || (pRamVariables.aemDataValid == 0))
 	{		
 		*pAFRConverted4 = Pull2DHooked((void*)tAFRSensorScaling, *pAFRsensedCurrent);
 	}

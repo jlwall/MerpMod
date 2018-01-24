@@ -99,7 +99,7 @@ unsigned char dte85[8];
 	*/
 	send_frame_0x700();
 	
-	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);
+	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF1);
 	
 	Assert( ((unsigned char*)addrtemp)[0] == 0xA0	,"CAN 0x700 d0");
 	Assert( ((unsigned char*)addrtemp)[1] == 190	,"CAN 0x700 d1");
@@ -145,7 +145,7 @@ unsigned char dte85[8];
 		
 	send_frame_0x701();
 	
-	addrtemp = (0xFFFFD108 + 0x20*RPCBUF);
+	addrtemp = (0xFFFFD108 + 0x20*RPCBUF2);
 	Assert( ((unsigned char*)addrtemp)[0] == 8	,"CAN 0x701 d0");
 	Assert( ((unsigned char*)addrtemp)[1] == 2	,"CAN 0x701 d1");
 	Assert( ((unsigned char*)addrtemp)[2] == 3	,"CAN 0x701 d2");
@@ -191,7 +191,7 @@ unsigned char dte85[8];
 		
 	send_frame_0x702();
 	
-	addrtemp = (0xFFFFD108 + 0x20*RPCBUF);
+	addrtemp = (0xFFFFD108 + 0x20*RPCBUF1);
 	Assert( ((unsigned char*)addrtemp)[0] == 1	,"CAN 0x702 d0");
 	Assert( ((unsigned char*)addrtemp)[1] == 2	,"CAN 0x702 d1");
 	Assert( ((unsigned char*)addrtemp)[2] == 3	,"CAN 0x702 d2");
@@ -246,7 +246,7 @@ unsigned char dte85[8];
 		
 	send_frame_0x703();
 	
-	addrtemp = (0xFFFFD108 + 0x20*RPCBUF);
+	addrtemp = (0xFFFFD108 + 0x20*RPCBUF2);
 	Assert( ((unsigned char*)addrtemp)[0] == 0x78	,"CAN 0x703 d0");
 	Assert( ((unsigned char*)addrtemp)[1] == 0x51	,"CAN 0x703 d1");
 	Assert( ((unsigned char*)addrtemp)[2] == 112,"CAN 0x703 d2");
@@ -299,7 +299,7 @@ unsigned char dte85[8];
 		
 	send_frame_0x708();
 	
-	addrtemp = (0xFFFFD108 + 0x20*RPCBUF);
+	addrtemp = (0xFFFFD108 + 0x20*RPCBUF1);
 	Assert( ((unsigned char*)addrtemp)[0] == 0xc8	,"CAN 0x702 d0");
 	Assert( ((unsigned char*)addrtemp)[1] == 0x1C	,"CAN 0x702 d1");
 	Assert( ((unsigned char*)addrtemp)[2] == 0x4E	,"CAN 0x702 d2");

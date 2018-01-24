@@ -168,6 +168,9 @@ DEFNEW1D("Race Capture Pro CAN ID 3", rcpCAN_ID_m3);
 DEFNEW1D("Race Capture Pro CAN ID 4", rcpCAN_ID_m4);
 DEFNEW1D("Race Capture Pro CAN ID 5", rcpCAN_ID_m5);
 
+DEFNEW1D("Race Grade Adjust Mapping", modeMap);
+DEFNEW1D("Race Grade Adjust Mapping Max", modeMapMax);
+
 DEFNEW1D("Race Grade Button Blend", rgButtonEthanolSource);
 DEFNEW1D("Race Grade Button Valet", rgButtonValetSource);
 DEFNEW1D("Race Grade Button FlatFoot", rgButtonFFSSource);
@@ -176,7 +179,6 @@ DEFNEW1D("Race Grade Button PLSL", rgButtonPLSLSource);
 DEFNEW1D("Race Grade Button Mode", rgButtonModeSource);
 DEFNEW1D("Race Grade Button Up", rgButtonUpSource);
 DEFNEW1D("Race Grade Button Down", rgButtonDownSource);
-DEFNEW1D("Race Grade Button Cut Test", rgButtonCutTestSource);
 
 DEFNEW2D("PLSL Cut Level",PLSL_CutRatioTable);
 DEFNEW2D("PLSL Cut Pattern",FuelCutTable);
@@ -188,6 +190,7 @@ DEFNEW1D("Race Grade Launch Control Step", rgLC_STEP);
 DEFNEW1D("Race Grade Blend Step", rgBLEND_STEP);
 
 DEFNEW1D("Race Grade PLSL Adjust", rgPLSL);
+DEFNEW1D("Race Grade BOOST Adjust", rgBoost);
 
 
 #endif
@@ -337,7 +340,7 @@ DEFINERAMVAR("MerpMod LC Fueling Enrichment",LCFuelEnrich,4,"E");
 DEFINERAMVAR("MerpMod LC Fueling Enrichment Multiplier",LCFuelEnrichMultiplier,4,"E");	
 DEFINERAMVAR("MerpMod Primary Open Loop Fueling Output",PolfOutput,4,"E");	
 DEFNEW2D("Flex Fuel Stoich Blending",FlexFuelStoichTable);
-DEFNEW2D("Fuel Pressure Scaling",FuelPressureTable);
+DEFNEW1D("Fuel Pressure Filter",xFuelPressureFilter);
 DEFNEW1D("Flex Base Gasoline AFR",BaseGasolineAFR);
 DEFNEW1D("Base Injector Fuel Flow Pressure",BaseInjectorFlowPressureRelative);
 DEFNEW1D("Fuel Pressure Compensation Enabled",DefaultkPFuelPressureEnabled);
@@ -412,58 +415,49 @@ DEFNEW1D("Valet Boost Limit",ValetModeMaxBoost);
 //DEFNEW1D("Boost Hack Enable",DefaultPolfHackEnabled);
 #if SWITCH_HACKS
 DEFNEW3D("Per Gear Wastegate Table 1 Intelligent",PGWGTable1i);
-DEFNEW3D("Per Gear Wastegate Table 2 Intelligent",PGWGTable2i);
 DEFNEW3D("Per Gear Wastegate Table 1 Sport",PGWGTable1s);
 DEFNEW3D("Per Gear Wastegate Table 2 Sport",PGWGTable2s);
 DEFNEW3D("Per Gear Wastegate Table 1 Sport Sharp",PGWGTable1ss);
 DEFNEW3D("Per Gear Wastegate Table 2 Sport Sharp",PGWGTable2ss);
 #else
 DEFNEW3D("Per Gear Wastegate Table 1",PGWGTable1i);
-DEFNEW3D("Per Gear Wastegate Table 2",PGWGTable2i);
 #endif
 DEFINERAMVAR("MerpMod PGTB Compensation",PGTBComp,4,"E");
 #if SWITCH_HACKS
 DEFNEW3D("Per Gear Target Boost Table 1 Intelligent",PGTBTable1i);
-DEFNEW3D("Per Gear Target Boost Table 2 Intelligent",PGTBTable2i);
 DEFNEW3D("Per Gear Target Boost Table 1 Sport",PGTBTable1s);
 DEFNEW3D("Per Gear Target Boost Table 2 Sport",PGTBTable2s);
 DEFNEW3D("Per Gear Target Boost Table 1 Sport Sharp",PGTBTable1ss);
 DEFNEW3D("Per Gear Target Boost Table 2 Sport Sharp",PGTBTable2ss);
 #else
 DEFNEW3D("Per Gear Target Boost Table 1",PGTBTable1i);
-DEFNEW3D("Per Gear Target Boost Table 2",PGTBTable2i);
 #endif
 
 DEFINERAMVAR("MerpMod Max WGDC Per Gear",WGDCMax,4,"E");
 #if SWITCH_HACKS
 DEFNEW3D("Max Wastegate Duty Compensation Table 1 Intelligent",WGDCMaxTable1i);
-DEFNEW3D("Max Wastegate Duty Compensation Table 2 Intelligent",WGDCMaxTable2i);
 DEFNEW3D("Max Wastegate Duty Compensation Table 1 Sport",WGDCMaxTable1s);
 DEFNEW3D("Max Wastegate Duty Compensation Table 2 Sport",WGDCMaxTable2s);
 DEFNEW3D("Max Wastegate Duty Compensation Table 1 Sport Sharp",WGDCMaxTable1ss);
 DEFNEW3D("Max Wastegate Duty Compensation Table 2 Sport Sharp",WGDCMaxTable2ss);
 #else
 DEFNEW3D("Max Wastegate Duty Compensation Table 1",WGDCMaxTable1i);
-DEFNEW3D("Max Wastegate Duty Compensation Table 2",WGDCMaxTable2i);
 #endif
 
 DEFINERAMVAR("MerpMod Initial WGDC Per Gear",WGDCInitial,4,"E");
 #if SWITCH_HACKS
 DEFNEW3D("Initial Wastegate Duty Compensation Table 1 Intelligent",WGDCInitialTable1i);
-DEFNEW3D("Initial Wastegate Duty Compensation Table 2 Intelligent",WGDCInitialTable2i);
 DEFNEW3D("Initial Wastegate Duty Compensation Table 1 Sport",WGDCInitialTable1s);
 DEFNEW3D("Initial Wastegate Duty Compensation Table 2 Sport",WGDCInitialTable2s);
 DEFNEW3D("Initial Wastegate Duty Compensation Table 1 Sport Sharp",WGDCInitialTable1ss);
 DEFNEW3D("Initial Wastegate Duty Compensation Table 2 Sport Sharp",WGDCInitialTable2ss);
 #else
 DEFNEW3D("Initial Wastegate Duty Compensation Table 1",WGDCInitialTable1i);
-DEFNEW3D("Initial Wastegate Duty Compensation Table 2",WGDCInitialTable2i);
 #endif
 
 DEFINERAMVAR("MerpMod Target Boost Output",TargetBoost,4,"E");
 #if SWITCH_HACKS
 DEFNEW3D("Target Boost Compensation Table 1 Intelligent",TargetBoostTable1i);
-DEFNEW3D("Target Boost Compensation Table 2 Intelligent",TargetBoostTable2i);
 DEFNEW3D("Target Boost Compensation Table 1 Sport",TargetBoostTable1s);
 DEFNEW3D("Target Boost Compensation Table 2 Sport",TargetBoostTable2s);
 DEFNEW3D("Target Boost Compensation Table 1 Sport Sharp",TargetBoostTable1ss);

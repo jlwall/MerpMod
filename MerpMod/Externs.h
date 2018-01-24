@@ -65,7 +65,8 @@ void rcpCanMessageSetup(unsigned long id,unsigned short ext, unsigned short dlc,
 #endif
 
 #if RCP_CAN
-#define RPCBUF 30
+#define RPCBUF1 29
+#define RPCBUF2 30
 
 void rcp_frame_manager() ROMCODE;
 void send_frame_0x700() ROMCODE;
@@ -98,12 +99,15 @@ void VinCheck() ROMCODE;
 void ProgModeMain()  ROMCODE;
 void ProgModeButtonToggled(unsigned char) ROMCODE;
 
+extern unsigned char modeMap[];
+extern unsigned char modeMapMax;
 void ProgModeMapSwitch()  ROMCODE;
 void ProgModeBlendAdjust()  ROMCODE;
 void ProgModeBlendMode() ROMCODE;
 void ProgModeLCAdjust()  ROMCODE;
 void ProgModePLSLAdjust() ROMCODE;
 void ProgModeIAMAdjust() ROMCODE;
+void ProgModeBoostAdjust() ROMCODE;
 void ProgModeValetMode() ROMCODE;
 void ProgModeAFRSource() ROMCODE;
 void ProgModeRaceGradeBackLight() ROMCODE;
@@ -114,7 +118,6 @@ void ProgMode_Button_Valet() ROMCODE;
 void ProgMode_Button_FFS() ROMCODE;
 void ProgMode_Button_Failsafe() ROMCODE;
 void ProgMode_Button_PLSL() ROMCODE;
-void ProgMode_Button_CutTestPattern() ROMCODE;
 
 void LCAdjustCruiseToggled(unsigned char) ROMCODE;
 
@@ -181,6 +184,7 @@ extern ThreeDTable SDBlendingTable;
 extern float ValetModeMaxBoost;
 extern float BaseGasolineAFR;
 extern float BaseInjectorFlowPressureRelative;
+extern float xFuelPressureFilter;
 extern TwoDTable FlexFuelStoichTable;
 extern TwoDTableU16 FuelCutTable;
 extern TwoDTable PLSL_CutRatioTable;
@@ -242,7 +246,7 @@ extern ThreeDTable WGDCMaxTable2ss;
 extern ThreeDTable PGWGRamTable;
 extern ThreeDTable WGDCInitialRamTable;
 extern ThreeDTable WGDCMaxRamTable;
-
+extern float rgBoost[]; 
 
 extern unsigned char DefaultTimingHackEnabled;
 extern TableGroup TimingTableGroup;
@@ -352,7 +356,6 @@ extern unsigned char rgButtonValetSource;
 extern unsigned char rgButtonFFSSource;
 extern unsigned char rgButtonFailsafeSource;
 extern unsigned char rgButtonPLSLSource;
-extern unsigned char rgButtonCutTestSource;
 extern unsigned char rgButtonModeSource;
 extern unsigned char rgButtonUpSource;
 extern unsigned char rgButtonDownSource;
@@ -386,10 +389,9 @@ extern unsigned char cmDTpos[];
 extern float cmDTscale[];
 extern float cmDToffset[];
 
-extern TwoDTable FuelPressureTable;
+
 
 #define rgButtonCount 9
-void updateFuelPressure(unsigned short rawVoltage) ROMCODE;
 void raceGradeKeyPadCallback(unsigned char* data) ROMCODE;
 void canCallbackRamTune(unsigned char* data) ROMCODE;
 void canCallbackAEMwideband(unsigned char* data) ROMCODE;

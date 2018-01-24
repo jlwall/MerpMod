@@ -18,8 +18,20 @@
 
 void RevLimReset()
 {
-	pRamVariables.RevLimCut = pRamVariables.RedLineCut;
-	pRamVariables.RevLimResume = pRamVariables.RedLineCut - Abs(pRamVariables.RedLineHyst);
+
+	if (pRamVariables.ValetMode == ValetModeEnabled)
+	{
+		pRamVariables.RevLimCut = ValetModeRevLim;
+		pRamVariables.RevLimResume = ValetModeRevLim - Abs(pRamVariables.FlatFootShiftHyst);
+	}
+	else
+	{
+		pRamVariables.RevLimCut = DefaultRedLineCut;
+		pRamVariables.RevLimResume = DefaultRedLineCut - Abs(DefaultRedLineHyst);	
+	}
+
+	//pRamVariables.RevLimCut = pRamVariables.RedLineCut;
+	//pRamVariables.RevLimResume = pRamVariables.RedLineCut - Abs(pRamVariables.RedLineHyst);
 	//Disable FFS if clutch is out or brake is pressed
 	pRamVariables.FFSEngaged = 0;
 	pRamVariables.LCEngaged = 0;
@@ -51,17 +63,9 @@ void RevLimCode()
 		}
 	}
 	else
-	{
-		if(pRamVariables.cutPatternAsk == 1)
-		{
-			pRamVariables.bPLSLcutting = 1;
-			pRamVariables.nINJCutPattern = 1;
-		}
-		else
-			{
-			pRamVariables.bPLSLcutting = 0;
-			pRamVariables.nINJCutPattern = 0;
-			}
+	{		
+		pRamVariables.bPLSLcutting = 0;
+		pRamVariables.nINJCutPattern = 0;	
 	}
 		
 	if (!TestClutchSwitch() || TestBrakeSwitch())
@@ -126,16 +130,10 @@ void RevLimCode()
 			pRamVariables.RevLimResume = cut - Abs(pRamVariables.FlatFootShiftHyst);
 			pRamVariables.FFSEngaged = 2;
 		}
-		
-		
-#if PROG_MODE
-		if (pRamVariables.ValetMode == ValetModeEnabled)
-		{
-			pRamVariables.RedLineCut = ValetModeRevLim;
-			pRamVariables.RevLimResume = ValetModeRevLim - Abs(pRamVariables.FlatFootShiftHyst);
-		}
-		#endif
 	}
+		
+		
+
 	
 	//Add a SW unadjustable Hard Limit, having this in ram only is not safe
 	if (*pEngineSpeed > pRamVariables.RevLimCut || *pEngineSpeed > pRamVariables.RedLineCut || *pEngineSpeed > 7500 )

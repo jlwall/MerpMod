@@ -61,13 +61,16 @@ void PopulateRamVariables()
 	pRamVariables.CruiseCoastLast = TestCruiseCoastSwitch();
 #endif
 
+#if BOOST_HACKS
+	pRamVariables.Boost_Adjust = 0;
+#endif
+
 #if INJECTOR_HACKS
 	//Injector Scalar init to default
 	pRamVariables.InjectorScaling = *dInjectorScaling;
 	pRamVariables.nINJCutPattern = 0;
 	pRamVariables.nPLSLCutRatio = 0;
-	pRamVariables.nINJFuncCTR = 0;
-	pRamVariables.cutPatternAsk = 0;
+	pRamVariables.nINJFuncCTR = 0;	
 	pRamVariables.nINJCutCTR = 0;
 #endif
 

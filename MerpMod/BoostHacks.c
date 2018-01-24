@@ -160,6 +160,10 @@ void TargetBoostHack()
 		}
 	#endif
 	
+	#if PROG_MODE
+		TargetBoost += pRamVariables.Boost_Adjust;
+	#endif
+	
 	if(pRamVariables.ValetMode == ValetModeEnabled)	//If Valet Mode, limit MaxBoost
 		{
 		if(pRamVariables.TargetBoost > ValetModeMaxBoost)

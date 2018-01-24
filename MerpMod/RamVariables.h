@@ -28,8 +28,7 @@ typedef struct
 		float InjectorScaling;			//04
 		unsigned long nPLSLCutRatio;
 		unsigned char nINJCutCTR;
-		unsigned char nINJFuncCTR;
-		unsigned char cutPatternAsk;
+		unsigned char nINJFuncCTR;		
 		unsigned short nINJCutPattern;		
 	#endif
 
@@ -60,6 +59,7 @@ typedef struct
 		float tFuelCAN;		
 		float pFuelCan;	
 		float pFuelCanRel;
+		float pFuelCanRelFilt;
 		float aemLambda;
 		float aemOxygen;
 		float vFuelPressureRel;
@@ -194,6 +194,7 @@ typedef struct
 #if BOOST_HACKS	
 	//Target Boost Params
 	float TargetBoost;
+	float Boost_Adjust;
 		
 	//PGWG Params
 	float PGWGComp;

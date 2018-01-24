@@ -25,26 +25,26 @@ void rcp_frame_manager()
 {
 	switch(pRamVariables.rcpFrameState)
 	{
-		case  0:	send_frame_0x700();		pRamVariables.rcpFrameState++; break;
-		case  1:	pRamVariables.rcpFrameState++; break;
-		case  2: 	send_frame_0x701();		pRamVariables.rcpFrameState++; break;
+		case  0:	pRamVariables.rcpFrameState++; break;
+		case  1:	 send_frame_0x700();		pRamVariables.rcpFrameState++; break;
+		case  2: 	pRamVariables.rcpFrameState++; break;
 		case  3:	pRamVariables.rcpFrameState++; break;
-		case  4:	send_frame_0x702();		pRamVariables.rcpFrameState++; break;
+		case  4:	 send_frame_0x701();		pRamVariables.rcpFrameState++; break;
 		case  5:	pRamVariables.rcpFrameState++; break;
-		case  6:	send_frame_0x703();		pRamVariables.rcpFrameState++; break;
-		case  7:	pRamVariables.rcpFrameState++; break;
-		case  8:	send_frame_0x704();		pRamVariables.rcpFrameState++; break;
+		case  6:	pRamVariables.rcpFrameState++; break;
+		case  7:	 send_frame_0x702();		pRamVariables.rcpFrameState++; break;
+		case  8:	pRamVariables.rcpFrameState++; break;
 		case  9:	pRamVariables.rcpFrameState++; break;	
-		case 10:	send_frame_0x708();		pRamVariables.rcpFrameState++; break;
+		case 10:	 send_frame_0x703();		pRamVariables.rcpFrameState++; break;
 		case 11:	pRamVariables.rcpFrameState++; break;
-		case 12:	send_frame_0x709();		pRamVariables.rcpFrameState++; break;
-		case 13:	pRamVariables.rcpFrameState++; break;
+		case 12:	pRamVariables.rcpFrameState++; break;
+		case 13:	 send_frame_0x704();	pRamVariables.rcpFrameState++; break;
 		case 14:	pRamVariables.rcpFrameState++; break;
 		case 15:	pRamVariables.rcpFrameState++; break;
-		case 16:	pRamVariables.rcpFrameState++; break;
+		case 16:	 send_frame_0x708();	pRamVariables.rcpFrameState++; break;
 		case 17:	pRamVariables.rcpFrameState++; break;
 		case 18:	pRamVariables.rcpFrameState++; break;
-		case 19:	pRamVariables.rcpFrameState = 0; break;	
+		case 19:	 send_frame_0x709();		pRamVariables.rcpFrameState = 0; break;	
 		default: 	pRamVariables.rcpFrameState = 0;break;				
 	}		
 }
@@ -60,15 +60,15 @@ void send_frame_0x700()
  		SG_ rWG : 48|8@1+ (0.392157,0) [0|100] "%"  RCPMK2
  		SG_ rLam : 56|8@1+ (0.0078125,0) [0|2] "rat"  RCPMK2
 	*/
-	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
-	rcpCanMessageSetup(rcpCAN_ID_m0, 0, 8, 0, RPCBUF); 		 	
+	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF1);	
+	rcpCanMessageSetup(rcpCAN_ID_m0, 0, 8, 0, RPCBUF1); 		 	
 	((unsigned char*)addrtemp)[0] = limit_u8((*pAfCorrection_1)/0.0078125f);
 	((unsigned char*)addrtemp)[1] = limit_u8((*pIgnitionTimeTotal)/0.5f + 128);
 	((unsigned short*)addrtemp)[1] = limit_u16((*pMassAirFlow)/0.01f);
 	((unsigned short*)addrtemp)[2] = limit_u16(((*pManifoldAbsolutePressure)-242.850759f)*25.3447147559339f);
  	((unsigned char*)addrtemp)[6] = limit_u8((*pWgdc4)/0.392157f);
 	((unsigned char*)addrtemp)[7] = limit_u8((pRamVariables.kFuelPressure / 0.0078125));
-	sendCanMessage(11);
+	sendCanMessage(10);
 }
 
 void send_frame_0x701()
@@ -85,8 +85,8 @@ void send_frame_0x701()
  		SG_ nRoughC4 : 56|8@1+ (1,0) [0|255] ""  RCPMK2
  		
  	*/
-	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
-	rcpCanMessageSetup(rcpCAN_ID_m1, 0, 8, 0, RPCBUF); 	
+	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF2);	
+	rcpCanMessageSetup(rcpCAN_ID_m1, 0, 8, 0, RPCBUF2); 	
  	((unsigned char*)addrtemp)[0] = limit_u8((*pIam4)*16); 		
 	((unsigned char*)addrtemp)[1] = *pFbkc1; 		
 	((unsigned char*)addrtemp)[2] = *pkclearn1; 
@@ -115,8 +115,8 @@ void send_frame_0x702()
  	*/
 	if(pRamVariables.rcp0x702_tick == 0)
 	{
-		unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
-		rcpCanMessageSetup(rcpCAN_ID_m2, 0, 8, 0, RPCBUF); 	 		
+		unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF1);	
+		rcpCanMessageSetup(rcpCAN_ID_m2, 0, 8, 0, RPCBUF1); 	 		
 		((unsigned char*)addrtemp)[0] = *pNRough_C1; 	
 		((unsigned char*)addrtemp)[1] = *pNRough_C2; 		
 	 	((unsigned char*)addrtemp)[2] = *pNRough_C3;		
@@ -125,7 +125,7 @@ void send_frame_0x702()
 	 	((unsigned char*)addrtemp)[5] = limit_u8((*pAVCSIntakeLeft * 2) + 128);
 	 	((unsigned char*)addrtemp)[6] = limit_u8((*pAVCSExhaustRight * 2) + 128);
 		((unsigned char*)addrtemp)[7] = limit_u8((*pAVCSExhaustLeft * 2) + 128);
-		sendCanMessage(11);
+		sendCanMessage(10);
 		pRamVariables.rcp0x702_tick = 1;
 	}
 	else
@@ -144,9 +144,9 @@ void send_frame_0x703()
  		SG_ rTDint : 48|8@1+ (0.2,-25.6) [-25|25] "%"  RCPMK2 	
 		SG_ bCutArray : 56|8@1+ (1,0) [0|255] ""  RCPMK2 	
 	*/
-	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
+	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF2);	
 	unsigned char bitArray = 0;	
-	rcpCanMessageSetup(rcpCAN_ID_m3, 0, 8, 0, RPCBUF); 
+	rcpCanMessageSetup(rcpCAN_ID_m3, 0, 8, 0, RPCBUF2); 
 	#if BOOST_HACKS	 
 		((unsigned short*)addrtemp)[0] = limit_u16((pRamVariables.TargetBoost-242.850759f)*25.3447147559339f);
 	#endif
@@ -180,18 +180,18 @@ void send_frame_0x704()
  		SG_ rLamLearnC : 48|8@1+ (0.01,-128) [-100|100] "%"  RCPMK2
  		SG_ rLamLearnD : 56|8@1+ (0.01,-128) [-100|100] "%"  RCPMK2
 	*/
-	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
-	rcpCanMessageSetup(rcpCAN_ID_m4, 0, 8, 0, RPCBUF); 	 	
+	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF1);	
+	rcpCanMessageSetup(rcpCAN_ID_m4, 0, 8, 0, RPCBUF1); 	 	
 	#if POLF_HACKS
 		((unsigned short*)addrtemp)[0] = limit_u16(1000/(1+pRamVariables.PolfOutput));	
 		((unsigned char*)addrtemp)[2] = limit_u8((pRamVariables.TargetedStoich-8)*36);
 	#endif
-	((unsigned char*)addrtemp)[3] = limit_u8((*pAf1Res)/0.0078125f);	
+	((unsigned char*)addrtemp)[3] = limit_u8((*pLambdaFinal)/0.0078125f);	
 	((unsigned char*)addrtemp)[4] = limit_u8((*prLamLearnA*200) + 128);
  	((unsigned char*)addrtemp)[5] = limit_u8((*prLamLearnB*200) + 128);
  	((unsigned char*)addrtemp)[6] = limit_u8((*prLamLearnC*200) + 128);
 	((unsigned char*)addrtemp)[7] = limit_u8((*prLamLearnD*200) + 128); 
-	sendCanMessage(11);
+	sendCanMessage(10);
 }
 
 void send_frame_0x708()
@@ -206,9 +206,9 @@ void send_frame_0x708()
  
 	if(pRamVariables.rcp0x708_tick == 0)
 	{
-	 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);	
+	 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF2);	
 		unsigned short vtemp = 0;
-		rcpCanMessageSetup(0x708, 0, 8, 0, RPCBUF); 	 	
+		rcpCanMessageSetup(0x708, 0, 8, 0, RPCBUF2); 	 	
 	
 		vtemp = (unsigned short)( pRamVariables.RevLimCut/2);
 		((unsigned char*)addrtemp)[0] = (vtemp>>4)&0xFF;
@@ -240,8 +240,8 @@ void send_frame_0x709()
 {
 	if(pRamVariables.rcp0x709_tick == 0)
 	{
-	 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF);			
-		rcpCanMessageSetup(0x709, 0, 8, 0, RPCBUF); 	 	
+	 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF1);			
+		rcpCanMessageSetup(0x709, 0, 8, 0, RPCBUF1); 	 	
 			
 		((unsigned char*)addrtemp)[0] = pRamVariables.nINJCutCTR;
 		((unsigned char*)addrtemp)[1] = pRamVariables.nINJFuncCTR;		
@@ -251,7 +251,7 @@ void send_frame_0x709()
 		((unsigned char*)addrtemp)[6] = limit_u8(*pInjCompC3*128); 
 		((unsigned char*)addrtemp)[7] = limit_u8(*pInjCompC4*128); 
 		
-		sendCanMessage(11);
+		sendCanMessage(10);
 		pRamVariables.rcp0x709_tick = 1;
 	}
 	else

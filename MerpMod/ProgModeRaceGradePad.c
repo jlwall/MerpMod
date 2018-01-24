@@ -54,8 +54,10 @@
 
 	*/
 
+unsigned char modeMap[9] CANDATA = {1,3,4,255,5,6,7,8,2};
+unsigned char modeMapMax CANDATA = 8;
 #define LED_STEP 24
-#define PROG_MODE_COUNT 6
+
 
 #define BLEND_MAX 1.0f
 #define BLEND_MIN 0.0f
@@ -68,6 +70,8 @@
 #define IAM_MAX 16
 #define IAM_STEP 2
 #endif
+
+
 
 void raceGradeKeyPadCallback(unsigned char* data)
 {
@@ -118,7 +122,7 @@ void ProgModeButtonToggled(unsigned char toggle)
 	if(toggle==1)
 	{
 		pRamVariables.ProgModeCurrentMode++;
-		if(pRamVariables.ProgModeCurrentMode > PROG_MODE_COUNT)
+		if(pRamVariables.ProgModeCurrentMode > modeMapMax)
 			pRamVariables.ProgModeCurrentMode = 0;
 	}
 
@@ -168,22 +172,6 @@ void ProgMode_Button_PLSL()
 		pRamVariables.buttons[rgButtonPLSLSource].led = 0;	
 }
 
-void ProgMode_Button_CutTestPattern()
-{
-//Button 9 - CutTest Mode
-	if(pRamVariables.buttons[rgButtonCutTestSource].edgeDetect == 1)
-	{		
-		if(pRamVariables.cutPatternAsk == 0)
-			pRamVariables.cutPatternAsk = 1;
-		else			
-			pRamVariables.cutPatternAsk = 0;			
-	}
-	if(pRamVariables.nINJCutPattern != 0) 		
-		pRamVariables.buttons[rgButtonCutTestSource].led = 4; //Active and Cutting		
-	else 
-		pRamVariables.buttons[rgButtonCutTestSource].led = 0;	
-}
-
 void ProgMode_Button_FFS()
 {
 #if REVLIM_HACKS
@@ -224,6 +212,7 @@ void ProgMode_Button_Failsafe()
 		pRamVariables.MapBlendRatio = DefaultMapBlendRatio;
 		pRamVariables.BlendMode = 1; //Manual Mode
 		pRamVariables.VPLSL_Adjust = 0;
+		pRamVariables.Boost_Adjust = 0;
 		pRamVariables.AFRSource = AFRModeStock;
 #endif
 		pRamVariables.buttons[rgButtonFailsafeSource].led = 7; 
@@ -250,51 +239,52 @@ void ProgModeMain()
 	
 	//Button 1,2 - PLSL Mode
 	ProgMode_Button_PLSL();
-	
-	//Button 1,4 - CutTest Mode
-	ProgMode_Button_CutTestPattern();
-	
+		
 			
 	//Button 0,2 - Mod Select Toggle	
 	ProgModeButtonToggled(pRamVariables.buttons[rgButtonModeSource].edgeDetect);
-	switch(pRamVariables.ProgModeCurrentMode)
+	
+	if(pRamVariables.ProgModeCurrentMode == modeMap[0])
 	{
-		case 0:
-			asm("nop");
-		break;
+		ProgModeBlendAdjust();
+		pRamVariables.buttons[rgButtonEthanolSource].led = 7;
+	}
+	else if(pRamVariables.ProgModeCurrentMode == modeMap[1])
+	{
+		ProgModeBlendMode();		
+	}
+	else if(pRamVariables.ProgModeCurrentMode == modeMap[2])
+	{
+		ProgModeAFRSource();		
+	}
+	else if(pRamVariables.ProgModeCurrentMode == modeMap[3])
+	{
+		ProgModeMapSwitch();		
+	}
+	else if(pRamVariables.ProgModeCurrentMode == modeMap[4])
+	{		
+		ProgModeLCAdjust();
+		pRamVariables.buttons[rgButtonFFSSource].led = 7;
+	}
+	else if(pRamVariables.ProgModeCurrentMode == modeMap[5])
+	{		
+		ProgModeIAMAdjust();
+		pRamVariables.buttons[rgButtonFailsafeSource].led = 7;
+	}
+	else if(pRamVariables.ProgModeCurrentMode == modeMap[6])
+	{		
+		ProgModePLSLAdjust();
+		pRamVariables.buttons[rgButtonPLSLSource].led = 7;
+	}
+	else if(pRamVariables.ProgModeCurrentMode == modeMap[7])
+	{		
+		ProgModeRaceGradeBackLight();		
+	}
+	else if(pRamVariables.ProgModeCurrentMode == modeMap[8])
+	{		
+		ProgModeBoostAdjust();		
+	}
 		
-		case 1:			
-			ProgModeBlendAdjust();
-			pRamVariables.buttons[rgButtonEthanolSource].led = 7;
-		break;
-		
-		case 2:			
-			ProgModeAFRSource();
-		break;
-		
-		case 3:
-			ProgModeLCAdjust();
-			pRamVariables.buttons[rgButtonFFSSource].led = 7;
-		break;
-		
-		case 4:
-			ProgModeIAMAdjust();
-			pRamVariables.buttons[rgButtonFailsafeSource].led = 7;
-		break;	
-		
-		case 5:
-			ProgModePLSLAdjust();
-			pRamVariables.buttons[rgButtonPLSLSource].led = 7;
-		break;
-		
-		case 6:
-			ProgModeRaceGradeBackLight();
-		break;
-		
-		default:
-			pRamVariables.ProgModeCurrentMode = 0;
-		break;
-	}	
 	
 	pRamVariables.buttons[rgButtonModeSource].led = pRamVariables.ProgModeCurrentMode;
 	if(pRamVariables.ProgModeCurrentMode>0)
@@ -424,6 +414,31 @@ void ProgModeLCAdjust()
 	pRamVariables.ProgModeValue = 0.0f;
 	pRamVariables.ProgModeValueFlashes = 0;
 #endif
+#endif
+}
+
+void ProgModeBoostAdjust()
+{
+#if BOOST_HACKS
+	if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
+	{	
+		if((pRamVariables.Boost_Adjust + rgBoost[1]) <= rgBoost[2])
+			pRamVariables.Boost_Adjust += rgBoost[1];
+		else
+			pRamVariables.Boost_Adjust = rgBoost[2];
+	}
+	else if(pRamVariables.buttons[rgButtonDownSource].edgeDetect == 1)
+	{
+		if((pRamVariables.Boost_Adjust - rgBoost[1]) >= rgBoost[0])
+			pRamVariables.Boost_Adjust -= rgBoost[1];//Hard limit, does not cycle to top again.
+		else
+			pRamVariables.Boost_Adjust = rgBoost[0];
+	}
+	
+	pRamVariables.ProgModeValue = (unsigned char)((pRamVariables.Boost_Adjust - rgBoost[0]) / (rgBoost[2] - rgBoost[0])*8);
+	pRamVariables.ProgModeValueFlashes = (unsigned char)((pRamVariables.Boost_Adjust - rgBoost[0]) / (rgBoost[2] - rgBoost[0])*8);
+	pRamVariables.ProgModeValue = 0.0f;
+	pRamVariables.ProgModeValueFlashes = 0;
 #endif
 }
 

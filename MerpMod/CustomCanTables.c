@@ -16,7 +16,6 @@ unsigned char rgButtonPLSLSource CANDATA = 6;
 unsigned char rgButtonModeSource CANDATA = 2;
 unsigned char rgButtonUpSource CANDATA = 3;
 unsigned char rgButtonDownSource CANDATA = 7;
-unsigned char rgButtonCutTestSource CANDATA = 1;
 
 
 unsigned char rcpStreamEnabled CANDATA = 1;
@@ -30,6 +29,10 @@ unsigned long rcpCAN_ID_m5 CANDATA = 0x705;
 
 #if REVLIM_HACKS
 	float rgPLSL[3] CANDATA = {-30.0f, 2.0f,30.0f};
+#endif
+
+#if BOOST_HACKS
+	float rgBoost[3] CANDATA = {660, 25,960};
 #endif
 
 float rgLC_MIN CANDATA = 2000.0f;
@@ -46,8 +49,8 @@ CanMessageSetupStruct ccm06 CANDATA = {.id = 0x180, .ext = 1,	.dlc = 8,	.bus = 0
 CanMessageSetupStruct ccm07 CANDATA = {.id = 0x710,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 26,	.mcs = mcsReceive, 	.nmc = 1, .rate =   0, .callback = (unsigned long)&canCallbackMK3e85Packet};
 CanMessageSetupStruct ccm08 CANDATA = {.id = 0x000,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 27,	.mcs = mcsInactive,	.nmc = 0, .rate =   0, .callback = 0};	//Config 1
 CanMessageSetupStruct ccm09 CANDATA = {.id = 0x000,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 28,	.mcs = mcsInactive, .nmc = 0, .rate =   0, .callback = 0};	//Config 2
-CanMessageSetupStruct ccm10 CANDATA = {.id = 0x000,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 29,	.mcs = mcsInactive, .nmc = 0, .rate =   0, .callback = 0};	//Config 3
-CanMessageSetupStruct ccm11 CANDATA = {.id = 0x000,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 30,	.mcs = mcsInactive, .nmc = 0, .rate =   0, .callback = 0};	//RCP Stream
+CanMessageSetupStruct ccm10 CANDATA = {.id = 0x000,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 29,	.mcs = mcsInactive, .nmc = 0, .rate =   0, .callback = 0};	//RCP Stream1
+CanMessageSetupStruct ccm11 CANDATA = {.id = 0x000,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 30,	.mcs = mcsInactive, .nmc = 0, .rate =   0, .callback = 0};	//RCP Stream2
 //CanMessageSetupStruct *ccmGroup[8] CANDATA;// = {&ccm00,&ccm01,&ccm02,&ccm03,&ccm04,&ccm05,&ccm06,&ccm07};
 
 unsigned char dataLinkedInRam  __attribute__ ((section ("RamHole")));

@@ -256,59 +256,7 @@ void recieveCanMessage(unsigned char ccm)
 }
 
 
-void canCallbackAEMwideband(unsigned char* data)
-{
-	pRamVariables.aemLambda = (float)(data[0]*256 + data[1])*0.0001;
-	pRamVariables.aemOxygen = (float)(data[2]*256 + data[3])*0.001;
-	pRamVariables.aemDataValid = (unsigned char)(data[6])>>7&0x01;
-	pRamVariables.aemSensorFault = (unsigned char)(data[7])>>6&0x01;	
-}
 
-void canCallbackMK3e85Packet(unsigned char* data)
-{
-	pRamVariables.rEthanolCAN = (float)(data[0])*0.003921568627; 		//0 to 255 for 0 to 100% 1/255 LSB/%	
-	pRamVariables.tFuelCAN = (float)(data[1])-40;	//0 to 165 for -40 to 125C
-	updateFuelPressure((unsigned short)((unsigned short)data[2]*256 + (unsigned short)data[3]));
-	pRamVariables.pFuelCanRel = pRamVariables.pFuelCan - (*pManifoldAbsolutePressure-760)/51.71492510510006;
-	
-	#if POLF_HACKS
-	//Update scale for fuel Pressure
-	if(pRamVariables.fuelPressureFlowEnabled == 1)
-	{		
-		pRamVariables.kFuelPressure = sqrt(pRamVariables.pFuelCanRel/BaseInjectorFlowPressureRelative);
-	}
-	else
-		pRamVariables.kFuelPressure = 1;
-	
-	#if INJECTOR_HACKS
-	//Update Injector scaling based off new 	
-	if(pRamVariables.flexFuelSensorEnabaled == 1)	
-	{
-		#if SWITCH_HACKS	
-			pRamVariables.TargetedStoich = Pull2DHooked(&FlexFuelStoichTable, pRamVariables.MapBlendRatio);	 
-		#else
-			pRamVariables.TargetedStoich = 14.65;
-		#endif		
-			pRamVariables.InjectorScaling =  pRamVariables.kFuelPressure *(pRamVariables.TargetedStoich / BaseGasolineAFR) *  (*dInjectorScaling);
-		
-	}
-	else
-	{
-		pRamVariables.TargetedStoich = 14.65;
-		pRamVariables.InjectorScaling = pRamVariables.kFuelPressure * (*dInjectorScaling);
-	}
-	#endif
-	
-	#endif
-}
-
-void updateFuelPressure(unsigned short rawVoltage)
-{
-	#if POLF_HACKS
-		pRamVariables.vFuelPressureRel = ShortToFloatHooked(rawVoltage, (1/13107.2f),0);
-		pRamVariables.pFuelCan = Pull2DHooked(&FuelPressureTable, pRamVariables.vFuelPressureRel);	 
-	#endif
-}
 
 
 

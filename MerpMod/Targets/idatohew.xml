@@ -471,6 +471,8 @@
 		<define name="pAVCSExhaustLeft" type="float*"><ida name="pAVCSExhaustLeft" /></define>
 		<define name="pAVCSExhaustRight" type="float*"><ida name="pAVCSExhaustRight" /></define>
 		
+		
+		<define name="pLambdaFinal" type="float*"><ida name="E_AF_Sensor_1_4byteExt__E91" /></define>
 		<define name="prLamLearnA" type="float*"><ida name="E_AF_Learning_1_A_StoredExt__E44" /></define>
 		<define name="prLamLearnB" type="float*"><ida name="E_AF_Learning_1_B_StoredExt__E45" /></define>
 		<define name="prLamLearnC" type="float*"><ida name="E_AF_Learning_1_C_StoredExt__E46" /></define>

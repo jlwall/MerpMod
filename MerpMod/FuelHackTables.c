@@ -24,6 +24,7 @@ float BaseGasolineAFR FUELDATA = 14.70f;
 float BaseInjectorFlowPressureRelative FUELDATA = 43.5f;
 unsigned char DefaultkPFuelPressureEnabled FUELDATA = 0x00;
 unsigned char DefaultFlexFuelSensorEnabled FUELDATA = 0x00;
+float xFuelPressureFilter FUELDATA = 0.12f;
 
 #if SWITCH_HACKS
 TableGroup FuelTableGroup FUELDATA = {
@@ -117,24 +118,6 @@ TwoDTable PLSL_CutRatioTable  FUELDATA = {
 	.offset = 0.0
 	};
 	
-	
-	
-//Fuel Pressure Scaling
-float FuelPressure_ROWS[4] FUELDATA =
-{0,0.5,4.5,5};
-
-//Target Air Fuel Ratio for stoichiometric 
-short FuelPressure_DATA[4] FUELDATA =
-{0,0,15000,15000};
-
-TwoDTable FuelPressureTable  FUELDATA = {
-	.columnCount = 4,
-	.tableType = UInt16Table2D,
-	.columnHeaderArray = FuelPressure_ROWS,
-	.tableCells = FuelPressure_DATA,
-	.multiplier = 0.01,
-	.offset = 0.0 };		
-
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!! Launch Control Fuel Retard Table
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
