@@ -1,6 +1,6 @@
-#define MOD_IDENTIFIER STRI(AE5L500V.MeRpMoD.Switch.v18.1.6.986.218619888333)
+#define MOD_IDENTIFIER STRI(AE5L500V.MeRpMoD.Switch.v18.1.24.1409.57186304833)
 #define MOD_ECUID 8ECBBEEF33
-#define MOD_DATE 18.1.6.986.218619888333
+#define MOD_DATE 18.1.24.1409.57186304833
 #include "Switch.h"
 #define MOD_CONFIG Switch
 #define MOD_BUILD Release
@@ -18,6 +18,10 @@
 #define pRamHoleEnd (0xFFFFBE8F)
 #define sPull2DFloat (0x000BE7F4)
 #define sPull3DFloat (0x000BE8A8)
+#define sPull2D_U8 (0x000BE838)
+#define sPull2D_U16 (0x000BE870)
+#define sPull2D_U8_U32Axis (0x000BE850)
+#define sPull2D_U16_U32Axis (0x000BE888)
 
 /////////////////////
 // Switch Hacks
@@ -44,6 +48,11 @@
 
 #define hMafCalc (0x00004A88)
 #define sMafCalc (0x00004A2C)
+#define hAFRSensorScaling (0x00049804)
+#define sAFRSensorScaling (0x00059286)
+#define tAFRSensorScaling (0x000B328C)
+#define subFuncCalcIgnitionDwell (0x00008948)
+#define subFuncCalcInjectorTrims (0x00039628)
 
 /////////////////////
 // Injector Hack
@@ -51,6 +60,17 @@
 
 #define dInjectorScaling ((float*)0x000CCB64)
 #define hInjectorScaling (0x00030C18)
+#define pInjCompC1 ((float*)0xFFFF7B98)
+#define pInjCompC2 ((float*)0xFFFF7B9C)
+#define pInjCompC3 ((float*)0xFFFF7BA0)
+#define pInjCompC4 ((float*)0xFFFF7BA4)
+#define pInjectorLastPulse ((float*)0xFFFF7350)
+#define hInjectorTrims (0x0004B6C4)
+#define sInjectorTrims (0x00039628)
+#define TabInjCompC1 (0x000B1530)
+#define TabInjCompC2 (0x000B154C)
+#define TabInjCompC3 (0x000B1568)
+#define TabInjCompC4 (0x000B1584)
 
 /////////////////////
 // Cel Hacks
@@ -164,10 +184,11 @@
 #define pKnockSum3 ((char*)0xFFFF81DB)
 #define pKnockSum4 ((char*)0xFFFF81DC)
 #define pCLOL ((char*)0xFFFFB1E9)
-#define pAVCSIntakeLeft ((char*)0xFFFF9190)
-#define pAVCSIntakeRight ((char*)0xFFFF918C)
-#define pAVCSExhaustLeft ((char*)0xFFFF9368)
-#define pAVCSExhaustRight ((char*)0xFFFF9364)
+#define pAVCSIntakeLeft ((float*)0xFFFF9190)
+#define pAVCSIntakeRight ((float*)0xFFFF918C)
+#define pAVCSExhaustLeft ((float*)0xFFFF9368)
+#define pAVCSExhaustRight ((float*)0xFFFF9364)
+#define pLambdaFinal ((float*)0xFFFF6564)
 #define prLamLearnA ((float*)0xFFFF31D4)
 #define prLamLearnB ((float*)0xFFFF31DC)
 #define prLamLearnC ((float*)0xFFFF31E4)
@@ -175,6 +196,11 @@
 #define pTD_wg_prop ((float*)0xFFFF5CAC)
 #define pTD_wg_int ((float*)0xFFFF5CB0)
 #define pBatteryVoltage ((float*)0xFFFF4130)
+#define pEngineSpeedDwell ((float*)0xFFFF4150)
+#define pIgnitionDwellTiming ((float*)0xFFFF4220)
+#define pInjectorLastPulse ((float*)0xFFFF7350)
+#define pAFRConverted4 ((float*)0xFFFF8E08)
+#define pAFRsensedCurrent ((float*)0xFFFF40E0)
 #define pAf1Res ((float*)0xFFFF40C8)
 
 /////////////////////

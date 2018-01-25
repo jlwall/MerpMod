@@ -191,6 +191,7 @@ DEFNEW1D("Race Grade Blend Step", rgBLEND_STEP);
 
 DEFNEW1D("Race Grade PLSL Adjust", rgPLSL);
 DEFNEW1D("Race Grade BOOST Adjust", rgBoost);
+DEFNEW1D("Race Grade Wastegate Adjust", rWGmod);
 
 
 #endif
@@ -433,6 +434,9 @@ DEFNEW3D("Per Gear Target Boost Table 2 Sport Sharp",PGTBTable2ss);
 DEFNEW3D("Per Gear Target Boost Table 1",PGTBTable1i);
 #endif
 
+DEFNEW3D("Initial Wastegate Duty Target Based",tInitialWasteGate);
+DEFNEW3D("Max Wastegate Duty Target Based",tMaximumWasteGate);
+/*
 DEFINERAMVAR("MerpMod Max WGDC Per Gear",WGDCMax,4,"E");
 #if SWITCH_HACKS
 DEFNEW3D("Max Wastegate Duty Compensation Table 1 Intelligent",WGDCMaxTable1i);
@@ -444,6 +448,7 @@ DEFNEW3D("Max Wastegate Duty Compensation Table 2 Sport Sharp",WGDCMaxTable2ss);
 DEFNEW3D("Max Wastegate Duty Compensation Table 1",WGDCMaxTable1i);
 #endif
 
+
 DEFINERAMVAR("MerpMod Initial WGDC Per Gear",WGDCInitial,4,"E");
 #if SWITCH_HACKS
 DEFNEW3D("Initial Wastegate Duty Compensation Table 1 Intelligent",WGDCInitialTable1i);
@@ -454,6 +459,7 @@ DEFNEW3D("Initial Wastegate Duty Compensation Table 2 Sport Sharp",WGDCInitialTa
 #else
 DEFNEW3D("Initial Wastegate Duty Compensation Table 1",WGDCInitialTable1i);
 #endif
+*/
 
 DEFINERAMVAR("MerpMod Target Boost Output",TargetBoost,4,"E");
 #if SWITCH_HACKS

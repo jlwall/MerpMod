@@ -54,7 +54,7 @@
 
 	*/
 
-unsigned char modeMap[9] CANDATA = {1,3,4,255,5,6,7,8,2};
+unsigned char modeMap[10] CANDATA = {1,4,5,255,6,7,8,9,3,2};
 unsigned char modeMapMax CANDATA = 8;
 #define LED_STEP 24
 
@@ -213,6 +213,7 @@ void ProgMode_Button_Failsafe()
 		pRamVariables.BlendMode = 1; //Manual Mode
 		pRamVariables.VPLSL_Adjust = 0;
 		pRamVariables.Boost_Adjust = 0;
+		pRamVariables.rWG_Adjust = 0;
 		pRamVariables.AFRSource = AFRModeStock;
 #endif
 		pRamVariables.buttons[rgButtonFailsafeSource].led = 7; 
@@ -283,6 +284,10 @@ void ProgModeMain()
 	else if(pRamVariables.ProgModeCurrentMode == modeMap[8])
 	{		
 		ProgModeBoostAdjust();		
+	}	
+	else if(pRamVariables.ProgModeCurrentMode == modeMap[9])
+	{		
+		ProgModeWGAdjust();		
 	}
 		
 	
@@ -414,6 +419,32 @@ void ProgModeLCAdjust()
 	pRamVariables.ProgModeValue = 0.0f;
 	pRamVariables.ProgModeValueFlashes = 0;
 #endif
+#endif
+}
+
+
+void ProgModeWGAdjust()
+{
+#if BOOST_HACKS
+	if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
+	{	
+		if((pRamVariables.rWG_Adjust + rWGmod[1]) <= rWGmod[2])
+			pRamVariables.rWG_Adjust += rWGmod[1];
+		else
+			pRamVariables.rWG_Adjust = rWGmod[2];
+	}
+	else if(pRamVariables.buttons[rgButtonDownSource].edgeDetect == 1)
+	{
+		if((pRamVariables.rWG_Adjust - rWGmod[1]) >= rWGmod[0])
+			pRamVariables.rWG_Adjust -= rWGmod[1];//Hard limit, does not cycle to top again.
+		else
+			pRamVariables.rWG_Adjust = rWGmod[0];
+	}
+	
+	pRamVariables.ProgModeValue = (unsigned char)((pRamVariables.rWG_Adjust - rWGmod[0]) / (rWGmod[2] - rWGmod[0])*8);
+	pRamVariables.ProgModeValueFlashes = (unsigned char)((pRamVariables.rWG_Adjust - rWGmod[0]) / (rWGmod[2] - rWGmod[0])*8);
+	pRamVariables.ProgModeValue = 0.0f;
+	pRamVariables.ProgModeValueFlashes = 0;
 #endif
 }
 

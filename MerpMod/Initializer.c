@@ -63,6 +63,7 @@ void PopulateRamVariables()
 
 #if BOOST_HACKS
 	pRamVariables.Boost_Adjust = 0;
+	pRamVariables.rWG_Adjust = 0;
 #endif
 
 #if INJECTOR_HACKS
@@ -85,6 +86,7 @@ void PopulateRamVariables()
 	pRamVariables.rcp0x702_tick = 0;
 	pRamVariables.rcp0x708_tick = 0;
 	pRamVariables.rcp0x709_tick = 0;
+	pRamVariables.rcp0x70A_tick = 0;
 //	pRamVariables.sdTimer = 0;
 #endif 
 

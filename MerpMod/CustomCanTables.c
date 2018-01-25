@@ -32,7 +32,8 @@ unsigned long rcpCAN_ID_m5 CANDATA = 0x705;
 #endif
 
 #if BOOST_HACKS
-	float rgBoost[3] CANDATA = {660, 25,960};
+	float rgBoost[3] CANDATA = {-155.25, 25.875,155.25};
+	float rWGmod[3] CANDATA = {-.3, 0.1, 1};	
 #endif
 
 float rgLC_MIN CANDATA = 2000.0f;

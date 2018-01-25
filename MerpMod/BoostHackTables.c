@@ -41,6 +41,7 @@ TableGroup PGTBTableGroup BOOSTDATA = {
 	&PGTBTable2ss}
 };
 
+/*
 TableGroup WGDCInitialTableGroup BOOSTDATA = {
 	{&WGDCInitialTable1i,
 	&WGDCInitialTable1s,
@@ -49,7 +50,9 @@ TableGroup WGDCInitialTableGroup BOOSTDATA = {
 	&WGDCInitialTable2s,
 	&WGDCInitialTable2ss}
 };
+*/
 
+/*
 TableGroup WGDCMaxTableGroup BOOSTDATA = {
 	{&WGDCMaxTable1i,
 	&WGDCMaxTable1s,
@@ -57,7 +60,7 @@ TableGroup WGDCMaxTableGroup BOOSTDATA = {
 	{&WGDCMaxTable1i,
 	&WGDCMaxTable2s,
 	&WGDCMaxTable2ss}
-};
+};*/
 
 TableGroup TargetBoostTableGroup BOOSTDATA = {
 	{&TargetBoostTable1i,
@@ -472,6 +475,8 @@ ThreeDTable PGTBRamTable __attribute__ ((section ("RomHole_SpeedDensityTables"),
 	.offset = 0 };	
 #endif
 
+
+/*
 ///////////////////
 //WGDC Initial Table 1i LUT
 ///////////////////
@@ -867,6 +872,82 @@ ThreeDTable WGDCMaxRamTable __attribute__ ((section ("RomHole_SpeedDensityTables
 	.multiplier = 0.000061037f,
 	.offset = 0 };				//! /32767  (0- range, 16bit precision)
 #endif
+*/
+
+
+
+///////////////////
+//WGDC Initial Table
+///////////////////
+ThreeDTable tInitialWasteGate __attribute__ ((section ("RomHole_SpeedDensityTables"),aligned(4)));
+float tInitialWasteGateCol[16] __attribute__ ((section ("RomHole_SpeedDensityTables"),aligned(4))) = 
+{760,1070.289672851562,1122.004638671875,1173.71960449218,1225.4345703125,1277.1494140625,1328.864379882812,1380.579345703125,1432.294311523438,1484.00927734375,1535.724243164062,1587.439208984375,1639.154052734375,1690.869018554688,1742.583984375,1794.298950195312};
+float tInitialWasteGateRow[16] __attribute__ ((section ("RomHole_SpeedDensityTables"),aligned(4))) = 
+{2000,2600,3000,3400,3800,4200,4600,5000,5400,5800,6200,6600,7000,7400,7800,8200};
+short tInitialWasteGateData[256] __attribute__ ((section ("RomHole_SpeedDensityTables"),aligned(4))) =
+{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,295,353,353,706,784,871,967,1021,1075,1194,1327,1327,
+0,0,0,0,590,706,706,1410,1567,1741,1934,2042,2150,2389,2654,2654,
+0,0,0,0,884,1058,1058,2116,2351,2612,2903,3064,3224,3583,3982,3982,
+0,0,0,0,1180,1410,2116,2821,3134,3484,3870,4085,4300,4777,5309,5309,
+0,0,0,0,1180,1410,2116,2821,3134,3484,3870,4085,4300,4777,5506,5506,
+0,0,0,0,1180,1410,2116,2821,3134,3484,3870,4300,4777,5239,5701,5701,
+0,0,0,0,1180,1410,2116,2821,3134,3484,3870,4300,4777,5338,5898,5898,
+0,0,0,0,1180,1410,2116,2821,3134,3484,3870,4300,4777,5338,5898,5898,
+0,0,0,0,1180,1410,2116,2821,3134,3484,3870,4300,4777,5338,5898,5898,
+0,0,0,0,1180,1410,2116,2821,3134,3484,3870,4300,4777,5309,5898,5898,
+0,0,0,0,1180,1410,2116,2821,3134,3484,3870,4300,4777,5309,5898,5898,
+0,0,0,0,1180,1410,2116,2821,3134,3484,3870,4300,4777,5309,5898,5898,
+0,0,0,0,1180,1410,2116,2821,3134,3484,3870,4300,4777,5309,5898,5898,
+0,0,0,0,1180,1410,2116,2821,3134,3484,3870,4300,4777,5309,5898,5898,
+0,0,0,0,1180,1727,2274,2821,3134,3484,3870,4300,4777,5309,5898,5898};
+
+ThreeDTable tInitialWasteGate __attribute__ ((section ("RomHole_SpeedDensityTables"),aligned(4))) = {
+	.columnCount = 16,
+	.rowCount = 16,
+	.columnHeaderArray = tInitialWasteGateCol,
+	.rowHeaderArray = tInitialWasteGateRow,
+	.tableCells = tInitialWasteGateData,
+	.tableType = UInt16Table3D,
+	.multiplier = 0.000061037f,
+	.offset = 0 };	
+
+///////////////////
+//WGDC Max Table
+///////////////////
+ThreeDTable tMaximumWasteGate __attribute__ ((section ("RomHole_SpeedDensityTables"),aligned(4)));
+ThreeDTable tMaximumWasteGate __attribute__ ((section ("RomHole_SpeedDensityTables"),aligned(4)));
+float tMaximumWasteGateCol[16] __attribute__ ((section ("RomHole_SpeedDensityTables"),aligned(4))) = 
+{760,1070.289672851562,1122.004638671875,1173.71960449218,1225.4345703125,1277.1494140625,1328.864379882812,1380.579345703125,1432.294311523438,1484.00927734375,1535.724243164062,1587.439208984375,1639.154052734375,1690.869018554688,1742.583984375,1794.298950195312};
+float tMaximumWasteGateRow[16] __attribute__ ((section ("RomHole_SpeedDensityTables"),aligned(4))) = 
+{2000,2600,3000,3400,3800,4200,4600,5000,5400,5800,6200,6600,7000,7400,7800,8200};
+short tMaximumWasteGateData[256] __attribute__ ((section ("RomHole_SpeedDensityTables"),aligned(4))) =
+{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,295,353,353,706,784,871,967,1021,1075,1194,1327,1327,
+0,0,0,0,590,706,706,1410,1567,1741,1934,2042,2150,2389,2654,2654,
+0,0,0,0,884,1058,1058,2116,2351,2612,2903,3064,3224,3583,3982,3982,
+0,0,0,0,1180,1410,2116,2821,3134,3484,3870,4085,4300,4777,5309,5309,
+0,0,0,0,1180,1410,2116,2821,3134,3484,3870,4085,4300,4777,5506,5506,
+0,0,0,0,1180,1410,2116,2821,3134,3484,3870,4300,4777,5239,5701,5701,
+0,0,0,0,1180,1410,2116,2821,3134,3484,3870,4300,4777,5338,5898,5898,
+0,0,0,0,1180,1410,2116,2821,3134,3484,3870,4300,4777,5338,5898,5898,
+0,0,0,0,1180,1410,2116,2821,3134,3484,3870,4300,4777,5338,5898,5898,
+0,0,0,0,1180,1410,2116,2821,3134,3484,3870,4300,4777,5309,5898,5898,
+0,0,0,0,1180,1410,2116,2821,3134,3484,3870,4300,4777,5309,5898,5898,
+0,0,0,0,1180,1410,2116,2821,3134,3484,3870,4300,4777,5309,5898,5898,
+0,0,0,0,1180,1410,2116,2821,3134,3484,3870,4300,4777,5309,5898,5898,
+0,0,0,0,1180,1410,2116,2821,3134,3484,3870,4300,4777,5309,5898,5898,
+0,0,0,0,1180,1727,2274,2821,3134,3484,3870,4300,4777,5309,5898,5898};
+
+ThreeDTable tMaximumWasteGate __attribute__ ((section ("RomHole_SpeedDensityTables"),aligned(4))) = {
+	.columnCount = 16,
+	.rowCount = 16,
+	.columnHeaderArray = tMaximumWasteGateCol,
+	.rowHeaderArray = tMaximumWasteGateRow,
+	.tableCells = tMaximumWasteGateData,
+	.tableType = UInt16Table3D,
+	.multiplier = 0.000061037f,
+	.offset = 0 };		
 
 ///////////////////
 //Target Boost Table 1i

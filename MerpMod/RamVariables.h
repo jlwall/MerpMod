@@ -39,6 +39,7 @@ typedef struct
 	unsigned char rcp0x702_tick;
 	unsigned char rcp0x708_tick;
 	unsigned char rcp0x709_tick;
+	unsigned char rcp0x70A_tick;
 
 	#if POLF_HACKS
 		unsigned char fuelPressureFlowEnabled;		//10
@@ -195,6 +196,7 @@ typedef struct
 	//Target Boost Params
 	float TargetBoost;
 	float Boost_Adjust;
+	float rWG_Adjust;
 		
 	//PGWG Params
 	float PGWGComp;

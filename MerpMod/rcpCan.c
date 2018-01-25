@@ -43,8 +43,8 @@ void rcp_frame_manager()
 		case 15:	pRamVariables.rcpFrameState++; break;
 		case 16:	 send_frame_0x708();	pRamVariables.rcpFrameState++; break;
 		case 17:	pRamVariables.rcpFrameState++; break;
-		case 18:	pRamVariables.rcpFrameState++; break;
-		case 19:	 send_frame_0x709();		pRamVariables.rcpFrameState = 0; break;	
+		case 18:	send_frame_0x709();	pRamVariables.rcpFrameState++; break;
+		case 19:	send_frame_0x70A();	pRamVariables.rcpFrameState = 0; break;	
 		default: 	pRamVariables.rcpFrameState = 0;break;				
 	}		
 }
@@ -256,6 +256,25 @@ void send_frame_0x709()
 	}
 	else
 		pRamVariables.rcp0x709_tick--;
+}
+
+void send_frame_0x70A()
+{
+	if(pRamVariables.rcp0x70A_tick == 0)
+	{
+	 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF2);			
+		rcpCanMessageSetup(0x70A, 0, 4, 0, RPCBUF2); 	 	
+			
+		((unsigned char*)addrtemp)[0] = limit_u8((pRamVariables.Boost_Adjust/2.5875) + 128); //0.5 psi / lsb
+		((unsigned char*)addrtemp)[1] = limit_u8((pRamVariables.rWG_Adjust*100)+128);	//1% / lsb
+		((unsigned char*)addrtemp)[2] = limit_u8((pRamVariables.VPLSL_Adjust*2)+128);	//0.5kmh / lsb
+		((unsigned char*)addrtemp)[3] = limit_u8(pRamVariables.ProgModeCurrentMode); 
+		
+		sendCanMessage(11);
+		pRamVariables.rcp0x70A_tick = 4;
+	}
+	else
+		pRamVariables.rcp0x70A_tick--;
 }
 
 #endif

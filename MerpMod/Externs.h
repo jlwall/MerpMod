@@ -78,6 +78,7 @@ void send_frame_0x705() ROMCODE;
 
 void send_frame_0x708() ROMCODE;
 void send_frame_0x709() ROMCODE;
+void send_frame_0x70A() ROMCODE;
 
 extern unsigned long rcpCAN_ID_m0;
 extern unsigned long rcpCAN_ID_m1;
@@ -108,6 +109,7 @@ void ProgModeLCAdjust()  ROMCODE;
 void ProgModePLSLAdjust() ROMCODE;
 void ProgModeIAMAdjust() ROMCODE;
 void ProgModeBoostAdjust() ROMCODE;
+void ProgModeWGAdjust() ROMCODE;
 void ProgModeValetMode() ROMCODE;
 void ProgModeAFRSource() ROMCODE;
 void ProgModeRaceGradeBackLight() ROMCODE;
@@ -227,6 +229,9 @@ extern ThreeDTable TargetBoostTable2s;
 extern ThreeDTable TargetBoostTable1ss;
 extern ThreeDTable TargetBoostTable2ss;
 
+extern ThreeDTable tInitialWasteGate;
+extern ThreeDTable tMaximumWasteGate;
+/*
 extern TableGroup WGDCInitialTableGroup;
 extern ThreeDTable WGDCInitialTable1i;
 extern ThreeDTable WGDCInitialTable2i;
@@ -241,12 +246,14 @@ extern ThreeDTable WGDCMaxTable2i;
 extern ThreeDTable WGDCMaxTable1s;
 extern ThreeDTable WGDCMaxTable2s;
 extern ThreeDTable WGDCMaxTable1ss;
-extern ThreeDTable WGDCMaxTable2ss;
+extern ThreeDTable WGDCMaxTable2ss;*/
 
 extern ThreeDTable PGWGRamTable;
-extern ThreeDTable WGDCInitialRamTable;
-extern ThreeDTable WGDCMaxRamTable;
+//extern ThreeDTable WGDCInitialRamTable;
+//extern ThreeDTable WGDCMaxRamTable;
+
 extern float rgBoost[]; 
+extern float rWGmod[];
 
 extern unsigned char DefaultTimingHackEnabled;
 extern TableGroup TimingTableGroup;
