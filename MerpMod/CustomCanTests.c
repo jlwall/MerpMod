@@ -81,7 +81,7 @@ unsigned char dte85[8];
 	*pMassAirFlow = 1.29f;
 	*pManifoldAbsolutePressure = (12.45f)*51.71492410239613f + 760; //12.45 psig to mmHG
 	*pWgdc4 = 4;
-	*pAf1Res = 1.1f;
+	pRamVariables.kFuelPressure = 1.1f;
 		/*
 	BO_ 1792 ecm_stat1: 8 ECM
  		SG_ rLamCor : 0|8@1+ (0.78125,-100) [-20|20] "%"  RCPMK2
@@ -101,7 +101,7 @@ unsigned char dte85[8];
 	
 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF1);
 	
-	Assert( ((unsigned char*)addrtemp)[0] == 0xA0	,"CAN 0x700 d0");
+	Assert( ((unsigned char*)addrtemp)[0] == 0x20	,"CAN 0x700 d0");
 	Assert( ((unsigned char*)addrtemp)[1] == 190	,"CAN 0x700 d1");
 	Assert( ((unsigned short*)addrtemp)[1] == 129	,"CAN 0x700 d2.d3");
 	Assert( ((unsigned short*)addrtemp)[2] == 29425	,"CAN 0x700 d4.d5");
@@ -299,7 +299,7 @@ unsigned char dte85[8];
 		
 	send_frame_0x708();
 	
-	addrtemp = (0xFFFFD108 + 0x20*RPCBUF1);
+	addrtemp = (0xFFFFD108 + 0x20*RPCBUF2);
 	Assert( ((unsigned char*)addrtemp)[0] == 0xc8	,"CAN 0x702 d0");
 	Assert( ((unsigned char*)addrtemp)[1] == 0x1C	,"CAN 0x702 d1");
 	Assert( ((unsigned char*)addrtemp)[2] == 0x4E	,"CAN 0x702 d2");
@@ -363,6 +363,20 @@ unsigned char dte85[8];
 	dte85[5] = 0x52;	
 	*pManifoldAbsolutePressure = (-2.27*51.71492510510006)+760;	
 	canCallbackMK3e85Packet(&dte85[0]);	
+	canCallbackMK3e85Packet(&dte85[0]);	
+	canCallbackMK3e85Packet(&dte85[0]);	
+	canCallbackMK3e85Packet(&dte85[0]);	
+	canCallbackMK3e85Packet(&dte85[0]);	
+	canCallbackMK3e85Packet(&dte85[0]);	
+	canCallbackMK3e85Packet(&dte85[0]);	
+	canCallbackMK3e85Packet(&dte85[0]);	
+	canCallbackMK3e85Packet(&dte85[0]);	
+	canCallbackMK3e85Packet(&dte85[0]);	
+	canCallbackMK3e85Packet(&dte85[0]);	
+	canCallbackMK3e85Packet(&dte85[0]);	
+	canCallbackMK3e85Packet(&dte85[0]);	
+	canCallbackMK3e85Packet(&dte85[0]);	
+	canCallbackMK3e85Packet(&dte85[0]);	
 	
 	/*
 		pRamVariables.rEthanolCAN = (float)(data[0])*0.003921568627; 		//0 to 255 for 0 to 100% 1/255 LSB/%	
@@ -372,9 +386,9 @@ unsigned char dte85[8];
 	*/
 	Assert(Abs(pRamVariables.rEthanolCAN - 0.1921569) <0.001f, "mk3 rEthanolCAN failed");
 	Assert(Abs(pRamVariables.tFuelCAN - 5) <0.001f, "mk3 tFuelCAN failed");
-	Assert(Abs(pRamVariables.vFuelPressureRel - 1.65) <0.001f, "mk3 vFuelPressure failed");
-	Assert(Abs(pRamVariables.pFuelCan - 43.123) <0.01f, "mk3 pFuelTest failed");
-	Assert(Abs(pRamVariables.pFuelCanRel - (43.123 + 2.27)) <0.001f, "mk3 pFuelCanRel failed");
+	//Assert(Abs(pRamVariables.vFuelPressureRel - 1.65) <0.001f, "mk3 vFuelPressure failed");
+	Assert(Abs(pRamVariables.pFuelCan - 22.105) <0.01f, "mk3 pFuelTest failed");
+	Assert(Abs(pRamVariables.pFuelCanRel - (22.105 + 2.27)) <0.001f, "mk3 pFuelCanRel failed");
 	
 	//Try all DT types, 1,2,3 U8,U16,U32
 	cmDTccm[0] = 0;	

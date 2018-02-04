@@ -58,7 +58,7 @@ void send_frame_0x700()
  		SG_ rMaf : 16|16@1+ (0.01,0) [0|400] "g/s"  RCPMK2
  		SG_ pPlenum : 32|16@1+ (0.000762951,-10) [-10|40] "psig"  RCPMK2
  		SG_ rWG : 48|8@1+ (0.392157,0) [0|100] "%"  RCPMK2
- 		SG_ rLam : 56|8@1+ (0.0078125,0) [0|2] "rat"  RCPMK2
+ 		SG_ kFuelPressure : 56|8@1+ (0.0078125,0) [0|2] "rat"  RCPMK2
 	*/
 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF1);	
 	rcpCanMessageSetup(rcpCAN_ID_m0, 0, 8, 0, RPCBUF1); 		 	

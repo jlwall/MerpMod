@@ -73,6 +73,9 @@ void PopulateRamVariables()
 	pRamVariables.nPLSLCutRatio = 0;
 	pRamVariables.nINJFuncCTR = 0;	
 	pRamVariables.nINJCutCTR = 0;
+	
+	pRamVariables.flexFuelSensorEnabaled = DefaultFlexFuelSensorEnabled;
+	pRamVariables.fuelPressureFlowEnabled = DefaultkPFuelPressureEnabled;
 #endif
 
 #if SWITCH_HACKS
@@ -87,14 +90,15 @@ void PopulateRamVariables()
 	pRamVariables.rcp0x708_tick = 0;
 	pRamVariables.rcp0x709_tick = 0;
 	pRamVariables.rcp0x70A_tick = 0;
+	pRamVariables.rgBackLight = 128;
 //	pRamVariables.sdTimer = 0;
 #endif 
 
 #if PROG_MODE
-	pRamVariables.ProgModeEnable = 0;
-	pRamVariables.ProgModeWait = 0;
-	pRamVariables.ProgModeEntry = 0;
-	pRamVariables.ProgModeEnable = 0;
+//	pRamVariables.ProgModeEnable = 0;
+	//pRamVariables.ProgModeWait = 0;
+	//pRamVariables.ProgModeEntry = 0;
+	//pRamVariables.ProgModeEnable = 0;
 	pRamVariables.ProgModeCurrentMode = 0;
 	unsigned char i = 0;
 	while(i < rgButtonCount)
@@ -106,7 +110,7 @@ void PopulateRamVariables()
 	}
 #endif
 
-#if REVLIM_HACKS
+#if REVLIM_HACKS	
 	//Revlimit mode init
 	if (pRamVariables.RevLimMode == RevLimModeUndefined)
 	{

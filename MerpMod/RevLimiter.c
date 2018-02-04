@@ -22,7 +22,7 @@ void RevLimReset()
 	if (pRamVariables.ValetMode == ValetModeEnabled)
 	{
 		pRamVariables.RevLimCut = ValetModeRevLim;
-		pRamVariables.RevLimResume = ValetModeRevLim - Abs(pRamVariables.FlatFootShiftHyst);
+		pRamVariables.RevLimResume = ValetModeRevLim - Abs(DefaultFlatFootShiftHyst);
 	}
 	else
 	{

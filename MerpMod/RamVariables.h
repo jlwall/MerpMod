@@ -23,6 +23,9 @@ typedef struct
 {
 	unsigned char MasterInitFlag; 		//00
 	unsigned char ecuHacksMainCtr;		//01
+	#ifdef RCP_CAN
+		unsigned char rcpFrameState;
+	#endif
 	
 	#if INJECTOR_HACKS
 		float InjectorScaling;			//04
@@ -51,9 +54,7 @@ typedef struct
 		unsigned char rgBackLight;					//22
 	#endif
 	
-	#ifdef RCP_CAN
-		unsigned char rcpFrameState;
-	#endif
+
 	
 	#if AEMXFINITY
 		float rEthanolCAN;
@@ -82,9 +83,6 @@ typedef struct
 		float TGVRightScaled;
 	#endif
 	unsigned char MapSwitch;
-	unsigned char null1;
-	unsigned char null2;
-	unsigned char null3;
 #endif
 
 #if SD_HACKS
@@ -95,7 +93,7 @@ typedef struct
 	float DeltaMapCompensation;	
 	float SDMafBlendRatio;
 	float SDMafFromBlend;
-	unsigned char SDInitFlag;		//96d
+	//unsigned char SDInitFlag;		//96d
 	unsigned char MafMode;	
 	unsigned char AFRSource;
 #endif
@@ -108,8 +106,7 @@ typedef struct
 	char	bPLSLcutting;
 	char	FlatFootShiftMode;
 	char	LCEngaged;
-	char	FFSEngaged;
-	char	elemptteey;
+	char	FFSEngaged;	
 	unsigned char	FFSGear;
 	float 	RevLimCut;	//96
 	float 	RevLimResume;
@@ -150,10 +147,10 @@ typedef struct
 #endif
 
 #if PROG_MODE
-	unsigned char ProgModeEnable;
-	unsigned char ProgModeTimer;
-	unsigned char ProgModeEntry;
-	unsigned char ProgModeWait;
+//	unsigned char ProgModeEnable;
+//	unsigned char ProgModeTimer;
+//	unsigned char ProgModeEntry;
+//	unsigned char ProgModeWait;
 	unsigned char ProgModeCurrentMode;
 	unsigned char ProgModeValueFlashes;
 	unsigned char ValetMode;

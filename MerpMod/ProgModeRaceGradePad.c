@@ -54,7 +54,7 @@
 
 	*/
 
-unsigned char modeMap[10] CANDATA = {1,4,5,255,6,7,8,9,3,2};
+unsigned char modeMap[10] CANDATA = {1,2,255,255,3,4,7,8,5,6};
 unsigned char modeMapMax CANDATA = 8;
 #define LED_STEP 24
 
@@ -202,6 +202,10 @@ void ProgMode_Button_Failsafe()
 	//Button 5 - Failsafe Button
 	if(pRamVariables.buttons[rgButtonFailsafeSource].edgeDetect == 1)	
 	{
+		if(*pEngineSpeed < 1)
+		{
+			ResetRamVariables();
+		}
 		*pIAM = IAM_MIN;
 #if REVLIM_HACKS
 		pRamVariables.FlatFootShiftMode = 0;
@@ -224,7 +228,7 @@ void ProgMode_Button_Failsafe()
 
 void ProgModeMain()
 {
-	pRamVariables.ProgModeEnable = 1;
+//	pRamVariables.ProgModeEnable = 1;
 	
 	//Button 0,0 - Blend Overide Mode
 	ProgMode_Button_Blend();
@@ -443,6 +447,7 @@ void ProgModeWGAdjust()
 	
 	pRamVariables.ProgModeValue = (unsigned char)((pRamVariables.rWG_Adjust - rWGmod[0]) / (rWGmod[2] - rWGmod[0])*8);
 	pRamVariables.ProgModeValueFlashes = (unsigned char)((pRamVariables.rWG_Adjust - rWGmod[0]) / (rWGmod[2] - rWGmod[0])*8);
+#else
 	pRamVariables.ProgModeValue = 0.0f;
 	pRamVariables.ProgModeValueFlashes = 0;
 #endif
@@ -468,6 +473,7 @@ void ProgModeBoostAdjust()
 	
 	pRamVariables.ProgModeValue = (unsigned char)((pRamVariables.Boost_Adjust - rgBoost[0]) / (rgBoost[2] - rgBoost[0])*8);
 	pRamVariables.ProgModeValueFlashes = (unsigned char)((pRamVariables.Boost_Adjust - rgBoost[0]) / (rgBoost[2] - rgBoost[0])*8);
+#else
 	pRamVariables.ProgModeValue = 0.0f;
 	pRamVariables.ProgModeValueFlashes = 0;
 #endif

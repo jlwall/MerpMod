@@ -50,7 +50,7 @@ SHORT TERM:
 
 #if defined(pResumeFlags) && defined(pCoastFlags)
 #if LC_ADJUST || CEL_HACKS || PROG_MODE
-#define CRUISE_CONTROL 1
+//#define CRUISE_CONTROL 1
 #endif
 #endif
 

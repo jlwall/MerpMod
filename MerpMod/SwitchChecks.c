@@ -56,7 +56,7 @@ unsigned char TestCruiseCoastSwitch()
 }
 #endif
 
-#if  SWITCH_HACKS
+#if  CRUISE_CONTROL
 void TestCruiseControlToggles()
 {
 	unsigned char resume = TestCruiseResumeSwitch();

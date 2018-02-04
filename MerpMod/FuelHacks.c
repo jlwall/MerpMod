@@ -50,7 +50,7 @@ void canCallbackMK3e85Packet(unsigned char* data)
 				#else
 					pRamVariables.TargetedStoich = 14.65;
 				#endif		
-				pRamVariables.InjectorScaling =  pRamVariables.kFuelPressure *(pRamVariables.TargetedStoich / BaseGasolineAFR) *  (*dInjectorScaling);		
+				pRamVariables.InjectorScaling =  pRamVariables.kFuelPressure *(BaseGasolineAFR / pRamVariables.TargetedStoich) *  (*dInjectorScaling);		
 			}
 			else
 			{

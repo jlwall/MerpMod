@@ -24,6 +24,7 @@
 #define SWITCH_HACKS 1		//
 #define SD_HACKS	1		//
 #define REVLIM_HACKS 1		//
+#define REVLIM_MODEL 1		//
 #define	LC_ADJ_HACKS 1		//
 #define PROG_MODE 1			//
 #define SPARK_HACKS 0		//

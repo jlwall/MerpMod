@@ -9,19 +9,9 @@
 "ECXLABEL_LAST_FINDS_DATA" "" 
 [BREAKPOINTS]
 [OPEN_WORKSPACE_FILES]
-"C:\sti\mm\MerpMod\MerpMod\CustomCan.c" 
-"C:\sti\mm\MerpMod\MerpMod\CustomCanTables.c" 
-"C:\sti\mm\MerpMod\MerpMod\EcuHacks.h" 
-"C:\sti\mm\MerpMod\MerpMod\Switch.h" 
-"C:\sti\mm\MerpMod\MerpMod\TargetConfig.h" 
-"C:\sti\mm\MerpMod\MerpMod\TargetHeader.h" 
+"C:\sti\mm\MerpMod\MerpMod\FuelHacks.c" 
 [WORKSPACE_FILE_STATES]
-"C:\sti\mm\MerpMod\MerpMod\CustomCan.c" 390 390 1817 875 0 2 
-"C:\sti\mm\MerpMod\MerpMod\CustomCanTables.c" 364 364 1813 871 0 1 
-"C:\sti\mm\MerpMod\MerpMod\EcuHacks.h" 78 78 1817 875 0 3 
-"C:\sti\mm\MerpMod\MerpMod\Switch.h" 104 104 1817 875 0 4 
-"C:\sti\mm\MerpMod\MerpMod\TargetConfig.h" -8 -31 1369 940 1 6 
-"C:\sti\mm\MerpMod\MerpMod\TargetHeader.h" 130 130 1817 875 0 5 
+"C:\sti\mm\MerpMod\MerpMod\FuelHacks.c" 0 0 1072 581 0 1 
 [LOADED_PROJECTS]
 "MerpMod" 
 [END]

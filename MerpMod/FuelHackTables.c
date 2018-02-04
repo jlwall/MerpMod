@@ -16,14 +16,14 @@
 
 #if POLF_HACKS
 
-unsigned char DefaultPolfHackEnabled FUELDATA = 0x00;
+unsigned char DefaultPolfHackEnabled FUELDATA = 0x01;
 unsigned char DefaultLCFuelMode FUELDATA = 0x01;
 float DefaultLCFuelLock FUELDATA = 0.35f;
 float DefaultLCFuelEnrichMultiplier FUELDATA = 1.0f;
 float BaseGasolineAFR FUELDATA = 14.70f;
 float BaseInjectorFlowPressureRelative FUELDATA = 43.5f;
 unsigned char DefaultkPFuelPressureEnabled FUELDATA = 0x00;
-unsigned char DefaultFlexFuelSensorEnabled FUELDATA = 0x00;
+unsigned char DefaultFlexFuelSensorEnabled FUELDATA = 0x01;
 float xFuelPressureFilter FUELDATA = 0.12f;
 
 #if SWITCH_HACKS

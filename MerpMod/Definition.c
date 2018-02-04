@@ -139,10 +139,10 @@ DEFINERAMVARARRAYALLBITS("MerpMod Port Logger L",PortParameters,10,2,"E");
 #endif
 
 #if PROG_MODE
-DEFINERAMVAR("MerpMod Prog Mode Entry",ProgModeEntry,1,"E");
-DEFINERAMVAR("MerpMod Prog Mode Wait",ProgModeWait,1,"E");
-DEFINERAMVAR("MerpMod Prog Mode Timer",ProgModeTimer,1,"E");
-DEFINERAMVAR("MerpMod Prog Mode Enable",ProgModeEnable,1,"E");
+//DEFINERAMVAR("MerpMod Prog Mode Entry",ProgModeEntry,1,"E");
+//DEFINERAMVAR("MerpMod Prog Mode Wait",ProgModeWait,1,"E");
+//DEFINERAMVAR("MerpMod Prog Mode Timer",ProgModeTimer,1,"E");
+//DEFINERAMVAR("MerpMod Prog Mode Enable",ProgModeEnable,1,"E");
 DEFINERAMVAR("MerpMod Prog Mode Current Mode",ProgModeCurrentMode,1,"E");
 DEFINERAMVAR("MerpMod Prog Mode Selected Value Flash",ProgModeValueFlashes,1,"E");
 DEFINERAMVAR("MerpMod Prog Mode Value",ProgModeValue,4,"E");

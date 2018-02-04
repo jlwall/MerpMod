@@ -9,7 +9,7 @@ RamVariables pRamVariables  __attribute__ ((section ("RamHole")));
 #if CAN_HACKS
 
 unsigned char rgButtonEthanolSource CANDATA = 0;
-unsigned char rgButtonValetSource CANDATA = 8;
+unsigned char rgButtonValetSource CANDATA = 1;
 unsigned char rgButtonFFSSource CANDATA = 4;
 unsigned char rgButtonFailsafeSource CANDATA = 5;
 unsigned char rgButtonPLSLSource CANDATA = 6;
@@ -47,7 +47,7 @@ CanMessageSetupStruct ccm03 CANDATA = {.id = 0x000,	.ext = 0,	.dlc = 0,	.bus = 0
 CanMessageSetupStruct ccm04 CANDATA = {.id = 0x720,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 23,	.mcs = mcsReceive, 	.nmc = 1, .rate =   0, .callback = (unsigned long)&canCallbackRamTune};
 CanMessageSetupStruct ccm05 CANDATA = {.id = 0x728,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 24,	.mcs = mcsTrans, 	.nmc = 0, .rate =   0, .callback = 0}; //Ram Response Message
 CanMessageSetupStruct ccm06 CANDATA = {.id = 0x180, .ext = 1,	.dlc = 8,	.bus = 0,	.mailBox = 25,	.mcs = mcsReceive, 	.nmc = 1, .rate =   0, .callback = (unsigned long)&canCallbackAEMwideband};
-CanMessageSetupStruct ccm07 CANDATA = {.id = 0x710,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 26,	.mcs = mcsReceive, 	.nmc = 1, .rate =   0, .callback = (unsigned long)&canCallbackMK3e85Packet};
+CanMessageSetupStruct ccm07 CANDATA = {.id = 0x710,	.ext = 0,	.dlc = 4,	.bus = 0,	.mailBox = 26,	.mcs = mcsReceive, 	.nmc = 1, .rate =   0, .callback = (unsigned long)&canCallbackMK3e85Packet};
 CanMessageSetupStruct ccm08 CANDATA = {.id = 0x000,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 27,	.mcs = mcsInactive,	.nmc = 0, .rate =   0, .callback = 0};	//Config 1
 CanMessageSetupStruct ccm09 CANDATA = {.id = 0x000,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 28,	.mcs = mcsInactive, .nmc = 0, .rate =   0, .callback = 0};	//Config 2
 CanMessageSetupStruct ccm10 CANDATA = {.id = 0x000,	.ext = 0,	.dlc = 8,	.bus = 0,	.mailBox = 29,	.mcs = mcsInactive, .nmc = 0, .rate =   0, .callback = 0};	//RCP Stream1
