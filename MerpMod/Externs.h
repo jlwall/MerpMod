@@ -13,6 +13,7 @@
 */
 
 #include "enums.h"
+#include "revLimModel.h"
 
 //////////////////////////
 //Function Prototypes
@@ -141,8 +142,13 @@ int BandPassInt(int input, int lowlim, int highlim) ROMCODE;
 unsigned short BandPassShort(unsigned short input, unsigned short lowlim, unsigned short highlim) ROMCODE;
 float Smooth(float smoothingFactor, float input, float previous) ROMCODE;
 
+
 void RevLimCode(void) ROMCODE;
 void RevLimReset(void) ROMCODE;
+
+void revLimModel_custom(void) ROMCODE;
+void revLimModel_initialize(void) ROMCODE;
+uint32_T plook_u32u8_evenckan(uint8_T u, uint8_T bp0, uint8_T bpSpace, uint32_T maxIndex) ROMCODE;
 
 float BlendAndSwitch(TableGroup tg, float xLookup, float yLookup) ROMCODE;
 float SwitchSelect(TableSubSet tss, float xLookup, float yLookup) ROMCODE;
