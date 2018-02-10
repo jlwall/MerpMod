@@ -77,13 +77,8 @@ void (*RevLimDeleteHooked)() __attribute__ ((section ("RomHole_Functions"))) = (
 #if REVLIM_HACKS
 	void RevLimHook() //RPM based Hz main routine, hooked into rev limiter
 	{
-		#if REVLIM_MODEL
-			revLimModel_custom();
-		#else
-			RevLimCode();
-		#endif
+		revLimModel_custom();
 		
-
 		#if SWITCH_HACKS
 			InputUpdate();
 		#endif

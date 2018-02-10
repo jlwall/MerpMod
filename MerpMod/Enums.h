@@ -218,8 +218,12 @@ enum buttonStateRG
 
 typedef struct  
 {
-	unsigned char state;
-	unsigned char led;
-	unsigned char edgeDetect;	
+	struct
+  {
+    char state:3;
+    char led:3;
+    char edgeDetect:2;
+  }
+  bits;
 }buttonRGStruct;
 #endif

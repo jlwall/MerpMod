@@ -120,14 +120,14 @@ void PolfHackUnitTests()
 	SetClutch(1);
 	*pVehicleSpeed = 0.0f;
 	*pThrottlePlate = LCMinimumThrottle + 1;
-	RevLimCode();	//init the rev limiter stuff
+	//RevLimCode();	//init the rev limiter stuff
 	POLFHack();
 	float locked = 0.35;
 	Assert(AreCloseEnough(pRamVariables.PolfOutput, locked), "Check Locked Value");
 	
 	*pEngineSpeed = 7000;
 	SetClutch(0);
-	RevLimCode();	
+	//RevLimCode();	
 	pRamVariables.LCFuelMode = LCFuelModeCompensated; //Set to compensation
 	pRamVariables.MapBlendRatio = 0;
 	POLFHack();

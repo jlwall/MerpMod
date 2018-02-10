@@ -8,24 +8,25 @@
 
 typedef struct
 {
-  real32_T OutportBufferFornEngineFFStarge;
+  real32_T Add;
   real32_T Divide2;
   real32_T nEngineNextGearTarget;
   real32_T vCar;
-  struct
-  {
-    uint_T mem_PreviousInput:1;
-    uint_T mem_PreviousInput_h:1;
-    uint_T Memory_PreviousInput_j:1;
-    uint_T LCdetect_MODE:1;
-    uint_T FFSdetect_MODE:1;
-  }
-  bitsForTID0;
-
-  uint8_T Memory_PreviousInput;
+  real32_T Memory_PreviousInput;
+  uint16_T Switch;
   uint8_T Memory_PreviousInput_l;
+  uint8_T Memory_PreviousInput_g;
+  boolean_T bLCstateSet;
+  boolean_T set;
+  boolean_T mem_PreviousInput;
+  boolean_T mem_PreviousInput_h;
+  boolean_T Memory_PreviousInput_j;
+  boolean_T Subsystem_MODE;
+  boolean_T FFSdetect_MODE;
+  boolean_T LCdetect_MODE;
 }
 D_Work;
+
 
 extern D_Work rtDWork;
 extern void revLimModel_initialize(void);

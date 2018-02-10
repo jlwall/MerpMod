@@ -23,6 +23,8 @@
 void PortLogger() ROMCODE;
 #endif
 
+
+
 unsigned char TestBrakeSwitch()	ROMCODE;
 unsigned char TestClutchSwitch() ROMCODE;
 unsigned char TestCruiseResumeSwitch() ROMCODE;
@@ -358,6 +360,8 @@ extern float NPLSL_RequestMax;
 extern float NPLSL_Limit;
 extern float NPLSL_Hyst;
 extern float rgPLSL[];
+extern float nFFSdelta;
+extern float nFFSdeltaBite;
 
 #if CAN_HACKS
 #define ccmCount 12

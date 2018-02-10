@@ -235,11 +235,11 @@ unsigned char dte85[8];
 	*pTD_wg_prop = 1.2;
 	*pTD_wg_int = 2.4;
 	
-	pRamVariables.FFSEngaged = 0;
-	pRamVariables.FlatFootShiftMode = 0;
-	pRamVariables.LCEngaged = 0;
+	pRamVariables.bFFSengaged = 0;
+	pRamVariables.bFFSenabled = 0;
+	pRamVariables.bLCengaged = 0;
 	pRamVariables.BlendMode = 0;
-	pRamVariables.ValetMode = 0;
+	pRamVariables.bValetMode = 0;
 	pRamVariables.bPLSLRequest = 0;
 	pRamVariables.bPLSLcutting = 0;
 	*pFlagsRevLim = 0;
@@ -256,20 +256,20 @@ unsigned char dte85[8];
 	Assert( ((unsigned char*)addrtemp)[6] == 140,"CAN 0x703 d6");
 	Assert( ((unsigned char*)addrtemp)[7] == 0  ,"CAN 0x703 d7");
 	
-	pRamVariables.FFSEngaged = 1; send_frame_0x703(); 
+	pRamVariables.bFFSengaged = 1; send_frame_0x703(); 
 	Assert( ((unsigned char*)addrtemp)[7] == 1  ,"CAN 0x703 FFSEngaged");
 	
-	pRamVariables.FlatFootShiftMode = 1; send_frame_0x703(); 
+	pRamVariables.bFFSenabled = 1; send_frame_0x703(); 
 
 	Assert( ((unsigned char*)addrtemp)[7] == 3  ,"CAN 0x703 FlatFootShiftMode");
 	
-	pRamVariables.LCEngaged = 1; send_frame_0x703(); 
+	pRamVariables.bLCengaged = 1; send_frame_0x703(); 
 	Assert( ((unsigned char*)addrtemp)[7] == 7  ,"CAN 0x703 LCEngaged");
 	
 	pRamVariables.BlendMode = 1; send_frame_0x703(); 
 	Assert( ((unsigned char*)addrtemp)[7] == 15  ,"CAN 0x703 BlendMode");
 	
-	pRamVariables.ValetMode = 1; send_frame_0x703(); 
+	pRamVariables.bValetMode = 1; send_frame_0x703(); 
 	Assert( ((unsigned char*)addrtemp)[7] == 31  ,"CAN 0x703 ValetMode");
 	
 	pRamVariables.bPLSLRequest = 1; send_frame_0x703(); 
@@ -558,13 +558,13 @@ unsigned char dte85[8];
 	
 	#if RACEGRADE_KEYPAD_HACKS
 		dt1[4] = 0;
-		//raceGradeKeyPadCallback(&dt1[0]);
+		raceGradeKeyPadCallback(&dt1[0]);
 		dt1[4] = 1;
-		//raceGradeKeyPadCallback(&dt1[0]);
+		raceGradeKeyPadCallback(&dt1[0]);
 		dt1[4] = 2;
-		//raceGradeKeyPadCallback(&dt1[0]);
+		raceGradeKeyPadCallback(&dt1[0]);
 		dt1[4] = 3;
-		//raceGradeKeyPadCallback(&dt1[0]);
+		raceGradeKeyPadCallback(&dt1[0]);
 		dt1[4] = 4;
 		//raceGradeKeyPadCallback(&dt1[0]);
 		dt1[4] = 5;

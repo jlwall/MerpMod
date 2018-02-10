@@ -20,8 +20,9 @@
 //!! Cut/resume thresholds
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+
 unsigned char DefaultRevLimMode REVLIMDATA = 1;
-unsigned char DefaultFlatFootShiftMode	REVLIMDATA = 2;
+unsigned char DefaultFlatFootShiftMode	REVLIMDATA = 1;
 float DefaultRedLineCut REVLIMDATA = 6700.0f;
 float DefaultRedLineHyst REVLIMDATA = 50.0f;
 float DefaultFlatFootShiftHyst REVLIMDATA = 50.0f;
@@ -36,6 +37,9 @@ float DefaultLaunchControlHyst REVLIMDATA = 50.0f;
 float NPLSL_RequestMax REVLIMDATA = 70.0f;
 float NPLSL_Limit REVLIMDATA = 60.0f;
 float NPLSL_Hyst REVLIMDATA = 0.3f;
+
+float nFFSdelta REVLIMDATA = 300.0f;
+float nFFSdeltaBite REVLIMDATA  = 100.0f;
 
 #ifdef pCurrentGear
 float GearRatios[6] REVLIMDATA = 

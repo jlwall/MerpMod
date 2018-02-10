@@ -27,12 +27,26 @@ typedef struct
 		unsigned char rcpFrameState;
 	#endif
 	
+	
+	#if REVLIM_MODEL
+		float VPLSL_Adjust;
+		float vPLSLerror;
+		unsigned short nINJCutPattern;
+		unsigned short nPLSLCutRatio;
+		unsigned char bFFSallowed;
+		unsigned char bFFSenabled;
+		unsigned char bFFSengaged;
+		unsigned char bLCengaged;
+		unsigned char bPLSLRequest;
+		unsigned char bPLSLcutting;
+  	#endif
+	
 	#if INJECTOR_HACKS
 		float InjectorScaling;			//04
-		unsigned long nPLSLCutRatio;
+		//unsigned long nPLSLCutRatio;
 		unsigned char nINJCutCTR;
 		unsigned char nINJFuncCTR;		
-		unsigned short nINJCutPattern;		
+		//unsigned short nINJCutPattern;		
 	#endif
 
 #if CAN_HACKS
@@ -102,11 +116,11 @@ typedef struct
 	//Rev Limiter params
 	unsigned char  	RevLimInitFlag;  //96
 	unsigned char  	RevLimMode;
-	char	bPLSLRequest;
-	char	bPLSLcutting;
-	char	FlatFootShiftMode;
-	char	LCEngaged;
-	char	FFSEngaged;	
+	//char	bPLSLRequest;
+	//char	bPLSLcutting;
+	//char	FlatFootShiftMode;
+	//char	LCEngaged;
+	//char	FFSEngaged;	
 	unsigned char	FFSGear;
 	float 	RevLimCut;	//96
 	float 	RevLimResume;
@@ -121,7 +135,7 @@ typedef struct
 	float	FlatFootShiftStaticDelta;
 	float  	FlatFootShiftHyst;	//9
   	float  	FlatFootShiftSpeedThreshold; //97
-	float	VPLSL_Adjust;
+	//float	VPLSL_Adjust;
 #endif
 	
 #if CEL_HACKS
@@ -153,7 +167,7 @@ typedef struct
 //	unsigned char ProgModeWait;
 	unsigned char ProgModeCurrentMode;
 	unsigned char ProgModeValueFlashes;
-	unsigned char ValetMode;
+	unsigned char bValetMode;
 	unsigned char BlendMode;
 	float ProgModeValue;
 #endif			

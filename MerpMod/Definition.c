@@ -288,12 +288,15 @@ DEFNEW1D("Rev Limit (Launch Control)",DefaultLaunchControlCut);
 DEFNEW1D("PLSL Target Speed",NPLSL_Limit);
 DEFNEW1D("PLSL Target Speed Hysterisis",NPLSL_Hyst);
 DEFNEW1D("PLSL Max Activation Speed",NPLSL_RequestMax);
+DEFNEW1D("FFS Rev Lim Delta",nFFSdelta);
+DEFNEW1D("FFS Rev Lim Bite Detect",nFFSdeltaBite);
+
 
 	
 	//PARAMS
-DEFINERAMVAR("MerpMod FFS Mode",FlatFootShiftMode,1,"E");//TODO add to def base
-DEFINERAMVAR("MerpMod LC Engaged Signal",LCEngaged,1,"E");
-DEFINERAMVAR("MerpMod FFS Engaged Signal",FFSEngaged,1,"E");
+//DEFINERAMVAR("MerpMod FFS Mode",FlatFootShiftMode,1,"E");//TODO add to def base
+//DEFINERAMVAR("MerpMod LC Engaged Signal",LCEngaged,1,"E");
+//DEFINERAMVAR("MerpMod FFS Engaged Signal",FFSEngaged,1,"E");
 DEFINERAMVAR("MerpMod FFS Gear Monitor",FFSGear,1,"E");
 DEFINERAMVAR("MerpMod RevLimit Active Cut RPM",RevLimCut,4,"E");
 DEFINERAMVAR("MerpMod RevLimit Active Resume RPM",RevLimResume,4,"E");

@@ -55,6 +55,15 @@ void ClearRamVariables(long *start, long *end)
 
 void PopulateRamVariables()
 {
+	pRamVariables.VPLSL_Adjust = 0;
+  	pRamVariables.nINJCutPattern = 0;
+  	pRamVariables.nPLSLCutRatio = 0;
+  	pRamVariables.bFFSallowed = DefaultFlatFootShiftMode;
+  	pRamVariables.bFFSenabled = 1;
+	pRamVariables.bLCengaged = 0;
+  	pRamVariables.bFFSengaged = 0;
+  	pRamVariables.bPLSLRequest = 0;
+  	pRamVariables.bPLSLcutting = 0;
 	
 #if CRUISE_CONTROL
 	pRamVariables.CruiseResumeLast = TestCruiseResumeSwitch();
@@ -69,8 +78,8 @@ void PopulateRamVariables()
 #if INJECTOR_HACKS
 	//Injector Scalar init to default
 	pRamVariables.InjectorScaling = *dInjectorScaling;
-	pRamVariables.nINJCutPattern = 0;
-	pRamVariables.nPLSLCutRatio = 0;
+//	pRamVariables.nINJCutPattern = 0;
+//	pRamVariables.nPLSLCutRatio = 0;
 	pRamVariables.nINJFuncCTR = 0;	
 	pRamVariables.nINJCutCTR = 0;
 	
@@ -103,9 +112,9 @@ void PopulateRamVariables()
 	unsigned char i = 0;
 	while(i < rgButtonCount)
 	{
-		pRamVariables.buttons[i].state = 0;
-		pRamVariables.buttons[i].led = 0;
-		pRamVariables.buttons[i].edgeDetect = 0;
+		pRamVariables.buttons[i].bits.state = 0;
+		pRamVariables.buttons[i].bits.led = 0;
+		pRamVariables.buttons[i].bits.edgeDetect = 0;
 		i++;	
 	}
 #endif
@@ -117,7 +126,7 @@ void PopulateRamVariables()
 		pRamVariables.RevLimMode = DefaultRevLimMode;
 	}
 	//Init revlimit cuts
-	pRamVariables.FlatFootShiftMode = DefaultFlatFootShiftMode;
+//	pRamVariables.FlatFootShiftMode = DefaultFlatFootShiftMode;
 	pRamVariables.RedLineCut = DefaultRedLineCut;
 	pRamVariables.RedLineHyst = DefaultRedLineHyst;
 	pRamVariables.FlatFootShiftHyst = DefaultFlatFootShiftHyst;
@@ -128,9 +137,9 @@ void PopulateRamVariables()
 	pRamVariables.LaunchControlHyst = DefaultLaunchControlHyst;
 	pRamVariables.FlatFootShiftSpeedThreshold = DefaultFlatFootShiftSpeedThreshold;
 	pRamVariables.FlatFootShiftRpmThreshold = DefaultFlatFootShiftRpmThreshold;
-	pRamVariables.bPLSLRequest = 0;
-	pRamVariables.bPLSLcutting = 0;
-	pRamVariables.VPLSL_Adjust = 0;
+	//pRamVariables.bPLSLRequest = 0;
+	//pRamVariables.bPLSLcutting = 0;
+	//pRamVariables.VPLSL_Adjust = 0;
 #endif 
 
 #if VIN_HACKS

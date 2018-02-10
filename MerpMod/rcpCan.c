@@ -155,11 +155,14 @@ void send_frame_0x703()
 	((unsigned char*)addrtemp)[4] = limit_u8((*pBatteryVoltage)/0.08);
 	((unsigned char*)addrtemp)[5] = limit_u8((*pTD_wg_prop*5)+128);
 	((unsigned char*)addrtemp)[6] = limit_u8((*pTD_wg_int*5)+128);
-	if(pRamVariables.FFSEngaged==1) bitArray |= 0x01;
-	if(pRamVariables.FlatFootShiftMode>0) bitArray |= 0x02;
-	if(pRamVariables.LCEngaged==1) bitArray |= 0x04;
+	
+	
+	  
+	if(pRamVariables.bFFSallowed==1) bitArray |= 0x01;
+	if(pRamVariables.bFFSenabled==1) bitArray |= 0x02;
+	if(pRamVariables.bFFSengaged==1) bitArray |= 0x04;
 	if(pRamVariables.BlendMode==1) bitArray |= 0x08;
-	if(pRamVariables.ValetMode==1) bitArray |= 0x10;
+	if(pRamVariables.bValetMode==1) bitArray |= 0x10;
 	if(pRamVariables.bPLSLRequest==1) bitArray |= 0x20;
 	if(pRamVariables.bPLSLcutting==1) bitArray |= 0x40;
 	if((*pFlagsRevLim&0x01)>0) bitArray |= 0x80;

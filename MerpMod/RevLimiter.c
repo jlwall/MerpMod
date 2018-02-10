@@ -43,30 +43,7 @@ void RevLimReset()
 
 void RevLimCode()
 {	
-	if (pRamVariables.bPLSLRequest == 1)
-	{
-		float vPLSL_error = *pVehicleSpeed - (NPLSL_Limit + pRamVariables.VPLSL_Adjust);
-		
-		unsigned long nCutTemp = (unsigned long)(Pull2DHooked((TwoDTable*)&PLSL_CutRatioTable,vPLSL_error));
-		pRamVariables.nPLSLCutRatio = nCutTemp;	
-		
-		unsigned short nCutPattern =  Pull2DHookedU16fp((TwoDTableU16*)&FuelCutTable,pRamVariables.nPLSLCutRatio);				
-		pRamVariables.nINJCutPattern = nCutPattern;
-		
-		if(pRamVariables.nINJCutPattern > 0)
-		{
-			pRamVariables.bPLSLcutting = 1;
-		}
-		else
-		{
-			pRamVariables.bPLSLcutting = 0;
-		}
-	}
-	else
-	{		
-		pRamVariables.bPLSLcutting = 0;
-		pRamVariables.nINJCutPattern = 0;	
-	}
+
 		
 	if (!TestClutchSwitch() || TestBrakeSwitch())
 	{

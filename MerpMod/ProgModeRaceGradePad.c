@@ -80,20 +80,20 @@ void raceGradeKeyPadCallback(unsigned char* data)
 	while(i < (rgButtonCount-1)) //9th button is a holder for a null button
 	{
 		statenew = ((data[0]&shC[i]) == shC[i]) ? 1 : 0;
-		if(statenew>pRamVariables.buttons[i].state)
+		if(statenew>pRamVariables.buttons[i].bits.state)
 		{
-			pRamVariables.buttons[i].edgeDetect = edgeRising;
+			pRamVariables.buttons[i].bits.edgeDetect = edgeRising;
 		}
-		else if(statenew < pRamVariables.buttons[i].state)
+		else if(statenew < pRamVariables.buttons[i].bits.state)
 		{
-			pRamVariables.buttons[i].edgeDetect = edgeFailing;
+			pRamVariables.buttons[i].bits.edgeDetect = edgeFailing;
 		}
 		else
 		{
-			pRamVariables.buttons[i].edgeDetect = edgeNA;
+			pRamVariables.buttons[i].bits.edgeDetect = edgeNA;
 		}
-		pRamVariables.buttons[i].state = statenew;
-		pRamVariables.buttons[i].led = 0;
+		pRamVariables.buttons[i].bits.state = statenew;
+		pRamVariables.buttons[i].bits.led = 0;
 		i++;	
 	}
 	
@@ -106,7 +106,7 @@ void raceGradeKeyPadCallback(unsigned char* data)
 	i=0;
 	while(i<(rgButtonCount-1))
 	{
-		ledTemp = ((unsigned long)(pRamVariables.buttons[i].led&0x07)*shC[i*3]);
+		ledTemp = ((unsigned long)(pRamVariables.buttons[i].bits.led&0x07)*shC[i*3]);
 		leds += ledTemp;
 		i++;	
 	}
@@ -130,33 +130,33 @@ void ProgModeButtonToggled(unsigned char toggle)
 
 void ProgMode_Button_Blend()
 {
-	if(pRamVariables.buttons[rgButtonEthanolSource].edgeDetect == 1)
+	if(pRamVariables.buttons[rgButtonEthanolSource].bits.edgeDetect == 1)
 	{	
 		pRamVariables.BlendMode ^= 0x01;
 	}
 	if(pRamVariables.BlendMode == 0) 
-		pRamVariables.buttons[rgButtonEthanolSource].led = 1; 
+		pRamVariables.buttons[rgButtonEthanolSource].bits.led = 1; 
 	else 
-		pRamVariables.buttons[rgButtonEthanolSource].led = 0;
+		pRamVariables.buttons[rgButtonEthanolSource].bits.led = 0;
 }
 
 void ProgMode_Button_Valet()
 {
 	//Button 1 - Valet Mode
-	if(pRamVariables.buttons[rgButtonValetSource].edgeDetect == 1)
+	if(pRamVariables.buttons[rgButtonValetSource].bits.edgeDetect == 1)
 	{
-		pRamVariables.ValetMode ^= 0x01;
+		pRamVariables.bValetMode ^= 0x01;
 	}
-	if(pRamVariables.ValetMode == ValetModeDisabled) 
-		pRamVariables.buttons[rgButtonValetSource].led = 0;
+	if(pRamVariables.bValetMode == ValetModeDisabled) 
+		pRamVariables.buttons[rgButtonValetSource].bits.led = 0;
 	else 
-		pRamVariables.buttons[rgButtonValetSource].led = 4;	
+		pRamVariables.buttons[rgButtonValetSource].bits.led = 4;	
 }
 
 void ProgMode_Button_PLSL()
 {
 //Button 6 - PLSL Mode
-	if(pRamVariables.buttons[rgButtonPLSLSource].edgeDetect == 1)
+	if(pRamVariables.buttons[rgButtonPLSLSource].bits.edgeDetect == 1)
 	{		
 		if((pRamVariables.bPLSLRequest == 0) && (*pVehicleSpeed < NPLSL_RequestMax))
 			pRamVariables.bPLSLRequest = 1;
@@ -165,34 +165,33 @@ void ProgMode_Button_PLSL()
 	}
 	if(pRamVariables.bPLSLRequest == 1) 
 		if(pRamVariables.bPLSLcutting ==1)
-			pRamVariables.buttons[rgButtonPLSLSource].led = 5; //Active and Cutting
+			pRamVariables.buttons[rgButtonPLSLSource].bits.led = 5; //Active and Cutting
 		else
-			pRamVariables.buttons[rgButtonPLSLSource].led = 1;	//Active
+			pRamVariables.buttons[rgButtonPLSLSource].bits.led = 1;	//Active
 	else 
-		pRamVariables.buttons[rgButtonPLSLSource].led = 0;	
+		pRamVariables.buttons[rgButtonPLSLSource].bits.led = 0;	
 }
 
 void ProgMode_Button_FFS()
 {
 #if REVLIM_HACKS
 	//Button 4 - Flat Foot Shift Mode pRamVariables.FlatFootShiftMode
-	if(pRamVariables.buttons[rgButtonFFSSource].edgeDetect == 1)
+	if(pRamVariables.buttons[rgButtonFFSSource].bits.edgeDetect == 1)
 	{			
-		if(pRamVariables.FlatFootShiftMode<2)
-			pRamVariables.FlatFootShiftMode += 0x01;
+		if(pRamVariables.bFFSenabled == 0)
+			pRamVariables.bFFSenabled = 1;
 		else
-			pRamVariables.FlatFootShiftMode = 0;
+			pRamVariables.bFFSenabled = 0;
 	}	
-	if(pRamVariables.FlatFootShiftMode == 0) 
-		pRamVariables.buttons[rgButtonFFSSource].led = 0; 
-	else if(pRamVariables.FlatFootShiftMode == 1) 
-		pRamVariables.buttons[rgButtonFFSSource].led = 1;
-	else if(pRamVariables.FlatFootShiftMode == 2) 
-		pRamVariables.buttons[rgButtonFFSSource].led = 2;
+	pRamVariables.buttons[rgButtonFFSSource].bits.led = 0;
+	 
+	if(pRamVariables.bFFSenabled == 1) 
+		pRamVariables.buttons[rgButtonFFSSource].bits.led |= 1; 
+	if(pRamVariables.bFFSallowed == 1) 
+		pRamVariables.buttons[rgButtonFFSSource].bits.led |= 2;
+	if(pRamVariables.bFFSengaged == 1) 
+		pRamVariables.buttons[rgButtonFFSSource].bits.led |= 4;
 			
-	//Light up 3rd LED when FFS is engaged	
-	if(pRamVariables.FFSEngaged >= 1)
-		pRamVariables.buttons[rgButtonFFSSource].led |= 0x04;
 #endif
 }
 
@@ -200,16 +199,14 @@ void ProgMode_Button_FFS()
 void ProgMode_Button_Failsafe()
 {		
 	//Button 5 - Failsafe Button
-	if(pRamVariables.buttons[rgButtonFailsafeSource].edgeDetect == 1)	
+	if(pRamVariables.buttons[rgButtonFailsafeSource].bits.edgeDetect == 1)	
 	{
 		if(*pEngineSpeed < 1)
 		{
 			ResetRamVariables();
 		}
 		*pIAM = IAM_MIN;
-#if REVLIM_HACKS
-		pRamVariables.FlatFootShiftMode = 0;
-#endif
+
 		pRamVariables.bPLSLRequest = 0;
 #if SWITCH_HACKS
 		pRamVariables.MapSwitch = DefaultMapSwitch;
@@ -220,10 +217,10 @@ void ProgMode_Button_Failsafe()
 		pRamVariables.rWG_Adjust = 0;
 		pRamVariables.AFRSource = AFRModeStock;
 #endif
-		pRamVariables.buttons[rgButtonFailsafeSource].led = 7; 
+		pRamVariables.buttons[rgButtonFailsafeSource].bits.led = 7; 
 	}
 	else
-		pRamVariables.buttons[rgButtonFailsafeSource].led = 0; 
+		pRamVariables.buttons[rgButtonFailsafeSource].bits.led = 0; 
 }
 
 void ProgModeMain()
@@ -247,12 +244,12 @@ void ProgModeMain()
 		
 			
 	//Button 0,2 - Mod Select Toggle	
-	ProgModeButtonToggled(pRamVariables.buttons[rgButtonModeSource].edgeDetect);
+	ProgModeButtonToggled(pRamVariables.buttons[rgButtonModeSource].bits.edgeDetect);
 	
 	if(pRamVariables.ProgModeCurrentMode == modeMap[0])
 	{
 		ProgModeBlendAdjust();
-		pRamVariables.buttons[rgButtonEthanolSource].led = 7;
+		pRamVariables.buttons[rgButtonEthanolSource].bits.led = 7;
 	}
 	else if(pRamVariables.ProgModeCurrentMode == modeMap[1])
 	{
@@ -269,17 +266,17 @@ void ProgModeMain()
 	else if(pRamVariables.ProgModeCurrentMode == modeMap[4])
 	{		
 		ProgModeLCAdjust();
-		pRamVariables.buttons[rgButtonFFSSource].led = 7;
+		pRamVariables.buttons[rgButtonFFSSource].bits.led = 7;
 	}
 	else if(pRamVariables.ProgModeCurrentMode == modeMap[5])
 	{		
 		ProgModeIAMAdjust();
-		pRamVariables.buttons[rgButtonFailsafeSource].led = 7;
+		pRamVariables.buttons[rgButtonFailsafeSource].bits.led = 7;
 	}
 	else if(pRamVariables.ProgModeCurrentMode == modeMap[6])
 	{		
 		ProgModePLSLAdjust();
-		pRamVariables.buttons[rgButtonPLSLSource].led = 7;
+		pRamVariables.buttons[rgButtonPLSLSource].bits.led = 7;
 	}
 	else if(pRamVariables.ProgModeCurrentMode == modeMap[7])
 	{		
@@ -295,29 +292,29 @@ void ProgModeMain()
 	}
 		
 	
-	pRamVariables.buttons[rgButtonModeSource].led = pRamVariables.ProgModeCurrentMode;
+	pRamVariables.buttons[rgButtonModeSource].bits.led = pRamVariables.ProgModeCurrentMode;
 	if(pRamVariables.ProgModeCurrentMode>0)
 	{
-		pRamVariables.buttons[rgButtonUpSource].led = pRamVariables.ProgModeValueFlashes&0x07;
-		pRamVariables.buttons[rgButtonDownSource].led = pRamVariables.ProgModeValueFlashes/8;
+		pRamVariables.buttons[rgButtonUpSource].bits.led = pRamVariables.ProgModeValueFlashes&0x07;
+		pRamVariables.buttons[rgButtonDownSource].bits.led = pRamVariables.ProgModeValueFlashes/8;
 	}
 	else
 	{
-		pRamVariables.buttons[rgButtonUpSource].led = 0;
-		pRamVariables.buttons[rgButtonDownSource].led = 0;
+		pRamVariables.buttons[rgButtonUpSource].bits.led = 0;
+		pRamVariables.buttons[rgButtonDownSource].bits.led = 0;
 	}	
 }
 
 void ProgModeAFRSource()
 {
-	if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
+	if(pRamVariables.buttons[rgButtonUpSource].bits.edgeDetect == 1)
 	{	
 		if(pRamVariables.AFRSource >= AFRModeWide)
 			pRamVariables.AFRSource = AFRModeWide;
 		else
 			pRamVariables.AFRSource++;
 	}
-	else if(pRamVariables.buttons[rgButtonDownSource].edgeDetect == 1)
+	else if(pRamVariables.buttons[rgButtonDownSource].bits.edgeDetect == 1)
 	{
 		if(pRamVariables.AFRSource == AFRModeStock )
 			pRamVariables.AFRSource = AFRModeStock;
@@ -333,14 +330,14 @@ void ProgModeMapSwitch()
 #if SWITCH_HACKS
 	if(MapSwitchInput == InputModeRaceGradePad)
 	{	
-		if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
+		if(pRamVariables.buttons[rgButtonUpSource].bits.edgeDetect == 1)
 		{	
 			if(pRamVariables.MapSwitch >= 3)
 				pRamVariables.MapSwitch = 3;
 			else
 				pRamVariables.MapSwitch++;
 		}
-		else if(pRamVariables.buttons[rgButtonDownSource].edgeDetect == 1)
+		else if(pRamVariables.buttons[rgButtonDownSource].bits.edgeDetect == 1)
 		{
 			if(pRamVariables.MapSwitch == 1 )
 				pRamVariables.MapSwitch = 1;
@@ -361,14 +358,14 @@ void ProgModeBlendAdjust()
 #if SWITCH_HACKS
 	if(pRamVariables.BlendMode == 1)
 	{
-		if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
+		if(pRamVariables.buttons[rgButtonUpSource].bits.edgeDetect == 1)
 		{	
 			if(pRamVariables.MapBlendRatio > (BLEND_MAX - rgBLEND_STEP - 0.01f))
 				pRamVariables.MapBlendRatio = BLEND_MAX;
 			else
 				pRamVariables.MapBlendRatio+= rgBLEND_STEP;
 		}
-		else if(pRamVariables.buttons[rgButtonDownSource].edgeDetect == 1)
+		else if(pRamVariables.buttons[rgButtonDownSource].bits.edgeDetect == 1)
 		{
 			if(pRamVariables.MapBlendRatio < (BLEND_MIN + rgBLEND_STEP + 0.01f))
 				pRamVariables.MapBlendRatio = BLEND_MIN;//Hard limit, does not cycle to top again.
@@ -386,12 +383,12 @@ void ProgModeBlendAdjust()
 
 void ProgModeBlendMode()
 {
-	if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
+	if(pRamVariables.buttons[rgButtonUpSource].bits.edgeDetect == 1)
 	{	
 		if(pRamVariables.BlendMode <=0)
 			pRamVariables.BlendMode = 1;
 	}
-	else if(pRamVariables.buttons[rgButtonDownSource].edgeDetect == 1)
+	else if(pRamVariables.buttons[rgButtonDownSource].bits.edgeDetect == 1)
 	{
 		if(pRamVariables.BlendMode >= 1 )
 			pRamVariables.BlendMode = 0;
@@ -404,12 +401,12 @@ void ProgModeLCAdjust()
 {
 #if REVLIM_HACKS
 #if !AUTO_TRANS
-	if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
+	if(pRamVariables.buttons[rgButtonUpSource].bits.edgeDetect == 1)
 	{	
 		if(pRamVariables.LaunchControlCut < pRamVariables.RedLineCut)
 			pRamVariables.LaunchControlCut+= rgLC_STEP;
 	}
-	else if(pRamVariables.buttons[rgButtonDownSource].edgeDetect == 1)
+	else if(pRamVariables.buttons[rgButtonDownSource].bits.edgeDetect == 1)
 	{
 		if(pRamVariables.LaunchControlCut > rgLC_MIN)
 			pRamVariables.LaunchControlCut-= rgLC_STEP;//Hard limit, does not cycle to top again.
@@ -430,14 +427,14 @@ void ProgModeLCAdjust()
 void ProgModeWGAdjust()
 {
 #if BOOST_HACKS
-	if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
+	if(pRamVariables.buttons[rgButtonUpSource].bits.edgeDetect == 1)
 	{	
 		if((pRamVariables.rWG_Adjust + rWGmod[1]) <= rWGmod[2])
 			pRamVariables.rWG_Adjust += rWGmod[1];
 		else
 			pRamVariables.rWG_Adjust = rWGmod[2];
 	}
-	else if(pRamVariables.buttons[rgButtonDownSource].edgeDetect == 1)
+	else if(pRamVariables.buttons[rgButtonDownSource].bits.edgeDetect == 1)
 	{
 		if((pRamVariables.rWG_Adjust - rWGmod[1]) >= rWGmod[0])
 			pRamVariables.rWG_Adjust -= rWGmod[1];//Hard limit, does not cycle to top again.
@@ -456,14 +453,14 @@ void ProgModeWGAdjust()
 void ProgModeBoostAdjust()
 {
 #if BOOST_HACKS
-	if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
+	if(pRamVariables.buttons[rgButtonUpSource].bits.edgeDetect == 1)
 	{	
 		if((pRamVariables.Boost_Adjust + rgBoost[1]) <= rgBoost[2])
 			pRamVariables.Boost_Adjust += rgBoost[1];
 		else
 			pRamVariables.Boost_Adjust = rgBoost[2];
 	}
-	else if(pRamVariables.buttons[rgButtonDownSource].edgeDetect == 1)
+	else if(pRamVariables.buttons[rgButtonDownSource].bits.edgeDetect == 1)
 	{
 		if((pRamVariables.Boost_Adjust - rgBoost[1]) >= rgBoost[0])
 			pRamVariables.Boost_Adjust -= rgBoost[1];//Hard limit, does not cycle to top again.
@@ -482,14 +479,14 @@ void ProgModeBoostAdjust()
 void ProgModePLSLAdjust()
 {
 #if REVLIM_HACKS
-	if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
+	if(pRamVariables.buttons[rgButtonUpSource].bits.edgeDetect == 1)
 	{	
 		if((pRamVariables.VPLSL_Adjust + rgPLSL[1]) <= rgPLSL[2])
 			pRamVariables.VPLSL_Adjust += rgPLSL[1];
 		else
 			pRamVariables.VPLSL_Adjust = rgPLSL[2];
 	}
-	else if(pRamVariables.buttons[rgButtonDownSource].edgeDetect == 1)
+	else if(pRamVariables.buttons[rgButtonDownSource].bits.edgeDetect == 1)
 	{
 		if((pRamVariables.VPLSL_Adjust - rgPLSL[1]) >= rgPLSL[0])
 			pRamVariables.VPLSL_Adjust -= rgPLSL[1];//Hard limit, does not cycle to top again.
@@ -507,14 +504,14 @@ void ProgModePLSLAdjust()
 
 void ProgModeIAMAdjust()
 {
-	if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
+	if(pRamVariables.buttons[rgButtonUpSource].bits.edgeDetect == 1)
 	{	
 		if(*pIAM < IAM_MAX - IAM_STEP)
 			*pIAM += IAM_STEP;
 		else
 			*pIAM = IAM_MAX;
 	}
-	else if(pRamVariables.buttons[rgButtonDownSource].edgeDetect == 1)
+	else if(pRamVariables.buttons[rgButtonDownSource].bits.edgeDetect == 1)
 	{
 		if(IAM > IAM_MIN + IAM_STEP)
 			*pIAM -= IAM_STEP;
@@ -527,31 +524,31 @@ void ProgModeIAMAdjust()
 
 void ProgModeValetMode()
 {
-	if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
+	if(pRamVariables.buttons[rgButtonUpSource].bits.edgeDetect == 1)
 	{	
-		if(pRamVariables.ValetMode <=0)
-			pRamVariables.ValetMode = 1;
+		if(pRamVariables.bValetMode <=0)
+			pRamVariables.bValetMode = 1;
 	}
-	else if(pRamVariables.buttons[rgButtonDownSource].edgeDetect == 1)
+	else if(pRamVariables.buttons[rgButtonDownSource].bits.edgeDetect == 1)
 	{
-		if(pRamVariables.ValetMode >= 1 )
-			pRamVariables.ValetMode = 0;
+		if(pRamVariables.bValetMode >= 1 )
+			pRamVariables.bValetMode = 0;
 	}
-	pRamVariables.ProgModeValue = pRamVariables.ValetMode;
-	pRamVariables.ProgModeValueFlashes = pRamVariables.ValetMode;
+	pRamVariables.ProgModeValue = pRamVariables.bValetMode;
+	pRamVariables.ProgModeValueFlashes = pRamVariables.bValetMode;
 }
 
 
 void ProgModeRaceGradeBackLight()
 {
-	if(pRamVariables.buttons[rgButtonUpSource].edgeDetect == 1)
+	if(pRamVariables.buttons[rgButtonUpSource].bits.edgeDetect == 1)
 	{	
 		if(pRamVariables.rgBackLight < (255-LED_STEP))
 			pRamVariables.rgBackLight += LED_STEP;
 		else
 			pRamVariables.rgBackLight = 255;
 	}
-	else if(pRamVariables.buttons[rgButtonDownSource].edgeDetect == 1)
+	else if(pRamVariables.buttons[rgButtonDownSource].bits.edgeDetect == 1)
 	{
 		if(pRamVariables.rgBackLight > LED_STEP)
 			pRamVariables.rgBackLight-= LED_STEP;//Hard limit, does not cycle to top again.
