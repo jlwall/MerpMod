@@ -220,9 +220,9 @@ typedef struct
 {
 	struct
   {
-    char state:3;
-    char led:3;
-    char edgeDetect:2;
+    char state:4;
+    char led:8;
+    char edgeDetect:8;
   }
   bits;
 }buttonRGStruct;

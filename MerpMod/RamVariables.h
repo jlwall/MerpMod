@@ -39,6 +39,7 @@ typedef struct
 		unsigned char bLCengaged;
 		unsigned char bPLSLRequest;
 		unsigned char bPLSLcutting;
+		unsigned char bRMDSengaged;
   	#endif
 	
 	#if INJECTOR_HACKS

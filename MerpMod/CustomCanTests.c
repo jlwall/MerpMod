@@ -321,11 +321,6 @@ unsigned char dte85[8];
 	Assert(getMailBoxId(ccm04.mailBox, ccm04.bus) == ccm04.id, "CAN ID 4 is not set Correctly");
 	Assert(getMailBoxId(ccm05.mailBox, ccm05.bus) == ccm05.id, "CAN ID 5 is not set Correctly");
 	Assert(getMailBoxId(ccm06.mailBox, ccm06.bus) == ccm06.id, "CAN ID 6 is not set Correctly");
-	Assert(getMailBoxId(ccm07.mailBox, ccm07.bus) == ccm07.id, "CAN ID 7 is not set Correctly");
-	Assert(getMailBoxId(ccm08.mailBox, ccm08.bus) == ccm08.id, "CAN ID 8 is not set Correctly");
-	Assert(getMailBoxId(ccm09.mailBox, ccm09.bus) == ccm09.id, "CAN ID 9 is not set Correctly");
-	Assert(getMailBoxId(ccm10.mailBox, ccm10.bus) == ccm10.id, "CAN ID 10 is not set Correctly");
-	Assert(getMailBoxId(ccm11.mailBox, ccm11.bus) == ccm11.id, "CAN ID 11 is not set Correctly");
 	
 	dtAEM[0] = 32;
 	dtAEM[1] = 1;

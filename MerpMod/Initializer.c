@@ -64,6 +64,7 @@ void PopulateRamVariables()
   	pRamVariables.bFFSengaged = 0;
   	pRamVariables.bPLSLRequest = 0;
   	pRamVariables.bPLSLcutting = 0;
+	pRamVariables.bRMDSengaged = 0;
 	
 #if CRUISE_CONTROL
 	pRamVariables.CruiseResumeLast = TestCruiseResumeSwitch();
@@ -96,9 +97,9 @@ void PopulateRamVariables()
 #if CAN_HACKS
 	pRamVariables.initFunctionRun = 0;
 	pRamVariables.rcp0x702_tick = 0;
-	pRamVariables.rcp0x708_tick = 0;
+	pRamVariables.rcp0x708_tick = 1;
 	pRamVariables.rcp0x709_tick = 0;
-	pRamVariables.rcp0x70A_tick = 0;
+	pRamVariables.rcp0x70A_tick = 1;
 	pRamVariables.rgBackLight = 128;
 //	pRamVariables.sdTimer = 0;
 #endif 

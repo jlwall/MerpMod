@@ -19,7 +19,7 @@
 void RevLimReset()
 {
 
-	if (pRamVariables.ValetMode == ValetModeEnabled)
+/*	if (pRamVariables.ValetMode == ValetModeEnabled)
 	{
 		pRamVariables.RevLimCut = ValetModeRevLim;
 		pRamVariables.RevLimResume = ValetModeRevLim - Abs(DefaultFlatFootShiftHyst);
@@ -38,13 +38,13 @@ void RevLimReset()
 	if(*pCurrentGear > 0)
 	{
 		pRamVariables.FFSGear = *pCurrentGear;
-	}
+	}*/
 }
 
 void RevLimCode()
 {	
 
-		
+/*		
 	if (!TestClutchSwitch() || TestBrakeSwitch())
 	{
 			RevLimReset();
@@ -120,6 +120,6 @@ void RevLimCode()
 		else if (*pEngineSpeed < pRamVariables.RevLimResume)
 		{
 			*pFlagsRevLim &= ~RevLimBitMask;
-		}
+		}*/
 }
 #endif

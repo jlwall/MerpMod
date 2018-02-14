@@ -115,8 +115,8 @@ void send_frame_0x702()
  	*/
 	if(pRamVariables.rcp0x702_tick == 0)
 	{
-		unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF1);	
-		rcpCanMessageSetup(rcpCAN_ID_m2, 0, 8, 0, RPCBUF1); 	 		
+		unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF3);	
+		rcpCanMessageSetup(rcpCAN_ID_m2, 0, 8, 0, RPCBUF3); 	 		
 		((unsigned char*)addrtemp)[0] = *pNRough_C1; 	
 		((unsigned char*)addrtemp)[1] = *pNRough_C2; 		
 	 	((unsigned char*)addrtemp)[2] = *pNRough_C3;		
@@ -144,9 +144,9 @@ void send_frame_0x703()
  		SG_ rTDint : 48|8@1+ (0.2,-25.6) [-25|25] "%"  RCPMK2 	
 		SG_ bCutArray : 56|8@1+ (1,0) [0|255] ""  RCPMK2 	
 	*/
-	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF2);	
+	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF4);	
 	unsigned char bitArray = 0;	
-	rcpCanMessageSetup(rcpCAN_ID_m3, 0, 8, 0, RPCBUF2); 
+	rcpCanMessageSetup(rcpCAN_ID_m3, 0, 8, 0, RPCBUF4); 
 	#if BOOST_HACKS	 
 		((unsigned short*)addrtemp)[0] = limit_u16((pRamVariables.TargetBoost-242.850759f)*25.3447147559339f);
 	#endif
@@ -183,8 +183,8 @@ void send_frame_0x704()
  		SG_ rLamLearnC : 48|8@1+ (0.01,-128) [-100|100] "%"  RCPMK2
  		SG_ rLamLearnD : 56|8@1+ (0.01,-128) [-100|100] "%"  RCPMK2
 	*/
-	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF1);	
-	rcpCanMessageSetup(rcpCAN_ID_m4, 0, 8, 0, RPCBUF1); 	 	
+	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF5);	
+	rcpCanMessageSetup(rcpCAN_ID_m4, 0, 8, 0, RPCBUF5); 	 	
 	#if POLF_HACKS
 		((unsigned short*)addrtemp)[0] = limit_u16(1000/(1+pRamVariables.PolfOutput));	
 		((unsigned char*)addrtemp)[2] = limit_u8((pRamVariables.TargetedStoich-8)*36);
@@ -209,9 +209,9 @@ void send_frame_0x708()
  
 	if(pRamVariables.rcp0x708_tick == 0)
 	{
-	 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF2);	
+	 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF3);	
 		unsigned short vtemp = 0;
-		rcpCanMessageSetup(0x708, 0, 8, 0, RPCBUF2); 	 	
+		rcpCanMessageSetup(0x708, 0, 8, 0, RPCBUF3); 	 	
 	
 		vtemp = (unsigned short)( pRamVariables.RevLimCut/2);
 		((unsigned char*)addrtemp)[0] = (vtemp>>4)&0xFF;
@@ -243,8 +243,8 @@ void send_frame_0x709()
 {
 	if(pRamVariables.rcp0x709_tick == 0)
 	{
-	 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF1);			
-		rcpCanMessageSetup(0x709, 0, 8, 0, RPCBUF1); 	 	
+	 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF6);			
+		rcpCanMessageSetup(0x709, 0, 8, 0, RPCBUF6); 	 	
 			
 		((unsigned char*)addrtemp)[0] = pRamVariables.nINJCutCTR;
 		((unsigned char*)addrtemp)[1] = pRamVariables.nINJFuncCTR;		
@@ -265,8 +265,8 @@ void send_frame_0x70A()
 {
 	if(pRamVariables.rcp0x70A_tick == 0)
 	{
-	 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF2);			
-		rcpCanMessageSetup(0x70A, 0, 4, 0, RPCBUF2); 	 	
+	 	unsigned long addrtemp = (0xFFFFD108 + 0x20*RPCBUF6);			
+		rcpCanMessageSetup(0x70A, 0, 4, 0, RPCBUF6); 	 	
 			
 		((unsigned char*)addrtemp)[0] = limit_u8((pRamVariables.Boost_Adjust/2.5875) + 128); //0.5 psi / lsb
 		((unsigned char*)addrtemp)[1] = limit_u8((pRamVariables.rWG_Adjust*100)+128);	//1% / lsb

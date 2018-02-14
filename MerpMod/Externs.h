@@ -68,8 +68,12 @@ void rcpCanMessageSetup(unsigned long id,unsigned short ext, unsigned short dlc,
 #endif
 
 #if RCP_CAN
-#define RPCBUF1 29
-#define RPCBUF2 30
+#define RPCBUF1 26
+#define RPCBUF2 27
+#define RPCBUF3 28
+#define RPCBUF4 29
+#define RPCBUF5 30
+#define RPCBUF6 31
 
 void rcp_frame_manager() ROMCODE;
 void send_frame_0x700() ROMCODE;
@@ -362,12 +366,12 @@ extern float NPLSL_Hyst;
 extern float rgPLSL[];
 extern float nFFSdelta;
 extern float nFFSdeltaBite;
+extern float RMDSminBrake;
 
 #if CAN_HACKS
-#define ccmCount 12
+#define ccmCount 6
 #define RACEGRADE_LED_CCM 1
-//#define RACEGRADE_CANOPEN_START_CCM 3
-#define RAMETUNE_RESPONSE_CCM 5
+#define RAMETUNE_RESPONSE_CCM 4
 extern unsigned char rgButtonEthanolSource;
 extern unsigned char rgButtonValetSource;
 extern unsigned char rgButtonFFSSource;
@@ -387,11 +391,6 @@ extern CanMessageSetupStruct ccm03;
 extern CanMessageSetupStruct ccm04;
 extern CanMessageSetupStruct ccm05;
 extern CanMessageSetupStruct ccm06;
-extern CanMessageSetupStruct ccm07;
-extern CanMessageSetupStruct ccm08;
-extern CanMessageSetupStruct ccm09;
-extern CanMessageSetupStruct ccm10;
-extern CanMessageSetupStruct ccm11;
 
 extern unsigned long shC[];
 

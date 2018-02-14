@@ -4,11 +4,12 @@
 
 D_Work rtDWork __attribute__ ((section ("RamHole")));
 
+#define prBrake ((float*)0xFFFF821C)
 
 D_Work rtDWork;
 void revLimModel_custom()
 {
-  boolean_T rtb_Memory_p;
+  boolean_T rtb_Memory_j;
   real32_T rtb_valetOrReg;
   if (pRamVariables.bPLSLRequest)
   {
@@ -61,19 +62,39 @@ void revLimModel_custom()
       rtDWork.FFSdetect_MODE = true;
     }
 
-    rtb_Memory_p = (boolean_T)(*pThrottlePlate >= FFSMinimumThrottle);
+    rtb_Memory_j = (boolean_T)(*pThrottlePlate >= FFSMinimumThrottle);
     rtDWork.set = (boolean_T)((((int32_T)*pClutchFlags > (int32_T)
-      rtDWork.Memory_PreviousInput_l) && ((int32_T)rtb_Memory_p)) ||
+      rtDWork.Memory_PreviousInput_l) && ((int32_T)rtb_Memory_j)) ||
       (!((!(int32_T)rtDWork.mem_PreviousInput_h) || (((int32_T)*pClutchFlags <
-      (int32_T)rtDWork.Memory_PreviousInput_g) || (!(int32_T)rtb_Memory_p) ||
+      (int32_T)rtDWork.Memory_PreviousInput_g) || (!(int32_T)rtb_Memory_j) ||
       (*pEngineSpeed - rtDWork.Memory_PreviousInput <= nFFSdeltaBite)))));
     pRamVariables.bFFSengaged = rtDWork.set;
+    rtb_Memory_j = (boolean_T)(*prBrake >= RMDSminBrake);
+    rtDWork.set_c = (boolean_T)((((int32_T)*pClutchFlags > (int32_T)
+      rtDWork.Memory_PreviousInput_o) && ((int32_T)rtb_Memory_j)) ||
+      (!((!(int32_T)rtDWork.mem_PreviousInput_b) || (((int32_T)*pClutchFlags <
+      (int32_T)rtDWork.Memory_PreviousInput_gg) || (!(int32_T)rtb_Memory_j)))));
+    pRamVariables.bRMDSengaged = rtDWork.set_c;
     if (rtDWork.set)
     {
       if ((int32_T)rtDWork.set > (int32_T)rtDWork.Memory_PreviousInput_j)
       {
-        rtDWork.nEngineNextGearTarget = *pEngineSpeed * (GearRatios
+        rtDWork.nEngineNextGearTarget_f = *pEngineSpeed * (GearRatios
           [*pCurrentGear] / GearRatios[(int32_T)*pCurrentGear - 1]);
+        rtDWork.vCar_j = *pVehicleSpeed;
+      }
+
+      rtDWork.Divide2_e = rtDWork.nEngineNextGearTarget_f / rtDWork.vCar_j *
+        *pVehicleSpeed;
+    }
+
+    rtDWork.Add = rtDWork.Divide2_e + nFFSdelta;
+    if (rtDWork.set_c)
+    {
+      if ((int32_T)rtDWork.set_c > (int32_T)rtDWork.Memory_PreviousInput_f)
+      {
+        rtDWork.nEngineNextGearTarget = *pEngineSpeed * (GearRatios[(int32_T)
+          *pCurrentGear - 1] / GearRatios[*pCurrentGear]);
         rtDWork.vCar = *pVehicleSpeed;
       }
 
@@ -81,18 +102,23 @@ void revLimModel_custom()
         *pVehicleSpeed;
     }
 
-    rtDWork.Add = rtDWork.Divide2 + nFFSdelta;
+    rtDWork.OutportBufferFornEngineRMDStarg = rtDWork.Divide2;
     rtDWork.Memory_PreviousInput_l = *pClutchFlags;
     rtDWork.mem_PreviousInput_h = rtDWork.set;
     rtDWork.Memory_PreviousInput_g = *pClutchFlags;
-    rtDWork.Memory_PreviousInput = rtDWork.Divide2;
+    rtDWork.Memory_PreviousInput = rtDWork.Divide2_e;
+    rtDWork.Memory_PreviousInput_o = *pClutchFlags;
+    rtDWork.mem_PreviousInput_b = rtDWork.set_c;
+    rtDWork.Memory_PreviousInput_gg = *pClutchFlags;
     rtDWork.Memory_PreviousInput_j = rtDWork.set;
+    rtDWork.Memory_PreviousInput_f = rtDWork.set_c;
   }
   else
   {
     if (rtDWork.FFSdetect_MODE)
     {
       rtDWork.set = false;
+      rtDWork.set_c = false;
       rtDWork.FFSdetect_MODE = false;
     }
   }
@@ -126,7 +152,11 @@ void revLimModel_custom()
     }
   }
 
-  if (rtDWork.bLCstateSet)
+  if (rtDWork.set_c)
+  {
+    pRamVariables.RevLimResume = rtDWork.OutportBufferFornEngineRMDStarg;
+  }
+  else if (rtDWork.bLCstateSet)
   {
     pRamVariables.RevLimResume = pRamVariables.LaunchControlCut;
   }
@@ -157,10 +187,10 @@ void revLimModel_custom()
   }
 
   pRamVariables.RevLimCut = pRamVariables.RevLimResume;
-  rtb_Memory_p = (boolean_T)(*pEngineSpeed >= pRamVariables.RevLimResume);
+  rtb_Memory_j = (boolean_T)(*pEngineSpeed >= pRamVariables.RevLimResume);
   pRamVariables.bLCengaged = rtDWork.bLCstateSet;
   pRamVariables.RevLimResume = pRamVariables.RevLimResume - DefaultRedLineHyst;
-  rtDWork.mem_PreviousInput = (boolean_T)(((int32_T)rtb_Memory_p) ||
+  rtDWork.mem_PreviousInput = (boolean_T)(((int32_T)rtb_Memory_j) ||
     (!((!(int32_T)rtDWork.mem_PreviousInput) || (*pEngineSpeed <
     pRamVariables.RevLimResume))));
   if (rtDWork.mem_PreviousInput)
@@ -176,5 +206,5 @@ void revLimModel_custom()
 
 void revLimModel_initialize(void)
 {
- 
+
 }

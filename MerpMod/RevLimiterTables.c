@@ -34,6 +34,9 @@ float DefaultLaunchControlSpeedMax REVLIMDATA = 5.0f;
 float DefaultLaunchControlCut REVLIMDATA = 4000.0f;
 float DefaultLaunchControlHyst REVLIMDATA = 50.0f;
 
+float RMDSminBrake REVLIMDATA = 33;
+ 
+
 float NPLSL_RequestMax REVLIMDATA = 70.0f;
 float NPLSL_Limit REVLIMDATA = 60.0f;
 float NPLSL_Hyst REVLIMDATA = 0.3f;
