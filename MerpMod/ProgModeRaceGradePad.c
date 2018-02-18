@@ -211,11 +211,13 @@ void ProgMode_Button_Failsafe()
 #if SWITCH_HACKS
 		pRamVariables.MapSwitch = DefaultMapSwitch;
 		pRamVariables.MapBlendRatio = DefaultMapBlendRatio;
+		pRamVariables.rEthanolRaceGrade = DefaultMapBlendRatio;
 		pRamVariables.BlendMode = 1; //Manual Mode
 		pRamVariables.VPLSL_Adjust = 0;
 		pRamVariables.Boost_Adjust = 0;
 		pRamVariables.rWG_Adjust = 0;
 		pRamVariables.AFRSource = AFRModeStock;
+		UpdateInjectorFlow();
 #endif
 		pRamVariables.buttons[rgButtonFailsafeSource].bits.led = 7; 
 	}
@@ -360,21 +362,21 @@ void ProgModeBlendAdjust()
 	{
 		if(pRamVariables.buttons[rgButtonUpSource].bits.edgeDetect == 1)
 		{	
-			if(pRamVariables.MapBlendRatio > (BLEND_MAX - rgBLEND_STEP - 0.01f))
-				pRamVariables.MapBlendRatio = BLEND_MAX;
+			if(pRamVariables.rEthanolRaceGrade > (BLEND_MAX - rgBLEND_STEP - 0.01f))
+				pRamVariables.rEthanolRaceGrade = BLEND_MAX;
 			else
-				pRamVariables.MapBlendRatio+= rgBLEND_STEP;
+				pRamVariables.rEthanolRaceGrade+= rgBLEND_STEP;
 		}
 		else if(pRamVariables.buttons[rgButtonDownSource].bits.edgeDetect == 1)
 		{
-			if(pRamVariables.MapBlendRatio < (BLEND_MIN + rgBLEND_STEP + 0.01f))
-				pRamVariables.MapBlendRatio = BLEND_MIN;//Hard limit, does not cycle to top again.
+			if(pRamVariables.rEthanolRaceGrade < (BLEND_MIN + rgBLEND_STEP + 0.01f))
+				pRamVariables.rEthanolRaceGrade = BLEND_MIN;//Hard limit, does not cycle to top again.
 			else
-				pRamVariables.MapBlendRatio-= rgBLEND_STEP;
+				pRamVariables.rEthanolRaceGrade-= rgBLEND_STEP;
 		}
 	}
-	pRamVariables.ProgModeValue = pRamVariables.MapBlendRatio + 1;
-	pRamVariables.ProgModeValueFlashes = (unsigned char)(pRamVariables.MapBlendRatio*8);
+	pRamVariables.ProgModeValue = pRamVariables.rEthanolRaceGrade + 1;
+	pRamVariables.ProgModeValueFlashes = (unsigned char)(pRamVariables.rEthanolRaceGrade*8);
 #else
 	pRamVariables.ProgModeValue = 0.0f;
 	pRamVariables.ProgModeValueFlashes = 0;

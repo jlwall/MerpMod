@@ -48,6 +48,23 @@ TableGroup FuelTableGroup FUELDATA = {
 
 
 //Ethanol Percentage
+float TableEthanolToBlend_ROWS[11] FUELDATA =
+{0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1};
+
+//Target Air Fuel Ratio for stoichiometric 
+unsigned short TableEthanolToBlend_DATA[11] FUELDATA =
+{0,0,1429,2857,4286,5714,7143,8571,10000,10000,10000};
+
+TwoDTable TableEthanolToBlend  FUELDATA = {
+	.columnCount = 11,
+	.tableType = UInt16Table2D,
+	.columnHeaderArray = TableEthanolToBlend_ROWS,
+	.tableCells = TableEthanolToBlend_DATA,
+	.multiplier = 0.0001,
+	.offset = 0.0 };
+
+
+//Ethanol Percentage
 float FlexFuelFlow_ROWS[11] FUELDATA =
 {0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1};
 

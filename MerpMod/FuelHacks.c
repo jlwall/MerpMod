@@ -41,23 +41,7 @@ void canCallbackMK3e85Packet(unsigned char* data)
 		else
 			pRamVariables.kFuelPressure = 1;
 	
-		#if INJECTOR_HACKS
-			//Update Injector scaling based off new 	
-			if(pRamVariables.flexFuelSensorEnabaled == 1)	
-			{
-				#if SWITCH_HACKS	
-					pRamVariables.TargetedStoich = Pull2DHooked(&FlexFuelStoichTable, pRamVariables.MapBlendRatio);	 
-				#else
-					pRamVariables.TargetedStoich = 14.65;
-				#endif		
-				pRamVariables.InjectorScaling =  pRamVariables.kFuelPressure *(BaseGasolineAFR / pRamVariables.TargetedStoich) *  (*dInjectorScaling);		
-			}
-			else
-			{
-				pRamVariables.TargetedStoich = 14.65;
-				pRamVariables.InjectorScaling = pRamVariables.kFuelPressure * (*dInjectorScaling);
-			}
-		#endif	
+	
 	#endif
 }
 
@@ -129,6 +113,33 @@ void WideBandScaling()
 }
 #endif
 
+void UpdateInjectorFlow()
+{
+	#if INJECTOR_HACKS
+		//Update Injector scaling based off new 	
+		if(pRamVariables.flexFuelSensorEnabaled == 1)	
+		{
+			#if SWITCH_HACKS	
+				pRamVariables.TargetedStoich = Pull2DHooked(&FlexFuelStoichTable, pRamVariables.rEthanol);	 
+			#else
+				pRamVariables.TargetedStoich = 14.65;
+			#endif		
+			if(pRamVariables.fuelPressureFlowEnabled == 1)			
+				pRamVariables.InjectorScaling =   (BaseGasolineAFR / pRamVariables.TargetedStoich) / pRamVariables.kFuelPressure *  (*dInjectorScaling);		
+			else
+				pRamVariables.InjectorScaling =   (BaseGasolineAFR / pRamVariables.TargetedStoich) *  (*dInjectorScaling);		
+		}
+		else
+		{
+			pRamVariables.TargetedStoich = 14.65;
+			if(pRamVariables.fuelPressureFlowEnabled == 1)			
+				pRamVariables.InjectorScaling = (*dInjectorScaling) / pRamVariables.kFuelPressure;			
+			else
+				pRamVariables.InjectorScaling = (*dInjectorScaling);		
+		}
+	#endif	
+}
+
 void POLFHack()
 {		
 #if POLF_MAIN_HOOK
@@ -137,6 +148,8 @@ EcuHacksMain();
 
 #if POLF_HACKS
 	float OutputValue;
+	
+	UpdateInjectorFlow();
 
 	#if POLF_RAM_TUNING
 		if(pRamVariables.POLFRamFlag = 0x01)

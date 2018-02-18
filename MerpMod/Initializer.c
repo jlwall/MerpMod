@@ -91,10 +91,13 @@ void PopulateRamVariables()
 #if SWITCH_HACKS
 	pRamVariables.MapSwitch = DefaultMapSwitch;
 	pRamVariables.MapBlendRatio = DefaultMapBlendRatio;
+	pRamVariables.rEthanolCAN = DefaultMapBlendRatio;
+	pRamVariables.rEthanolRaceGrade = DefaultMapBlendRatio;
+	pRamVariables.rEthanol = DefaultMapBlendRatio;
 	pRamVariables.BlendMode = 0;
 #endif
 
-#if CAN_HACKS
+#if CAN_HACKS	
 	pRamVariables.initFunctionRun = 0;
 	pRamVariables.rcp0x702_tick = 0;
 	pRamVariables.rcp0x708_tick = 1;

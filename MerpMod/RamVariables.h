@@ -51,9 +51,17 @@ typedef struct
 	#endif
 
 #if CAN_HACKS
+	#if CAN_BRAKE_PEDAL
+		float rBrake;
+		float aSteer;
+		float mSteer;
+		float dnYaw;
+		float rAccelVDC_x;
+	#endif
 	unsigned short initFunctionRun;				//20	
 	unsigned short ccmSendTimers[ccmCount];		//12
 	
+
 	unsigned char rcp0x702_tick;
 	unsigned char rcp0x708_tick;
 	unsigned char rcp0x709_tick;
@@ -73,6 +81,8 @@ typedef struct
 	
 	#if AEMXFINITY
 		float rEthanolCAN;
+		float rEthanolRaceGrade;
+		float rEthanol;
 		float tFuelCAN;		
 		float pFuelCan;	
 		float pFuelCanRel;

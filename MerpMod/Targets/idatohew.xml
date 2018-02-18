@@ -65,6 +65,13 @@
             <ida name="REVLIM_FUELCUT_BITMASK" priority="2" />
         </define>
     </category>
+	
+	 <category name="CAN Recieves">
+        <define name="vCar_FL" type="unsigned short*"><ida name="HCAN0_MB12[7][8]_W" /></define>
+		<define name="vCar_FR" type="unsigned short*"><ida name="HCAN0_MB12[9][10]_W" /></define>
+		<define name="vCar_RL" type="unsigned short*"><ida name="HCAN0_MB12[11][12]_W" /></define>
+		<define name="vCar_RR" type="unsigned short*"><ida name="HCAN0_MB12[13][14]_W" /></define>
+	</category>
 
     <category name="Speed Density Hack">
         <define name="hMafCalc">

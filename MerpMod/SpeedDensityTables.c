@@ -17,7 +17,7 @@
 #if SD_HACKS
 unsigned char StartOfSpeedDensityTables SPEEDDENSITYDATA = 0x00;
 
-float DefaultBlend SPEEDDENSITYDATA = 0.0f;
+float DefaultBlend SPEEDDENSITYDATA = 0.7f;
 
 //SPEED DENSITY CONSTANTS
 unsigned char DefaultMafMode SPEEDDENSITYDATA

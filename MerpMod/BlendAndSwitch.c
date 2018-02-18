@@ -80,34 +80,36 @@ void InputUpdate()//TODO: put on SD branch
 		pRamVariables.TGVLeftScaled = Pull2DHooked(&TGVLeftScaling,pRamVariables.TGVLeftVolts);
 		pRamVariables.TGVRightScaled = Pull2DHooked(&TGVRightScaling,pRamVariables.TGVRightVolts);
 	#endif
-	if(pRamVariables.BlendMode == 0) //Auto Mode
+
+	switch(BlendRatioInput)
 	{
-		switch(BlendRatioInput)
-		{
-			case InputModeUndefined:
+		case InputModeUndefined:
+		break;
+		#ifdef TGV_USE
+			case InputModeTGVLeft:
+				pRamVariables.MapBlendRatio = pRamVariables.TGVLeftScaled;
+				break;
+	
+			case InputModeTGVRight:
+				pRamVariables.MapBlendRatio = pRamVariables.TGVRightScaled;
+				break;
+		#endif
+	
+		case InputCanFlexFuelRatio:
+			pRamVariables.MapBlendRatio = Pull2DHooked(&TableEthanolToBlend,pRamVariables.rEthanolCAN);
+			pRamVariables.rEthanol = pRamVariables.rEthanolCAN;
 			break;
-			#ifdef TGV_USE
-				case InputModeTGVLeft:
-					pRamVariables.MapBlendRatio = pRamVariables.TGVLeftScaled;
-					break;
-		
-				case InputModeTGVRight:
-					pRamVariables.MapBlendRatio = pRamVariables.TGVRightScaled;
-					break;
-			#endif
-		
-			case InputCanFlexFuelRatio:
-				pRamVariables.MapBlendRatio = pRamVariables.rEthanolCAN;
-				break;
-			case InputModeRaceGradePad:
-				//pRamVariables.MapBlendRatio = pRamVariables.rEthanolCAN;
-				//let this be handeld by ther rgProgramMode
-				break;
-			default:
-				pRamVariables.MapBlendRatio = DefaultMapBlendRatio;
-				break;
-		}
+		case InputModeRaceGradePad:
+			pRamVariables.MapBlendRatio = Pull2DHooked(&TableEthanolToBlend,pRamVariables.rEthanolRaceGrade);	
+			pRamVariables.rEthanol = pRamVariables.rEthanolRaceGrade;			
+			//let this be handeld by ther rgProgramMode
+			break;
+		default:
+			pRamVariables.MapBlendRatio = DefaultMapBlendRatio;
+			pRamVariables.rEthanol = DefaultMapBlendRatio;
+			break;
 	}
+
 	
 	//Limit Blend Ratio
 	if(pRamVariables.MapBlendRatio < 0) pRamVariables.MapBlendRatio = 0;

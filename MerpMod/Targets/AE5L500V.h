@@ -1,6 +1,6 @@
-#define MOD_IDENTIFIER STRI(AE5L500V.MeRpMoD.Switch.v18.2.10.907.378720106667)
+#define MOD_IDENTIFIER STRI(AE5L500V.MeRpMoD.Switch.v18.2.17.590.352113855)
 #define MOD_ECUID 8ECBBEEF33
-#define MOD_DATE 18.2.10.907.378720106667
+#define MOD_DATE 18.2.17.590.352113855
 #include "Switch.h"
 #define MOD_CONFIG Switch
 #define MOD_BUILD Release
@@ -41,6 +41,15 @@
 #define sRevLimEnd (0x0003BFC4)
 #define pFlagsRevLim ((unsigned char*)0xFFFF7CE4)
 #define RevLimBitMask (0x01)
+
+/////////////////////
+// CAN Recieves
+/////////////////////
+
+#define vCar_FL ((unsigned short*)0xFFFFD288)
+#define vCar_FR ((unsigned short*)0xFFFFD28A)
+#define vCar_RL ((unsigned short*)0xFFFFD28C)
+#define vCar_RR ((unsigned short*)0xFFFFD28E)
 
 /////////////////////
 // Speed Density Hack

@@ -18,6 +18,29 @@
 
 unsigned long shC[24] CANDATA = {1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384,32768,65536,131072,262144,524288,1048576,2097152,4192304,8388608};
 
+#if CAN_BRAKE_PEDAL
+void canCallbackBUIbrakes(unsigned char* data)
+{
+	short aSteer = (short)(data[1]*256+data[0]);
+	short mSteer = (short)(data[3]*256+data[2]);
+	unsigned char rBrake = data[4];
+	
+	pRamVariables.rBrake = ((float)rBrake)*0.3921568627;
+	pRamVariables.aSteer = (float)aSteer;
+	pRamVariables.mSteer = (float)mSteer;
+}
+
+void canCallbackVDCaccel(unsigned char* data)
+{
+	unsigned short dnYaw = (unsigned short)(data[1]*256+data[0]);
+	unsigned short rAccelVDC_x = (unsigned short)(data[5]*256+data[4]);
+	
+	
+	pRamVariables.dnYaw = (((float)dnYaw)*0.125 - 4096);
+	pRamVariables.rAccelVDC_x = (((float)rAccelVDC_x)*0.00012742 - 4.1768);
+}
+#endif
+
 void setupMailBoxStruct(CanMessageSetupStruct* cs)
 {
 	unsigned short* ptr;	
@@ -193,6 +216,29 @@ void updateCanRaw(unsigned long src, unsigned char type, unsigned char ccm, unsi
 		dest += 0x08; //Move to Data Field
 		dest += (unsigned long)bytePos&0x07;	//Offset in Data Field
 		memCopyProtected(src,dest,type);	
+	}
+}
+
+void sendCanMessageDirect(unsigned char buff )
+{
+	unsigned short* ptr;
+	unsigned char* ptrMB;	
+	unsigned short tmp;
+//	CanMessageSetupStruct *ccmGroup = (CanMessageSetupStruct *)(&ccm00);
+	ptrMB = (unsigned char*)(0xFFFFD100 + 0x20*(buff&0x1f) + 0x04);			
+	if((ptrMB[0]&0x07) == 0x00) //Check if Mailbox is a TX
+	{		
+		if(buff>=16)
+			{
+			tmp = (unsigned short)buff-16;
+			ptr = (unsigned short*)(0xFFFFD000 + 0x20);	//This is 	TXPR1
+			}
+		else
+			{
+			tmp = (unsigned short)buff;
+			ptr = (unsigned short*)(0xFFFFD000 + 0x22);	//This is 	TXPR0	
+			}
+		ptr[0] = shC[tmp];
 	}
 }
 

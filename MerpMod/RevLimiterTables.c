@@ -24,7 +24,7 @@
 unsigned char DefaultRevLimMode REVLIMDATA = 1;
 unsigned char DefaultFlatFootShiftMode	REVLIMDATA = 1;
 float DefaultRedLineCut REVLIMDATA = 6700.0f;
-float DefaultRedLineHyst REVLIMDATA = 50.0f;
+float DefaultRedLineHyst REVLIMDATA = 25.0f;
 float DefaultFlatFootShiftHyst REVLIMDATA = 50.0f;
 float DefaultFlatFootShiftAutoDelta REVLIMDATA = 0.0f;
 float DefaultFlatFootShiftStaticDelta REVLIMDATA = 3000.0f;
@@ -50,7 +50,7 @@ float GearRatios[6] REVLIMDATA =
 #endif
 
 float LCMinimumThrottle REVLIMDATA =  40.0f;
-float FFSMinimumThrottle REVLIMDATA = 63.0f;
+float FFSMinimumThrottle REVLIMDATA = 33.0f;
 
 #if PROG_MODE
 float ValetModeRevLim REVLIMDATA = 5000.0f;//TODO integrate with requested torque and use a different throttle map instead!!

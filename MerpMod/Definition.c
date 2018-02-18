@@ -343,6 +343,7 @@ DEFINERAMVAR("MerpMod LC Fueling Mode",LCFuelMode,4,"E");
 DEFINERAMVAR("MerpMod LC Fueling Enrichment",LCFuelEnrich,4,"E");
 DEFINERAMVAR("MerpMod LC Fueling Enrichment Multiplier",LCFuelEnrichMultiplier,4,"E");	
 DEFINERAMVAR("MerpMod Primary Open Loop Fueling Output",PolfOutput,4,"E");	
+DEFNEW2D("Flex Fuel Ratio to Blending Target",TableEthanolToBlend);
 DEFNEW2D("Flex Fuel Stoich Blending",FlexFuelStoichTable);
 DEFNEW1D("Fuel Pressure Filter",xFuelPressureFilter);
 DEFNEW1D("Flex Base Gasoline AFR",BaseGasolineAFR);

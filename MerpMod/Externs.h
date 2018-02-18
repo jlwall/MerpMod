@@ -59,6 +59,7 @@ void updateCanRaw(unsigned long src, unsigned char type, unsigned char ccm, unsi
 void sendRamTuneMemoryReadRequest(unsigned char type, unsigned long addr) ROMCODE;
 void setupMailBoxStruct(CanMessageSetupStruct* cs) ROMCODE;
 void sendCanMessage(unsigned char ccm) ROMCODE;
+void sendCanMessageDirect(unsigned char buff) ROMCODE;
 void recieveCanMessage(unsigned char ccm) ROMCODE;
 void updateCanDT(unsigned char dt) ROMCODE;
 void CustomCanService() ROMCODE;
@@ -87,6 +88,11 @@ void send_frame_0x708() ROMCODE;
 void send_frame_0x709() ROMCODE;
 void send_frame_0x70A() ROMCODE;
 
+#if CAN_BRAKE_PEDAL
+	void canCallbackBUIbrakes(unsigned char* data) ROMCODE;
+	void canCallbackVDCaccel(unsigned char* data) ROMCODE;
+#endif
+
 extern unsigned long rcpCAN_ID_m0;
 extern unsigned long rcpCAN_ID_m1;
 extern unsigned long rcpCAN_ID_m2;
@@ -95,6 +101,7 @@ extern unsigned long rcpCAN_ID_m4;
 extern unsigned long rcpCAN_ID_m5;
 #endif
 
+void UpdateInjectorFlow(void) ROMCODE;
 void WideBandScaling(void) ROMCODE;
 void WGDCHack(void) ROMCODE;
 void TargetBoostHack(void) ROMCODE;
@@ -199,6 +206,7 @@ extern float ValetModeMaxBoost;
 extern float BaseGasolineAFR;
 extern float BaseInjectorFlowPressureRelative;
 extern float xFuelPressureFilter;
+extern TwoDTable TableEthanolToBlend;
 extern TwoDTable FlexFuelStoichTable;
 extern TwoDTableU16 FuelCutTable;
 extern TwoDTable PLSL_CutRatioTable;
@@ -369,7 +377,7 @@ extern float nFFSdeltaBite;
 extern float RMDSminBrake;
 
 #if CAN_HACKS
-#define ccmCount 6
+#define ccmCount 7
 #define RACEGRADE_LED_CCM 1
 #define RAMETUNE_RESPONSE_CCM 4
 extern unsigned char rgButtonEthanolSource;
