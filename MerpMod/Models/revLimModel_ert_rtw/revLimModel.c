@@ -44,7 +44,7 @@ void revLimModel_custom()
   pRamVariables.bPLSLcutting = ((int32_T)pRamVariables.nINJCutPattern > 0);
   pRamVariables.bFFSallowed = (((int32_T)pRamVariables.bFFSenabled) &&
     (*pVehicleSpeed >= DefaultFlatFootShiftSpeedThreshold));
-  rtb_mem = (boolean_T)(*pThrottlePlate >= FFSMinimumThrottle);
+  rtb_mem = (boolean_T)(*pAccelPedalAngle >= FFSMinimumThrottle);
   rtDWork.mem_PreviousInput = (boolean_T)((((int32_T)*pClutchFlags > (int32_T)
     rtDWork.Memory_PreviousInput_d) && ((int32_T)rtb_mem)) || (!((!(int32_T)
     rtDWork.mem_PreviousInput) || ((!((int32_T)*pClutchFlags != 0)) ||
@@ -95,7 +95,7 @@ void revLimModel_custom()
   }
 
   pRamVariables.bLCengaged = ((*pVehicleSpeed <= DefaultLaunchControlSpeedMax) &&
-    ((int32_T)*pClutchFlags != 0) && (*pThrottlePlate >= LCMinimumThrottle));
+    ((int32_T)*pClutchFlags != 0) && (*pAccelPedalAngle >= LCMinimumThrottle));
   if (pRamVariables.bRMDSengaged)
   {
     pRamVariables.RevLimResume = rtDWork.Divide2;

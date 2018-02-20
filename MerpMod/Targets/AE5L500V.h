@@ -1,6 +1,6 @@
-#define MOD_IDENTIFIER STRI(AE5L500V.MeRpMoD.Switch.v18.2.17.590.352113855)
+#define MOD_IDENTIFIER STRI(AE5L500V.MeRpMoD.Switch.v18.2.19.984.591474725)
 #define MOD_ECUID 8ECBBEEF33
-#define MOD_DATE 18.2.17.590.352113855
+#define MOD_DATE 18.2.19.984.591474725
 #include "Switch.h"
 #define MOD_CONFIG Switch
 #define MOD_BUILD Release
@@ -197,6 +197,8 @@
 #define pAVCSIntakeRight ((float*)0xFFFF918C)
 #define pAVCSExhaustLeft ((float*)0xFFFF9368)
 #define pAVCSExhaustRight ((float*)0xFFFF9364)
+#define pAccelPedalAngle ((float*)0xFFFF6500)
+#define pFuelPulseInjector1 ((float*)0xFFFF7DC0)
 #define pLambdaFinal ((float*)0xFFFF6564)
 #define prLamLearnA ((float*)0xFFFF31D4)
 #define prLamLearnB ((float*)0xFFFF31DC)

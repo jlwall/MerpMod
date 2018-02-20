@@ -479,6 +479,10 @@
 		<define name="pAVCSExhaustRight" type="float*"><ida name="pAVCSExhaustRight" /></define>
 		
 		
+		
+		<define name="pAccelPedalAngle" type="float*"><ida name="pAccelPedalAngle" /></define>
+		<define name="pCrankFuelPulse" type="float*"><ida name="pCrankFuelPulse" /></define>
+		<define name="pFuelPulseInjector1" type="float*"><ida name="E_Fuel_Injector_1_Pulse_Width_4byteExt__E60" /></define>
 		<define name="pLambdaFinal" type="float*"><ida name="E_AF_Sensor_1_4byteExt__E91" /></define>
 		<define name="prLamLearnA" type="float*"><ida name="E_AF_Learning_1_A_StoredExt__E44" /></define>
 		<define name="prLamLearnB" type="float*"><ida name="E_AF_Learning_1_B_StoredExt__E45" /></define>

@@ -247,7 +247,7 @@ void send_frame_0x709()
 		rcpCanMessageSetup(0x709, 0, 8, 0, RPCBUF6); 	 	
 			
 		((unsigned char*)addrtemp)[0] = pRamVariables.nINJCutCTR;
-		((unsigned char*)addrtemp)[1] = pRamVariables.nINJFuncCTR;		
+		((unsigned char*)addrtemp)[1] = limit_u8(*pFuelPulseInjector1 * 16);
 		((unsigned short*)addrtemp)[1] = pRamVariables.nINJCutPattern;
 		((unsigned char*)addrtemp)[4] = limit_u8(*pInjCompC1*128); 
 		((unsigned char*)addrtemp)[5] = limit_u8(*pInjCompC2*128); 
