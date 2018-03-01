@@ -228,7 +228,7 @@ unsigned char dte85[8];
 	((unsigned char*)addrtemp)[7] = bitArray;	
 	
 	sendCanMessage(11);*/
-	pRamVariables.TargetBoost = ((13.5 * 51.71492510510006) + 760);
+	*pTargetBoostCommand = ((13.5 * 51.71492510510006) + 760);
 	pRamVariables.MapBlendRatio = 0.44;
 	*pAFLearning_1 = 0.1;
 	*pBatteryVoltage = 14.5;

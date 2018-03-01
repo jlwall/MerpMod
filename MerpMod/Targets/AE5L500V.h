@@ -1,6 +1,6 @@
-#define MOD_IDENTIFIER STRI(AE5L500V.MeRpMoD.Switch.v18.2.28.1396.48128801333)
+#define MOD_IDENTIFIER STRI(AE5L500V.MeRpMoD.Switch.v18.3.1.890.755950776667)
 #define MOD_ECUID 8ECBBEEF33
-#define MOD_DATE 18.2.28.1396.48128801333
+#define MOD_DATE 18.3.1.890.755950776667
 #include "Switch.h"
 #define MOD_CONFIG Switch
 #define MOD_BUILD Release
@@ -111,6 +111,19 @@
 // Boost Hacks
 /////////////////////
 
+#define pIAT ((float*)0xFFFF636C)
+#define pAFRoxygenComp ((float*)0xFFFF68C4)
+#define pTargetBoostCommandRelative ((float*)0xFFFF5CA4)
+#define pTargetBoostCommand ((float*)0xFFFF5CA8)
+#define pBoostTargetRaw ((float*)0xFFFF5CE8)
+#define pBoostTargetCompECT ((float*)0xFFFF5CEC)
+#define pBoostTargetAFRcomp ((float*)0xFFFF5CF0)
+#define pBoostTargetCompIAT ((float*)0xFFFF5CF8)
+#define pBoostStatus ((char*)0xFFFF5D03)
+#define hCalcTargetBoost (0x0004AF44)
+#define sCalcTargetBoost (0x000139F0)
+#define tTargetBoostComp_ECT (0x000AE6FC)
+#define tTargetBoostComp_IAT (0x000AE770)
 #define hPullTargetBoost (0x00013AF0)
 #define hTableTargetBoost (0x00013AEC)
 #define tTargetBoost (0x000AE7EC)

@@ -162,6 +162,24 @@
     </category>
 
     <category name="Boost Hacks">
+		<define name="pIAT" type="float*"><ida name="pIAT" /></define>
+		<define name="pAFRoxygenComp" type="float*"><ida name="pAFRoxygenComp" /></define>
+		
+		<define name="pTargetBoostCommandRelative" type="float*"><ida name="E_Target_Boost_Relative_4byteExt__E120" /></define>
+		<define name="pTargetBoostCommand" type="float*"><ida name="E_Target_Boost_4byteExt__E36" /></define>
+		<define name="pBoostTargetRaw" type="float*"><ida name="pBoostTargetRaw" /></define>
+		<define name="pBoostTargetCompECT" type="float*"><ida name="pBoostTargetCompECT" /></define>
+		<define name="pBoostTargetAFRcomp" type="float*"><ida name="pBoostTargetAFRcomp" /></define>
+		<define name="pBoostTargetCompIAT" type="float*"><ida name="pBoostTargetCompIAT" /></define>
+		<define name="pBoostStatus" type="char*"><ida name="pBoostStatus" /></define>
+		
+		
+		<define name="hCalcTargetBoost"><ida name="hCalcTargetBoost" /></define>
+		<define name="sCalcTargetBoost"><ida name="sCalcTargetBoost" /></define>
+		
+		<define name="tTargetBoostComp_ECT"><ida name="tTargetBoostComp_ECT" /></define>
+		<define name="tTargetBoostComp_IAT"><ida name="tTargetBoostComp_IAT" /></define>
+		
         <define name="hPullTargetBoost">
             <ida name="HOOKPULL_TARGET_BOOST" />
         </define>

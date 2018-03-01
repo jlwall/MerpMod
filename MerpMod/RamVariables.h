@@ -216,13 +216,13 @@ typedef struct
 
 #if BOOST_HACKS	
 	//Target Boost Params
-	float TargetBoost;
+//	float TargetBoost;
 	float Boost_Adjust;
 	float rWG_Adjust;
 		
 	//PGWG Params
-	float PGWGComp;
-	float PGTBComp;
+	//float PGWGComp;
+	//float PGTBComp;
 	
 	//WGDC Params
 	float WGDCInitial;

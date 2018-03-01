@@ -277,6 +277,16 @@ const MetaReplace POLFHook METADATA =
 #endif
 
 #if BOOST_HACKS
+
+	const MetaReplace TargetBoostCalcDelete METADATA = 
+	{
+		op: OpReplace4Bytes,
+		address: hCalcTargetBoost,
+		oldval: sCalcTargetBoost,
+		newval: (int)TargetBoostHack,
+		name: STR(Custom Target Boost Function)
+	};
+	
 	const MetaReplace WGDCHookPull METADATA =
 	{
 		op: OpReplace4Bytes,
@@ -320,14 +330,7 @@ const MetaReplace POLFHook METADATA =
 			name: STR(WGDC Initial Table Hook)
 		};
 	#endif
-	/*	const MetaReplace PGWGInitialAltHookTable METADATA =
-	{
-		op: OpReplace4Bytes,
-		address: hTableWgdcInitialAlt,
-		oldval: tWgdcInitialAlt,
-		newval: (int)&(pRamVariables.WGDCInitial)
-	};*/
-	
+
 	#ifdef hTableWgdcMaxKcaAlt
 		const MetaReplace PGWGMaxKcaAlt METADATA =
 		{
@@ -363,65 +366,8 @@ const MetaReplace POLFHook METADATA =
 			name: STR(WGDC Max Table Hook)
 		};
 	#endif
-	/*	const MetaReplace PGWGMaxAltHookTable METADATA =
-	{
-		op: OpReplace4Bytes,
-		address: hTableWgdcMaxAlt,
-		oldval: tWgdcMaxAlt,
-		newval: (int)&(pRamVariables.WGDCMax),
-	};*/
-	
-	///Target boost table hooks
-	const MetaReplace TargetBoostHookPull METADATA =
-	{
-		op: OpReplace4Bytes,
-		address: hPullTargetBoost,
-		oldval: sPull3DFloat,
-		newval: (int)Pull3DRamHook,
-		name: STR(Target Boost Table Hook)
-	} ;
-	#ifdef hTableTargetBoostKcaAlt
-		const MetaReplace TargetBoostKcaAltHookTable METADATA =
-		{
-			op: OpReplace4Bytes,
-			address: hTableTargetBoostKcaAlt,
-			oldval: tTargetBoostKcaAlt,
-			newval: (int)&(pRamVariables.TargetBoost),
-		name: STR(Target Boost Table Hook)
-		};
-		const MetaReplace TargetBoostKcaBLoHookTable METADATA =
-		{
-			op: OpReplace4Bytes,
-			address: hTableTargetBoostKcaBLo,
-			oldval: tTargetBoostKcaBLo,
-			newval: (int)&(pRamVariables.TargetBoost),
-		name: STR(Target Boost Table Hook)
-		};
-		const MetaReplace TargetBoostKcaBHiHookTable METADATA =
-		{
-			op: OpReplace4Bytes,
-			address: hTableTargetBoostKcaBHi,
-			oldval: tTargetBoostKcaBHi,
-			newval: (int)&(pRamVariables.TargetBoost),
-		name: STR(Target Boost Table Hook)
-		};
-	#else
-		const MetaReplace TargetBoostHookTable METADATA =
-		{
-			op: OpReplace4Bytes,
-			address: hTableTargetBoost,
-			oldval: tTargetBoost,
-			newval: (int)&(pRamVariables.TargetBoost),
-		name: STR(Target Boost Table Hook)
-		};
-	#endif
-/*	const MetaReplace TargetBoostAltHookTable METADATA =
-	{
-		op: OpReplace4Bytes,
-		address: hTableTargetBoostAlt,
-		oldval: tTargetBoosAlt,
-		newval: (int)&(pRamVariables.TargetBoost),
-	};*/
+
+
 	
 #endif
 

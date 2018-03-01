@@ -40,10 +40,9 @@ EcuHacksMain();
 		PGWGComp = Pull3DHooked(PGWGTable1i, cgear, *pEngineSpeed);
 	#endif
 	
-	WGDCInitial = Pull3DHooked(&tInitialWasteGate, pRamVariables.TargetBoost, *pEngineSpeed);
-	WGDCMax = Pull3DHooked(&tMaximumWasteGate, pRamVariables.TargetBoost, *pEngineSpeed);
+	WGDCInitial = Pull3DHooked(&tInitialWasteGate, *pTargetBoostCommand, *pEngineSpeed);
+	WGDCMax = Pull3DHooked(&tMaximumWasteGate, *pTargetBoostCommand, *pEngineSpeed);
 	
-	pRamVariables.PGWGComp = PGWGComp;
 	
 	#if WGDC_LOCK
 	//Apply locks
@@ -56,7 +55,7 @@ EcuHacksMain();
 	#endif
 	
 	#if PROG_MODE		
-		if(pRamVariables.TargetBoost > 915.25)  //Only add if over 3psi targt request
+		if(*pTargetBoostCommand > 915.25)  //Only add if over 3psi targt request
 		{
 			WGDCInitial += pRamVariables.rWG_Adjust;
 			WGDCMax += pRamVariables.rWG_Adjust;
@@ -81,11 +80,7 @@ EcuHacksMain();
 #endif
 
 	//Finish Pulling WGDC
-	WGDCHooked();
-	
-#if BOOST_HACKS
-	TargetBoostHack();
-#endif
+	WGDCHooked();	
 }
 
 #if BOOST_HACKS
@@ -94,28 +89,43 @@ void TargetBoostHack()
 		//Calculated gear is a BYTE!
 	float cgear = (char)*pCurrentGear;
 	float PGTBComp;
-	float TargetBoost;
+	float compensateNE_TQ;
+	if(*pBoostStatus != 0x5A)
+	{
 		
-	#if SWITCH_HACKS
-		PGTBComp = BlendAndSwitch(PGTBTableGroup, cgear, *pEngineSpeed);
-		TargetBoost = BlendAndSwitch(TargetBoostTableGroup, *pReqTorque, *pEngineSpeed);
-	#else
-		PGTBComp = Pull3DHooked(PGTBTable1i, cgear, *pEngineSpeed);
-		TargetBoost = Pull3DHooked(TargetBoostTable1i, *pReqTorque, *pEngineSpeed);
-	#endif
+		#if SWITCH_HACKS
+			*pBoostTargetRaw = BlendAndSwitch(PGTBTableGroup, cgear, *pEngineSpeed);
+			compensateNE_TQ  = BlendAndSwitch(TargetBoostTableGroup, *pReqTorque, *pEngineSpeed);
+		#else
+			*pBoostTargetRaw = Pull3DHooked(PGTBTable1i, cgear, *pEngineSpeed);
+			compensateNE_TQ  = Pull3DHooked(TargetBoostTable1i, *pReqTorque, *pEngineSpeed);
+		#endif
 
-	#if PROG_MODE
-		PGTBComp += pRamVariables.Boost_Adjust;
-	#endif
+		#if PROG_MODE
+			*pBoostTargetRaw += pRamVariables.Boost_Adjust;
+		#endif
+	
+		if(*pBoostTargetRaw > 760)
+			*pBoostTargetRaw  = 760 + (*pBoostTargetRaw - 760)*compensateNE_TQ;	//Compensate the Target Boost
+	
+
+			
+		*pBoostTargetCompECT  = Pull2DHooked((void*)tTargetBoostComp_ECT,*pTwater);
+		*pBoostTargetCompIAT  = Pull2DHooked((void*)tTargetBoostComp_IAT,*pIAT);	
+		*pTargetBoostCommand = (*pBoostTargetRaw) * (*pBoostTargetCompECT) * (*pBoostTargetCompIAT); //Store Raw Value
+	}
+	else
+	{
+		*pTargetBoostCommand = 760;
+	}
 	
 	if(pRamVariables.bValetMode == ValetModeEnabled)	//If Valet Mode, limit MaxBoost
-		{
-		if(pRamVariables.TargetBoost > ValetModeMaxBoost)
-			pRamVariables.TargetBoost = ValetModeMaxBoost;	
-		}
-	
-	pRamVariables.PGTBComp = PGTBComp;
-	pRamVariables.TargetBoost = TargetBoost * PGTBComp;
+	{
+		if(*pTargetBoostCommand  > ValetModeMaxBoost)
+			*pTargetBoostCommand  = ValetModeMaxBoost;	
+	}
+		
+	*pTargetBoostCommandRelative = *pTargetBoostCommand - *pBoostTargetAFRcomp;	//Offset ATM Compensation
 	
 }
 #endif

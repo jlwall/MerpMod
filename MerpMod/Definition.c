@@ -414,7 +414,7 @@ DEFINERAMVAR("MerpMod CEL Speed Counter",CelFlashSpeedCounter,1,"E");
 
 
 #if BOOST_HACKS
-DEFINERAMVAR("MerpMod PGWG Compensation",PGWGComp,4,"E");
+//DEFINERAMVAR("MerpMod PGWG Compensation",PGWGComp,4,"E");
 DEFNEW1D("Valet Boost Limit",ValetModeMaxBoost);
 
 //DEFNEW1D("Boost Hack Enable",DefaultPolfHackEnabled);
@@ -427,7 +427,7 @@ DEFNEW3D("Per Gear Wastegate Table 2 Sport Sharp",PGWGTable2ss);
 #else
 DEFNEW3D("Per Gear Wastegate Table 1",PGWGTable1i);
 #endif
-DEFINERAMVAR("MerpMod PGTB Compensation",PGTBComp,4,"E");
+//DEFINERAMVAR("MerpMod PGTB Compensation",PGTBComp,4,"E");
 #if SWITCH_HACKS
 DEFNEW3D("Per Gear Target Boost Table 1 Intelligent",PGTBTable1i);
 DEFNEW3D("Per Gear Target Boost Table 1 Sport",PGTBTable1s);
@@ -465,7 +465,7 @@ DEFNEW3D("Initial Wastegate Duty Compensation Table 1",WGDCInitialTable1i);
 #endif
 */
 
-DEFINERAMVAR("MerpMod Target Boost Output",TargetBoost,4,"E");
+//DEFINERAMVAR("MerpMod Target Boost Output",TargetBoost,4,"E");
 #if SWITCH_HACKS
 DEFNEW3D("Target Boost Compensation Table 1 Intelligent",TargetBoostTable1i);
 DEFNEW3D("Target Boost Compensation Table 1 Sport",TargetBoostTable1s);
