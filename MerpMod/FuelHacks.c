@@ -11,8 +11,39 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 */
-
 #include "EcuHacks.h"
+
+#if CRANK_FUELING_HACKS
+
+void crankFuelHacks()
+{
+	if(*pCrankEngineRunning > 0)
+		return;
+	else
+		{
+			float opLow = 0;
+			float opHigh = 0;
+			if(*pCrankFuelABC==0)			
+				{
+				opLow = Pull2DHooked((void*)tCrankFuel_ECT_A, *pTwater);	
+				opHigh = Pull2DHooked((void*)tCrankFuel_ECT_D, *pTwater);			
+				}
+			else if(*pCrankFuelABC==1)			
+				{
+				opLow = Pull2DHooked((void*)tCrankFuel_ECT_B, *pTwater);	
+				opHigh = Pull2DHooked((void*)tCrankFuel_ECT_E, *pTwater);			
+				}
+			else
+				{
+				opLow = Pull2DHooked((void*)tCrankFuel_ECT_C, *pTwater);	
+				opHigh = Pull2DHooked((void*)tCrankFuel_ECT_F, *pTwater);			
+				}		
+		float crankMixed = opLow  + ((opHigh- opLow) * pRamVariables.MapBlendRatio );		
+		*pCrankFuelPulse = crankMixed;				
+		}	
+}
+
+#endif
 
 #if CAN_HACKS
 

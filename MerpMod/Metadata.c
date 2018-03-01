@@ -616,6 +616,22 @@ const MetaReplace WidebandHook METADATA =
 	};
 #endif
 
+#if CRANK_FUELING_HACKS
+//////////////////////
+//					//
+//CRANK FUELING HACKS	//
+//					//
+//////////////////////
+	const MetaReplace CrankFuelingHook METADATA =
+	{
+		op: OpReplace4Bytes,
+		address: hCrankFuel,
+		oldval: sCrankFuel,
+		newval: (int)crankFuelHacks,
+		name: STR(Crank Fueling Hook)
+	};
+#endif
+
 //////////////////////
 //					//
 //ROM HOLE			//

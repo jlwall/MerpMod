@@ -29,6 +29,28 @@
 		<define name="sPull2D_U8_U32Axis"><ida name="sPull2D_U8_U32Axis" /></define>
 		<define name="sPull2D_U16_U32Axis"><ida name="sPull2D_U16_U32Axis" /></define>			
     </category>
+	
+	<category name="CrankFuelingHacks">
+		<define name="hCrankFuel"><ida name="hCrankFuel" /></define>
+        <define name="sCrankFuel"><ida name="sCrankFuel" /></define>
+		
+		<define name="pCrankFuelPulse"  type="float*"><ida name="pCrankFuelPulse" /></define>
+		<define name="pCrankEngineRunning"  type="unsigned char*"><ida name="pCrankEngineRunning" /></define>
+		<define name="pTwater" type="float*"><ida name="pTwater" /></define>
+		
+		
+		<define name="pCrankFuelFirstSetorSecond" type="char*"><ida name="pCrankFuelFirstSetorSecond" /></define>
+		<define name="pCrankFuelABC" type="char*"><ida name="pCrankFuelABC" /></define>
+		
+		
+		<define name="tCrankFuel_ECT_A"><ida name="tCrankFuel_ECT_A" /></define>
+		<define name="tCrankFuel_ECT_B"><ida name="tCrankFuel_ECT_B" /></define>
+		<define name="tCrankFuel_ECT_C"><ida name="tCrankFuel_ECT_C" /></define>
+		<define name="tCrankFuel_ECT_D"><ida name="tCrankFuel_ECT_D" /></define>
+		<define name="tCrankFuel_ECT_E"><ida name="tCrankFuel_ECT_E" /></define>
+		<define name="tCrankFuel_ECT_F"><ida name="tCrankFuel_ECT_F" /></define>
+		
+	</category>
 
     <category name="Switch Hacks">
         <define name="pSiDrive">
@@ -458,6 +480,9 @@
 			<ida name="pIgnitionTimeTotal" />
 		</define>
 		
+		
+		
+		<define name="pTargetBoostCompensated" type="float*"><ida name="E_Target_Boost_4byteExt__E36" /></define>
 		<define name="pEstimatedOdometer" type="float*"><ida name="pEstimatedOdometer" /></define>
 		<define name="pAfCorrection_1" type="float*"><ida name="pAfCorrection_1" /></define>
 		<define name="pAFLearning_1" type="float*"><ida name="pAFLearning_1" /></define>

@@ -37,6 +37,7 @@
 #define CAN_HACKS 1			//
 #define CAN_BRAKE_PEDAL 1	//
 #define RACEGRADE_KEYPAD_HACKS 1//
+#define CRANK_FUELING_HACKS 1 //
 #define AEMXFINITY 1		//
 #define RCP_CAN 1			//
 #define WIDEBAND_HACKS 1	//

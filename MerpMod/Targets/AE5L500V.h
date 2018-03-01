@@ -1,6 +1,6 @@
-#define MOD_IDENTIFIER STRI(AE5L500V.MeRpMoD.Switch.v18.2.19.984.591474725)
+#define MOD_IDENTIFIER STRI(AE5L500V.MeRpMoD.Switch.v18.2.28.1396.48128801333)
 #define MOD_ECUID 8ECBBEEF33
-#define MOD_DATE 18.2.19.984.591474725
+#define MOD_DATE 18.2.28.1396.48128801333
 #include "Switch.h"
 #define MOD_CONFIG Switch
 #define MOD_BUILD Release
@@ -22,6 +22,24 @@
 #define sPull2D_U16 (0x000BE870)
 #define sPull2D_U8_U32Axis (0x000BE850)
 #define sPull2D_U16_U32Axis (0x000BE888)
+
+/////////////////////
+// CrankFuelingHacks
+/////////////////////
+
+#define hCrankFuel (0x0004B3C4)
+#define sCrankFuel (0x000304C4)
+#define pCrankFuelPulse ((float*)0xFFFF7328)
+#define pCrankEngineRunning ((unsigned char*)0xFFFF6619)
+#define pTwater ((float*)0xFFFF635C)
+#define pCrankFuelFirstSetorSecond ((char*)0xFFFF90E5)
+#define pCrankFuelABC ((char*)0xFFFF72CD)
+#define tCrankFuel_ECT_A (0x000B06C8)
+#define tCrankFuel_ECT_B (0x000B06DC)
+#define tCrankFuel_ECT_C (0x000B06F0)
+#define tCrankFuel_ECT_D (0x000B0704)
+#define tCrankFuel_ECT_E (0x000B0718)
+#define tCrankFuel_ECT_F (0x000B072C)
 
 /////////////////////
 // Switch Hacks
@@ -180,6 +198,7 @@
 #define pWgdc4 ((float*)0xFFFF5C98)
 #define pCurrentGear ((unsigned char*)0xFFFF6839)
 #define pIgnitionTimeTotal ((float*)0xFFFF7EBC)
+#define pTargetBoostCompensated ((float*)0xFFFF5CA8)
 #define pEstimatedOdometer ((float*)0xFFFF31A8)
 #define pAfCorrection_1 ((float*)0xFFFF7700)
 #define pAFLearning_1 ((float*)0xFFFF78A4)
@@ -198,6 +217,7 @@
 #define pAVCSExhaustLeft ((float*)0xFFFF9368)
 #define pAVCSExhaustRight ((float*)0xFFFF9364)
 #define pAccelPedalAngle ((float*)0xFFFF6500)
+#define pCrankFuelPulse ((float*)0xFFFF7328)
 #define pFuelPulseInjector1 ((float*)0xFFFF7DC0)
 #define pLambdaFinal ((float*)0xFFFF6564)
 #define prLamLearnA ((float*)0xFFFF31D4)

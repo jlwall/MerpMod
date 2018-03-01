@@ -44,6 +44,10 @@ void RevLimHook() ROMCODE;
 void InjectorTrims() ROMCODE;
 #endif
 
+#if CRANK_FUELING_HACKS
+void crankFuelHacks() ROMCODE;
+#endif
+
 float ComputeMassAirFlow(TwoDTable* MafScalingTable, float MafVoltage)  ROMCODE;
 float CallSpeedDensityHook()  ROMCODE;
 #if CEL_HACKS
