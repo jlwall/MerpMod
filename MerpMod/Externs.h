@@ -42,6 +42,7 @@ void RevLimHook() ROMCODE;
 
 #if INJECTOR_HACKS
 void InjectorTrims() ROMCODE;
+void WideBandOpenLoopFeedback() ROMCODE;
 #endif
 
 #if CRANK_FUELING_HACKS
@@ -58,6 +59,7 @@ void CelFlash()	ROMCODE;
 
 #if CAN_HACKS
 void CanSetup()	ROMCODE;
+void canAEMTimeOutDiagnostics() ROMCODE;
 void setupMailBox(unsigned char bus, unsigned char mailBox, unsigned short id, unsigned char mcs, unsigned char dlc) ROMCODE;
 void updateCanRaw(unsigned long src, unsigned char type, unsigned char ccm, unsigned char bytePos) ROMCODE;
 void sendRamTuneMemoryReadRequest(unsigned char type, unsigned long addr) ROMCODE;
@@ -197,6 +199,9 @@ int AreCloseEnough(float actual, float expected) __attribute__ ((section ("Misc"
 ////////////////////
 //TABLES
 ////////////////////
+
+extern TwoDTable pLOL_PTermGainTable;
+extern TwoDTable pLOL_ITermGainTable;
 
 extern TableGroup VETableGroup;
 extern ThreeDTable VolumetricEfficiencyTable1;

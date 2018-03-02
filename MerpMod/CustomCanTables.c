@@ -58,7 +58,7 @@ unsigned char dataLinkedInRam  __attribute__ ((section ("RamHole")));
 
 
 unsigned long cmDTaddr[cmDTCount] CANDATA = {
-	(unsigned long)&pRamVariables.rgBackLight,(unsigned long)&pRamVariables.rgBackLight,(unsigned long)pCrankFuelABC,(unsigned long)pCrankFuelABC,(unsigned long)pCrankFuelPulse
+	(unsigned long)&pRamVariables.rgBackLight,(unsigned long)&pRamVariables.rgBackLight,(unsigned long)pCrankFuelFirstSetorSecond,(unsigned long)pCrankFuelABC,(unsigned long)pCrankFuelPulse
 	};
 	
 unsigned char cmDTtypeIn[cmDTCount] CANDATA = {

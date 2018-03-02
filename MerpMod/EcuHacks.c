@@ -58,6 +58,7 @@ void EcuHacksMain() //Constant Hz main routine, hooked into wgdc lookup
 {	
 
 	pRamVariables.ecuHacksMainCtr++;
+	canAEMTimeOutDiagnostics();
 #if CRUISE_CONTROL
 	TestCruiseControlToggles();
 #endif

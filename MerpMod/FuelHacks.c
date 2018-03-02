@@ -47,12 +47,24 @@ void crankFuelHacks()
 
 #if CAN_HACKS
 
+void canAEMTimeOutDiagnostics()
+{
+	if(pRamVariables.aemPacketCTR > 0)
+		pRamVariables.aemPacketValid = 1;
+	else
+		pRamVariables.aemPacketValid = 0;
+		
+	pRamVariables.aemPacketCTR = 0;
+		
+}
+
 void canCallbackAEMwideband(unsigned char* data)
 {
 	pRamVariables.aemLambda = (float)(data[0]*256 + data[1])*0.0001;
 	pRamVariables.aemOxygen = (float)(data[2]*256 + data[3])*0.001;
 	pRamVariables.aemDataValid = (unsigned char)(data[6])>>7&0x01;
-	pRamVariables.aemSensorFault = (unsigned char)(data[7])>>6&0x01;	
+	pRamVariables.aemSensorFault = (unsigned char)(data[7])>>6&0x01;
+	pRamVariables.aemPacketCTR++;	
 }
 
 void canCallbackMK3e85Packet(unsigned char* data)
@@ -144,6 +156,28 @@ void WideBandScaling()
 }
 #endif
 
+void WideBandOpenLoopFeedback()
+{
+	float rLamTarget = 1/(1+pRamVariables.PolfOutput);
+	pRamVariables.rLOL_error = (rLamTarget - pRamVariables.aemLambda) / pRamVariables.aemLambda;
+	
+	if((*pCLOL == 4) && (pRamVariables.aemPacketValid == 1))
+	{
+		pRamVariables.rLOL_pTerm  = Pull2DHooked((void*)&pLOL_PTermGainTable, pRamVariables.rLOL_error);	
+		pRamVariables.rLOL_iTerm += pRamVariables.rLOL_error * Pull2DHooked((void*)&pLOL_ITermGainTable, pRamVariables.rLOL_error);
+		
+		pRamVariables.rLOL_finalScale = pRamVariables.rLOL_pTerm + pRamVariables.rLOL_iTerm;
+		if(pRamVariables.rLOL_finalScale >  0.12) pRamVariables.rLOL_finalScale =  0.12;
+		if(pRamVariables.rLOL_finalScale < -0.12) pRamVariables.rLOL_finalScale = -0.12;
+	}
+	else
+	{
+		pRamVariables.rLOL_pTerm = 0;
+		pRamVariables.rLOL_iTerm = 0;
+		pRamVariables.rLOL_finalScale = 0;	
+	}
+}
+
 void UpdateInjectorFlow()
 {
 	#if INJECTOR_HACKS
@@ -168,6 +202,9 @@ void UpdateInjectorFlow()
 			else
 				pRamVariables.InjectorScaling = (*dInjectorScaling);		
 		}
+		
+		if(*pCLOL == 4)
+			pRamVariables.InjectorScaling *= (1 + pRamVariables.rLOL_finalScale);
 	#endif	
 }
 
@@ -180,6 +217,7 @@ EcuHacksMain();
 #if POLF_HACKS
 	float OutputValue;
 	
+	WideBandOpenLoopFeedback();
 	UpdateInjectorFlow();
 
 	#if POLF_RAM_TUNING

@@ -498,9 +498,6 @@
 			<ida name="pIgnitionTimeTotal" />
 		</define>
 		
-		
-		
-		<define name="pTargetBoostCompensated" type="float*"><ida name="E_Target_Boost_4byteExt__E36" /></define>
 		<define name="pEstimatedOdometer" type="float*"><ida name="pEstimatedOdometer" /></define>
 		<define name="pAfCorrection_1" type="float*"><ida name="pAfCorrection_1" /></define>
 		<define name="pAFLearning_1" type="float*"><ida name="pAFLearning_1" /></define>

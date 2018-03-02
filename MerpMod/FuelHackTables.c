@@ -46,6 +46,39 @@ TableGroup FuelTableGroup FUELDATA = {
 };
 #endif
 
+//Wideband Error Table
+float pLOL_PTermGainTable_ROWS[11] FUELDATA =
+{-0.20,-0.15,-0.10,-0.05,-0.02,0,0.02,0.05,0.10,0.15,0.20};
+
+//Target Air Fuel Ratio for stoichiometric 
+signed short pLOL_PTermGainTable_DATA[11] FUELDATA =
+{-75,-75,-50,-25,-10,0,10,25,50,75,75};
+
+TwoDTable pLOL_PTermGainTable  FUELDATA = {
+	.columnCount = 11,
+	.tableType = Int16Table2D,
+	.columnHeaderArray = pLOL_PTermGainTable_ROWS,
+	.tableCells = pLOL_PTermGainTable_DATA,
+	.multiplier = 0.001,
+	.offset = 0.0 };
+
+//Wideband Error Table
+float pLOL_ITermGainTable_ROWS[11] FUELDATA =
+{-0.20,-0.15,-0.10,-0.05,-0.02,0,0.02,0.05,0.10,0.15,0.20};
+
+//Target Air Fuel Ratio for stoichiometric 
+signed short pLOL_ITermGainTable_DATA[11] FUELDATA =
+{0,5,10,10,7,4,7,10,10,5,0};
+
+TwoDTable pLOL_ITermGainTable  FUELDATA = {
+	.columnCount = 11,
+	.tableType = Int16Table2D,
+	.columnHeaderArray = pLOL_ITermGainTable_ROWS,
+	.tableCells = pLOL_ITermGainTable_DATA,
+	.multiplier = 0.001,
+	.offset = 0.0 };	
+
+	
 
 //Ethanol Percentage
 float TableEthanolToBlend_ROWS[11] FUELDATA =

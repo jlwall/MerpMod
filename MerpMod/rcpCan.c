@@ -148,7 +148,7 @@ void send_frame_0x703()
 	unsigned char bitArray = 0;	
 	rcpCanMessageSetup(rcpCAN_ID_m3, 0, 8, 0, RPCBUF4); 
 	#if BOOST_HACKS	 
-		((unsigned short*)addrtemp)[0] = limit_u16((*pTargetBoostCompensated-242.850759f)*25.3447147559339f);
+		((unsigned short*)addrtemp)[0] = limit_u16((*pTargetBoostCommand -242.850759f)*25.3447147559339f);
 	#endif
 	((unsigned char*)addrtemp)[2] = limit_u8(pRamVariables.rEthanol * 255);
 	((unsigned char*)addrtemp)[3] = limit_u8((*pAFLearning_1)/0.0078125f + 128);

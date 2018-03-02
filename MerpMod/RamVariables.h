@@ -44,6 +44,10 @@ typedef struct
 	
 	#if INJECTOR_HACKS
 		float InjectorScaling;			//04
+		float rLOL_error;
+		float rLOL_pTerm;
+		float rLOL_iTerm;
+		float rLOL_finalScale;
 		//unsigned long nPLSLCutRatio;
 		unsigned char nINJCutCTR;
 		unsigned char nINJFuncCTR;		
@@ -92,8 +96,8 @@ typedef struct
 		float vFuelPressureRel;
 		unsigned char aemDataValid;
 		unsigned char aemSensorFault;
-		unsigned char aemn1;
-		unsigned char aemn2;
+		unsigned char aemPacketValid;
+		unsigned char aemPacketCTR;
 	#endif
 #endif
 

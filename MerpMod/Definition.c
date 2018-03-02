@@ -417,6 +417,9 @@ DEFINERAMVAR("MerpMod CEL Speed Counter",CelFlashSpeedCounter,1,"E");
 //DEFINERAMVAR("MerpMod PGWG Compensation",PGWGComp,4,"E");
 DEFNEW1D("Valet Boost Limit",ValetModeMaxBoost);
 
+
+
+
 //DEFNEW1D("Boost Hack Enable",DefaultPolfHackEnabled);
 #if SWITCH_HACKS
 DEFNEW3D("Per Gear Wastegate Table 1 Intelligent",PGWGTable1i);
@@ -526,6 +529,8 @@ DEFNEW1D("Primary Open Loop Fuel Hack Enable",DefaultPolfHackEnabled);
 #endif
 
 #if INJECTOR_HACKS
+DEFNEW2D("Open Loop Wideband P Gain",pLOL_PTermGainTable);
+DEFNEW2D("Open Loop Wideband I Gain",pLOL_ITermGainTable);
 #endif
 
 #if MEMORY_HACKS
