@@ -131,11 +131,13 @@ void ProgModeIAMAdjust() ROMCODE;
 void ProgModeBoostAdjust() ROMCODE;
 void ProgModeWGAdjust() ROMCODE;
 void ProgModeValetMode() ROMCODE;
+
 void ProgModeAFRSource() ROMCODE;
 void ProgModeRaceGradeBackLight() ROMCODE;
 
 void ProgMode_Button_Blend() ROMCODE;
 void ProgMode_Button_Valet() ROMCODE;
+void ProgMode_Button_WBLOL() ROMCODE;
 
 void ProgMode_Button_FFS() ROMCODE;
 void ProgMode_Button_Failsafe() ROMCODE;
@@ -184,6 +186,10 @@ extern unsigned short (*Pull2DHookedU16)(TwoDTable* table, float xLookup);
 extern unsigned char (*Pull2DHookedU8fp)(TwoDTableU8* table, unsigned long xLookup);
 extern unsigned short (*Pull2DHookedU16fp)(TwoDTableU16* table, unsigned long xLookup);
 
+extern float WBLOL_iTermMax;
+extern float WBLOL_iTermMin;
+extern float WBLOL_finalTermMax;
+extern float WBLOL_finalTermMin;
 
 extern float (*ShortToFloatHooked)(unsigned short input, float grad, float offs);
 extern void (*RevLimDeleteHooked) ();
@@ -391,6 +397,7 @@ extern float RMDSminBrake;
 #define RAMETUNE_RESPONSE_CCM 4
 extern unsigned char rgButtonEthanolSource;
 extern unsigned char rgButtonValetSource;
+extern unsigned char rgButtonWBLOLSource;
 extern unsigned char rgButtonFFSSource;
 extern unsigned char rgButtonFailsafeSource;
 extern unsigned char rgButtonPLSLSource;

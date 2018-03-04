@@ -84,6 +84,12 @@ void PopulateRamVariables()
 	pRamVariables.nINJFuncCTR = 0;	
 	pRamVariables.nINJCutCTR = 0;
 	
+		pRamVariables.rLOL_error = 0;
+		pRamVariables.rLOL_pTerm = 0;
+		pRamVariables.rLOL_iTerm = 0;
+		pRamVariables.rLOL_finalScale = 0;
+		pRamVariables.nStateLOL = 0;
+	
 	pRamVariables.flexFuelSensorEnabaled = DefaultFlexFuelSensorEnabled;
 	pRamVariables.fuelPressureFlowEnabled = DefaultkPFuelPressureEnabled;
 #endif

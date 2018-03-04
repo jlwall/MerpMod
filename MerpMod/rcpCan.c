@@ -247,12 +247,12 @@ void send_frame_0x709()
 		rcpCanMessageSetup(0x709, 0, 8, 0, RPCBUF6); 	 	
 			
 		((unsigned char*)addrtemp)[0] = pRamVariables.nINJCutCTR;
-		((unsigned char*)addrtemp)[1] = limit_u8(*pFuelPulseInjector1 * 16);
+		((unsigned char*)addrtemp)[1] = limit_u8(*pFuelPulseInjector1/1000);
 		((unsigned short*)addrtemp)[1] = pRamVariables.nINJCutPattern;
-		((unsigned char*)addrtemp)[4] = limit_u8(*pInjCompC1*128); 
-		((unsigned char*)addrtemp)[5] = limit_u8(*pInjCompC2*128); 
-		((unsigned char*)addrtemp)[6] = limit_u8(*pInjCompC3*128); 
-		((unsigned char*)addrtemp)[7] = limit_u8(*pInjCompC4*128); 
+		((unsigned char*)addrtemp)[4] = limit_u8(128 + pRamVariables.rLOL_error*250); 
+		((unsigned char*)addrtemp)[5] = limit_u8(128 + pRamVariables.rLOL_pTerm*250); 
+		((unsigned char*)addrtemp)[6] = limit_u8(128 + pRamVariables.rLOL_iTerm*250); 
+		((unsigned char*)addrtemp)[7] = limit_u8(128 + pRamVariables.rLOL_finalScale*250); 
 		
 		sendCanMessageDirect(RPCBUF6);
 		pRamVariables.rcp0x709_tick = 1;

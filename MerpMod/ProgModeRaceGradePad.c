@@ -153,6 +153,24 @@ void ProgMode_Button_Valet()
 		pRamVariables.buttons[rgButtonValetSource].bits.led = 4;	
 }
 
+void ProgMode_Button_WBLOL()
+{
+	//Button 1 - LOL Mode
+	if(pRamVariables.buttons[rgButtonWBLOLSource].bits.edgeDetect == 1)
+	{
+		if((pRamVariables.nStateLOL & 0x01) == 0x01)
+			pRamVariables.nStateLOL &= 0xFE;
+		else
+			pRamVariables.nStateLOL |= 0x01;
+	}
+	if(pRamVariables.nStateLOL == 0) 
+		pRamVariables.buttons[rgButtonValetSource].bits.led = 4;
+	else if(pRamVariables.nStateLOL == 1) 
+		pRamVariables.buttons[rgButtonValetSource].bits.led = 1;
+	else if(pRamVariables.nStateLOL >= 2) 
+		pRamVariables.buttons[rgButtonValetSource].bits.led = 3;	
+}
+
 void ProgMode_Button_PLSL()
 {
 //Button 6 - PLSL Mode
@@ -234,6 +252,9 @@ void ProgModeMain()
 	
 	//Button 0,1 - Valet Mode
 	ProgMode_Button_Valet();
+	
+	//Button 0,1 - Valet Mode
+	ProgMode_Button_WBLOL();
 	
 	//Button 1,0 - FFS Mode
 	ProgMode_Button_FFS();

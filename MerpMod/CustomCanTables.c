@@ -9,7 +9,8 @@ RamVariables pRamVariables  __attribute__ ((section ("RamHole")));
 #if CAN_HACKS
 
 unsigned char rgButtonEthanolSource CANDATA = 0;
-unsigned char rgButtonValetSource CANDATA = 1;
+unsigned char rgButtonValetSource CANDATA = 8;
+unsigned char rgButtonWBLOLSource CANDATA = 1;
 unsigned char rgButtonFFSSource CANDATA = 4;
 unsigned char rgButtonFailsafeSource CANDATA = 5;
 unsigned char rgButtonPLSLSource CANDATA = 6;

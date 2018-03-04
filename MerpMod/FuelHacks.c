@@ -156,22 +156,29 @@ void WideBandScaling()
 }
 #endif
 
+
+//LOL function
 void WideBandOpenLoopFeedback()
 {
 	float rLamTarget = 1/(1+pRamVariables.PolfOutput);
-	pRamVariables.rLOL_error = (rLamTarget - pRamVariables.aemLambda) / pRamVariables.aemLambda;
+	pRamVariables.rLOL_error = (rLamTarget - pRamVariables.aemLambda) / rLamTarget;
 	
-	if((*pCLOL == 4) && (pRamVariables.aemPacketValid == 1))
+	if((*pCLOL == 4) && (pRamVariables.aemPacketValid == 1) && ((pRamVariables.nStateLOL & 0x01) == 0x01))
 	{
 		pRamVariables.rLOL_pTerm  = Pull2DHooked((void*)&pLOL_PTermGainTable, pRamVariables.rLOL_error);	
 		pRamVariables.rLOL_iTerm += pRamVariables.rLOL_error * Pull2DHooked((void*)&pLOL_ITermGainTable, pRamVariables.rLOL_error);
 		
+		if(pRamVariables.rLOL_iTerm >  WBLOL_iTermMax) pRamVariables.rLOL_iTerm =  WBLOL_iTermMax;
+		else if(pRamVariables.rLOL_iTerm < WBLOL_iTermMin) pRamVariables.rLOL_iTerm = WBLOL_iTermMin;
+		
+		pRamVariables.nStateLOL |= 0x02;
 		pRamVariables.rLOL_finalScale = pRamVariables.rLOL_pTerm + pRamVariables.rLOL_iTerm;
-		if(pRamVariables.rLOL_finalScale >  0.12) pRamVariables.rLOL_finalScale =  0.12;
-		if(pRamVariables.rLOL_finalScale < -0.12) pRamVariables.rLOL_finalScale = -0.12;
+		if(pRamVariables.rLOL_finalScale >  WBLOL_finalTermMax) pRamVariables.rLOL_finalScale =  WBLOL_finalTermMax;
+		else if(pRamVariables.rLOL_finalScale < WBLOL_finalTermMin) pRamVariables.rLOL_finalScale = WBLOL_finalTermMin;
 	}
 	else
 	{
+		pRamVariables.nStateLOL &= 0xFD;
 		pRamVariables.rLOL_pTerm = 0;
 		pRamVariables.rLOL_iTerm = 0;
 		pRamVariables.rLOL_finalScale = 0;	
@@ -203,7 +210,7 @@ void UpdateInjectorFlow()
 				pRamVariables.InjectorScaling = (*dInjectorScaling);		
 		}
 		
-		if(*pCLOL == 4)
+		if((*pCLOL == 4) && ((pRamVariables.nStateLOL & 0x01) == 0x01))
 			pRamVariables.InjectorScaling *= (1 + pRamVariables.rLOL_finalScale);
 	#endif	
 }

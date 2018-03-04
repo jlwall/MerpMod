@@ -48,6 +48,7 @@ typedef struct
 		float rLOL_pTerm;
 		float rLOL_iTerm;
 		float rLOL_finalScale;
+		unsigned char nStateLOL;		//Staus of the Lambda Open Loop PID
 		//unsigned long nPLSLCutRatio;
 		unsigned char nINJCutCTR;
 		unsigned char nINJFuncCTR;		

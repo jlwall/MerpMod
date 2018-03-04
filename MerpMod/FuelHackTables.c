@@ -26,6 +26,11 @@ unsigned char DefaultkPFuelPressureEnabled FUELDATA = 0x00;
 unsigned char DefaultFlexFuelSensorEnabled FUELDATA = 0x01;
 float xFuelPressureFilter FUELDATA = 0.12f;
 
+float WBLOL_iTermMax FUELDATA = 0.12f;
+float WBLOL_iTermMin FUELDATA = -0.12f;
+float WBLOL_finalTermMax FUELDATA = 0.12f;
+float WBLOL_finalTermMin FUELDATA = -0.12f;
+
 #if SWITCH_HACKS
 TableGroup FuelTableGroup FUELDATA = {
 	{&FuelTable1i,

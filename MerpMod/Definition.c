@@ -173,6 +173,7 @@ DEFNEW1D("Race Grade Adjust Mapping Max", modeMapMax);
 
 DEFNEW1D("Race Grade Button Blend", rgButtonEthanolSource);
 DEFNEW1D("Race Grade Button Valet", rgButtonValetSource);
+DEFNEW1D("Race Grade Button WBLOL", rgButtonWBLOLSource);
 DEFNEW1D("Race Grade Button FlatFoot", rgButtonFFSSource);
 DEFNEW1D("Race Grade Button Failsafe", rgButtonFailsafeSource);
 DEFNEW1D("Race Grade Button PLSL", rgButtonPLSLSource);
@@ -531,6 +532,11 @@ DEFNEW1D("Primary Open Loop Fuel Hack Enable",DefaultPolfHackEnabled);
 #if INJECTOR_HACKS
 DEFNEW2D("Open Loop Wideband P Gain",pLOL_PTermGainTable);
 DEFNEW2D("Open Loop Wideband I Gain",pLOL_ITermGainTable);
+
+DEFNEW1D("WBLOL iTerm Max",WBLOL_iTermMax);
+DEFNEW1D("WBLOL iTerm Min",WBLOL_iTermMin);
+DEFNEW1D("WBLOL final Max",WBLOL_finalTermMax);
+DEFNEW1D("WBLOL final Min",WBLOL_finalTermMin);
 #endif
 
 #if MEMORY_HACKS
